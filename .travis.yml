@@ -29,6 +29,6 @@ deploy:
   file: dist
   skip_cleanup: true
   on:
-    repo: LckySndays/LanyangWhatsUp
     tags: true
+    repo: LckySndays/LanyangWhatsUp
     all_branches: true
