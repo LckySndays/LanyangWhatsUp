@@ -19,16 +19,28 @@ cache:
 install:
 - npm install
 
-script:
-- npm run dist-mac
+if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+    export CERTIFICATE_P12=Certificate.p12;
+    echo $CERTIFICATE_OSX_P12 | base64 — decode > $CERTIFICATE_P12;
+    export KEYCHAIN=build.keychain;
+    security create-keychain -p mysecretpassword $KEYCHAIN;
+    security default-keychain -s $KEYCHAIN;
+    security unlock-keychain -p mysecretpassword $KEYCHAIN;
+    security import $CERTIFICATE_P12 -k $KEYCHAIN -P   $CERTIFICATE_PASSWORD -T /usr/bin/codesign;
+    
+    script:
+    - npm run dist-mac
 
-deploy:
-  skip_cleanup: true
-  provider: releases
-  api_key:
-    secure: Ci69wQ0VWFdvmDWRQigwPabvM4j+Bujs8Gjyffz1akIbulhB4As0HxSy9zST4y60xb2ZlZu0QQJh3dLUawcTSYyT+znhOZ5V2zCE+5J0TjSyoylcgl2eoKdot8aV7TpXsbQzB5ZgWN89WD7rsz1e1gHiWWQautSIDhMDSXYQonqlBcgSVxSLuVSVXJt2t2ThBUrOVCfn4o9p/NpBbzAd7Z1d5cGBesjr48MPz3+OAyxsrjSH4zCKWTWWPKymR6QDBTZ/Qs609LK6DyvAxOXe6rk9LGO9TaRX26lzsvxdDp4NCUhAt+AIrzHKX3aX3b6U34RxKyE24huQCDACzxu9xq0yv0dyVJk73q40BjTxt++Qut/OEBk/ly3PhyYbsT4Go0XK7/YAuzXOeoqA9N4WQZ1ws9TjtzT9E/pLpXPDGuxbxA9Dv38kfsVU1BdDeDzD9sMmQWAYTExIzW2aEh+HIf/x2y0aHYRtjJliLYuP5uD4cYmMYIVyEMJixnFmvnmxmUR0s6NGIYfRxAgh/ldwfQd2221zBcypHCBrJAkwCm+INSbUSG1lq0yOJFjIlO0UMGEMHu0mYoCp4HuNhlnhF4nMcXXbmtAw0yRBf4IQH+mDAf4jUlhl7wj16CjWIIYCnv+c00+t60+NuV8tgLz4x1P72LkWdVupEpPyI1ATdmY=
-  file:
-  - dist/mac/Lanyang-Whats-Up-0.1.0-mac.zip
-  - dist/mac/Lanyang-Whats-Up-0.1.0.dmg
-  on:
-    repo: LckySndays/LanyangWhatsUp
+    deploy:
+    skip_cleanup: true
+    provider: releases
+    api_key:
+      secure: Ci69wQ0VWFdvmDWRQigwPabvM4j+Bujs8Gjyffz1akIbulhB4As0HxSy9zST4y60xb2ZlZu0QQJh3dLUawcTSYyT+znhOZ5V2zCE+5J0TjSyoylcgl2eoKdot8aV7TpXsbQzB5ZgWN89WD7rsz1e1gHiWWQautSIDhMDSXYQonqlBcgSVxSLuVSVXJt2t2ThBUrOVCfn4o9p/NpBbzAd7Z1d5cGBesjr48MPz3+OAyxsrjSH4zCKWTWWPKymR6QDBTZ/Qs609LK6DyvAxOXe6rk9LGO9TaRX26lzsvxdDp4NCUhAt+AIrzHKX3aX3b6U34RxKyE24huQCDACzxu9xq0yv0dyVJk73q40BjTxt++Qut/OEBk/ly3PhyYbsT4Go0XK7/YAuzXOeoqA9N4WQZ1ws9TjtzT9E/pLpXPDGuxbxA9Dv38kfsVU1BdDeDzD9sMmQWAYTExIzW2aEh+HIf/x2y0aHYRtjJliLYuP5uD4cYmMYIVyEMJixnFmvnmxmUR0s6NGIYfRxAgh/ldwfQd2221zBcypHCBrJAkwCm+INSbUSG1lq0yOJFjIlO0UMGEMHu0mYoCp4HuNhlnhF4nMcXXbmtAw0yRBf4IQH+mDAf4jUlhl7wj16CjWIIYCnv+c00+t60+NuV8tgLz4x1P72LkWdVupEpPyI1ATdmY=
+    file:
+    - dist/mac/Lanyang-Whats-Up-0.1.0-mac.zip
+    - dist/mac/Lanyang-Whats-Up-0.1.0.dmg
+    on:
+      repo: LckySndays/LanyangWhatsUp
+    
+fi
+
