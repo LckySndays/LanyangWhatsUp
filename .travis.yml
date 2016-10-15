@@ -23,8 +23,14 @@ script:
 - npm run dist-mac
 
 deploy:
-  provider: releases
-  api_key: dd56049f7cd0413fd347e6c0d7c406a4783f92ea
-  skip_cleanup: true
-  on:
-    tags: true
+  provider: heroku
+  api_key:
+    secure: "JgTv+95XlNv5LasVy/qx/DKPznTukqYQNERzO9f/s7wOFf5+NPq2F35tJxZKKShuTe9Oo
+fbEnOmw8RCUCD2gd2dhPfwX1dSTDup/Hmho9Jp4cawLqtpOJfdq2Xik/l9Js7Xn6PRCOwcODTu1jd6EN
+Vq0NYz25LnEWdXw5c/NwOPEU+aVs7b4Xj1XSG3LUoHkKYRYCPNRkQOGkBSPvbJigtEi8B7R94LWYq7Ov
+cSccSF10yecQWouE0OCq3aD6LtIKO929Hy6y8Gov3ewOoIAmAi7fX3PxfKWM4sotv898vBZx6YYXlHkA
+GwoMcCKRb/CwP5Xt4kL18Oahcavmn4NIuGN4j/5fcmaWvgh4QSaIKrpVFpMZmKQo06WZ3ojPw6v0860m
+jFRE23q49+9pT1MyYhTJTx+5Mk0jUeeEaAx4Jgao2XV8j+YQZyLbzN1awcgkLS5PtWrrO49XvKegwf3H
+3jlECwVSsvdqgxyudpq4dLfVcz/mwfz40OjOXjG7lOzxWs2UKIwFheV4wElVe/qD23DLsfFG7FxhIwsF
+xZCSUXcqsVrZFcvdd3ezXp+7RevnlnU6/m5xhpz1DArE58h1njtRr/PGNQh5dpubkFk1g1vHqo6pmMCu
+m8YawBwJeaKWzUs83AsR1/If5B8iB2RdUJXPVxBOmJCm3v4JCxO1uY="
