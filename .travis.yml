@@ -21,3 +21,10 @@ install:
 
 script:
 - npm run dist-mac
+
+deploy:
+  provider: releases
+  api_key: dd56049f7cd0413fd347e6c0d7c406a4783f92ea
+  skip_cleanup: true
+  on:
+    tags: true
