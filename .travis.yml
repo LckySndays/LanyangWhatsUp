@@ -21,7 +21,6 @@ install:
 
 script:
 - npm run dist-mac
-- git push origin --tags
 
 deploy:
   provider: releases
@@ -32,3 +31,4 @@ deploy:
   on:
     repo: LckySndays/LanyangWhatsUp
     tags: true
+    all_branches: true
