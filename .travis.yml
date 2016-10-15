@@ -18,7 +18,7 @@ cache:
 
 install:
 - npm install
-- git add dist
+- git add dist/
 
 script:
 - npm run dist-mac
