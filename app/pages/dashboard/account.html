@@ -1,0 +1,197 @@
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Lanyang WhatsUp Feature List</header>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table no-margin">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Feature</th>
+							<th>[ON/OFF]</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>SSO</td>
+							<td>{{SSO}}</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Email</td>
+							<td>{{Email}}</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Moodle</td>
+							<td>{{Moodle}}</td>
+						</tr>
+						<tr>
+							<td>4</td>
+							<td>Papercut</td>
+							<td>{{Papercut}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div><!--end .table-responsive -->
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+</div>
+
+<div class="col-md-10 col-md-offset-1">
+	<form class="form form-validate floating-label" novalidate="novalidate">
+		<div class="card-head text-center">
+			<header>Lanyang WhatsUp Feature Registration</header>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="form-group">
+					<select id="Action" name="Action" class="form-control" required="" aria-required="true">
+						<option value="sso">SSO</option>
+						<option value="email">Email</option>
+						<option value="moodle">Moodle</option>
+						<option value="papercut">Papercut</option>
+					</select>
+					<label for="Action">Feature</label>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" id="Data" name="Data" required="" data-rule-minlength="1" aria-required="true">
+					<label for="Data">Feature Password</label>
+				</div>
+				<div class="form-group">
+					<input type="password" class="form-control" id="Password" name="Password" required="" data-rule-minlength="1" aria-required="true">
+					<label for="Password">Account Password</label>
+				</div>
+			</div><!--end .card-body -->
+			<div class="card-actionbar">
+				<div class="card-actionbar-row btn-toolbar">
+					<button type="submit" href="#" onclick="login()" class="btn btn-primary pull-right" id="loginbt"><i class="glyphicon glyphicon-log-in"></i> Submit</button>
+					<button type="button" href="#" onclick="Deactivate()" class="btn btn-danger pull-right" id="exitbt"><i class="glyphicon glyphicon-off"></i> Deactivate Account</button> 
+				</div>
+			</div><!--end .card-actionbar -->
+		</div><!--end .card -->
+		<em class="text-caption">Basic validation</em>
+	</form>
+</div>
+
+<script>
+	function login(){
+
+		var jwt 		= sessionStorage.JWT;
+		var action 		= document.getElementById("Action").value;
+		var data 		= document.getElementById("Data").value;
+		var password 	= document.getElementById("Password").value;
+		var parameter = "JWT=" + jwt + "&Action=" + action + "&Data=" + data + "&Password=" + password;
+
+		if(jwt != "" && action != "" && data !="" && password !=""){
+			
+			alertify.confirm("Login Confirmation","By using this service, you are agreeing our <a href='privacy-tos' target='_blank'>Term of Service</a> and <a href='privacy-tos' target='_blank'>Privacy Policy</a>. If you don't agree with the Agreements, then you may not use this Service. Please read them carefully.",
+				function(){
+					//alertify.success('Ok');
+					document.getElementById("loginbt").disabled = true;
+
+					var xhttp = new XMLHttpRequest();
+					var session = true;
+					xhttp.onreadystatechange = function() {
+						if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+							$response = JSON.parse(xhttp.responseText);
+							if($response.status == "ok"){
+
+								document.getElementById("loginbt").disabled = false;
+								alertify.set('notifier','position', 'bottom-right');
+								alertify.success($response.response);
+
+							}else{
+
+								document.getElementById("loginbt").disabled = false;
+								alertify.set('notifier','position', 'bottom-right');
+								alertify.error($response.response);
+
+							}
+
+						}else if(xhttp.readyState == 4 && xhttp.status == 502){
+
+							document.getElementById("loginbt").disabled = false;
+							alertify.set('notifier','position', 'bottom-right');
+							alertify.error("Connection Error");
+
+						}
+					};
+					
+					xhttp.open("POST", "http://localhost/parse%20curl/DEVELOPMENT/store.php", true);
+					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+					xhttp.send(parameter);
+
+				},
+				function(){
+					//alertify.error('Cancel');
+			});
+
+		}else{
+
+			alertify.set('notifier','position', 'bottom-right');
+			alertify.error('Missing Required Parameter');
+
+		}
+	}
+
+	function Deactivate(){
+
+		var jwt 		= sessionStorage.JWT;
+
+		alertify.prompt("Account Deactivation","<center>Please input your App Password if you are sure you want to <font color='red'>DELETE</font> this account</center>", "Password",
+			function(evt, password){
+				//alertify.success('Ok');
+				document.getElementById("exitbt").disabled = true;
+
+				var parameter = "JWT=" + jwt + "&Password=" + password;
+
+				var xhttp = new XMLHttpRequest();
+				var session = true;
+				xhttp.onreadystatechange = function() {
+					if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+						$response = JSON.parse(xhttp.responseText);
+						if($response.status == "ok"){
+
+							document.getElementById("exitbt").disabled = false;
+							alertify.set('notifier','position', 'bottom-right');
+							alertify.success($response.response);
+							logout();
+
+						}else{
+
+							document.getElementById("exitbt").disabled = false;
+							alertify.set('notifier','position', 'bottom-right');
+							alertify.error($response.response);
+
+						}
+
+					}else if(xhttp.readyState == 4 && xhttp.status == 502){
+
+						document.getElementById("exitbt").disabled = false;
+						alertify.set('notifier','position', 'bottom-right');
+						alertify.error("Connection Error");
+
+					}
+				};
+				
+				xhttp.open("POST", "http://localhost/parse%20curl/DEVELOPMENT/deactivate.php", true);
+				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+				xhttp.send(parameter);
+
+			},
+			function(){
+				//alertify.error('Cancel');
+		});
+
+	}
+</script>
+
+<script src="js/AppForm.js"></script>
+<script src="js/jquery.bootstrap.wizard.min.js"></script>
+<script src="js/DemoFormWizard.js"></script>

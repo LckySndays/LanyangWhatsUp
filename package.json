@@ -1,0 +1,58 @@
+{
+  "name": "Lanyang-WhatsUp",
+  "version": "0.1.0",
+  "description": "Testing Apps",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "dist-all": "build -wl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/electron/electron-quick-start.git"
+  },
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/electron/electron-quick-start/issues"
+  },
+  "homepage": "https://github.com/electron/electron-quick-start#readme",
+  "devDependencies": {
+    "electron": "^1.3.4",
+    "electron-builder": "~7.13.X"
+  },
+  "build": {
+      "appId": "tk.lanyang.whatsup",
+      "productName": "Lanyang-Whats-Up",
+      "dmg":{
+      },
+      "linux": {
+        "category": "Education"
+      },
+      "mac" : {
+        "category": "public.app-category.education"
+      },
+      "mas": {
+      
+      },
+      "nsis": {
+      
+      },
+      "win": {
+        "iconUrl": "http://i.imgur.com/oT7vFre.png"
+      },
+      "squirrelWindows": {
+        "iconUrl": "http://i.imgur.com/oT7vFre.png",
+        "msi": true,
+        "useAppIdAsId": true
+      }
+   }
+}

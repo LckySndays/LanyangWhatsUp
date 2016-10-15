@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Lanyang - What's Up</title>
+
+		<meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Lanyang What's Up</title>
+        <meta name="description" content="Tamkang University, Lanyang Campus, Practice of Projects Course 3902 [TQICB4A] LEI YING-HUI - Fall Semester 2016">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="keywords" content="Lanyang,WhatsUp">
+        
+        <meta http-equiv="Content-Security-Policy" content="default-src * data: 'unsafe-inline' 'unsafe-eval'"/>
+		
+		<link rel="icon" type="img/ico" href="img/favicon.ico">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+        <link rel="stylesheet" href="css/main.css">
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.8.0/css/alertify.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.8.0/css/themes/default.min.css"/>
+
+		<!-- BEGIN STYLESHEETS -->
+		<!-- <link type="text/css" rel="stylesheet" href="css/bootstrap.css" /> -->
+		<!-- <link type="text/css" rel="stylesheet" href="css/font-awesome.min.css" /> -->
+		<link type="text/css" rel="stylesheet" href="css/materialadmin.css" />
+		<link type="text/css" rel="stylesheet" href="css/material-design-iconic-font.min.css" />
+		<link type="text/css" rel="stylesheet" href="css/dropzone-theme.css">
+
+		<script>document.write('<base href="' + document.location + '" />');</script>
+
+		<style>
+			/*section {
+				height:93vh;
+				background-color:#990000;
+			}*/
+			/*.headerbar-right .header-nav-profile {
+			    right:0;
+			}*/
+		</style>
+		<!-- END STYLESHEETS -->
+
+	</head>
+	<body ng-app="Dashboard" class="menubar-hoverable header-fixed" ng-controller="DashboardHeaderCtrl">
+
+		<!-- BEGIN HEADER-->
+		<header id="header" >
+			<div class="headerbar">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="headerbar-left">
+					<ul class="header-nav header-nav-options">
+						<li class="header-nav-brand" >
+							<div class="brand-holder">
+								<a href="html/dashboards/dashboard.html">
+									<span class="text-lg text-bold text-primary">Lanyang What's Up</span>
+								</a>
+							</div>
+						</li>
+						<li>
+							<a class="btn btn-icon-toggle menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+								<i class="fa fa-bars"></i>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="headerbar-right">
+					<ul class="header-nav header-nav-profile">
+						<li class="dropdown">
+							<a href="javascript:void(0);" class="dropdown-toggle ink-reaction" data-toggle="dropdown">
+								<img src="img/avatar1.jpg" alt="" />
+								<span class="profile-info">
+									{{StuID}}
+									<small>{{StuRole}}</small>
+								</span>
+							</a>
+							<ul class="dropdown-menu animation-dock">
+								<li class="dropdown-header">Config</li>
+								<li><a href="#/profile">My profile</a></li>
+								<li><a href="#">My e-mail <span class="badge style-danger pull-right">16</span></a></li>
+								<li><a href="#">My settings</a></li>
+								<li class="divider"></li>
+								<li><a href="#"><i class="fa fa-fw fa-lock"></i> Lock</a></li>
+								<li><a href="#" onclick="logout()"><i class="fa fa-fw fa-power-off text-danger"></i> Logout</a></li>
+							</ul><!--end .dropdown-menu -->
+						</li><!--end .dropdown -->
+					</ul><!--end .header-nav-profile -->
+				</div><!--end #header-navbar-collapse -->
+			</div>
+		</header>
+		<!-- END HEADER-->
+
+		<!-- BEGIN BASE-->
+		<div id="base">
+
+			<!-- BEGIN OFFCANVAS LEFT -->
+			<div class="offcanvas">
+			</div><!--end .offcanvas-->
+			<!-- END OFFCANVAS LEFT -->
+
+			<!-- BEGIN CONTENT-->
+			<div id="content" >
+				<section>
+					<div class="section-body">
+						<div ng-view id="view"></div>
+					</div>
+				</section>
+			</div><!--end #content-->
+			<!-- END CONTENT -->
+
+			<!-- BEGIN MENUBAR-->
+			<div id="menubar" class="menubar-inverse ">
+				<div class="menubar-fixed-panel">
+					<div>
+						<a class="btn btn-icon-toggle btn-default menubar-toggle" data-toggle="menubar" href="javascript:void(0);">
+							<i class="fa fa-bars"></i>
+						</a>
+					</div>
+					<div class="expanded">
+						<a href="#">
+							<span class="text-lg text-bold text-primary ">Lanyang What's Up</span>
+						</a>
+					</div>
+				</div>
+				<div class="menubar-scroll-panel">
+
+					<!-- BEGIN MAIN MENU -->
+					<ul id="main-menu" class="gui-controls">
+
+						<!-- BEGIN DASHBOARD -->
+						<li>
+							<a href="#/" id="dashboard-mn" class="active">
+								<div class="gui-icon"><i class="md md-home"></i></div>
+								<span class="title">Dashboard</span>
+							</a>
+						</li><!--end /menu-li -->
+						<!-- END DASHBOARD -->
+
+						<!-- School Bus -->
+						<li>
+							<a href="" onclick="redir('bus')" id="school-bus-mn">
+								<div class="gui-icon"><i class="md md-directions-bus"></i></div>
+								<span class="title">Bus</span>
+							</a>
+						</li><!--end /menu-li -->
+						<!-- School Bus -->
+
+						<!-- Web Print -->
+						<li>
+							<a href="" onclick="redir('paper')" id="papercut-mn">
+								<div class="gui-icon"><i class="md md-print"></i></div>
+								<span class="title">Web Print</span>
+							</a>
+						</li><!--end /menu-li -->
+						<!-- Web Print -->
+
+						<!-- Moodle -->
+						<li>
+							<a href="" onclick="redir('moodle')" id="moodle-mn">
+								<div class="gui-icon"><i class="md md-book"></i></div>
+								<span class="title">Moodle</span>
+							</a>
+						</li><!--end /menu-li -->
+						<!-- Moodle -->
+
+						<!-- Email -->
+						<li>
+							<a href="" onclick="redir('email')" id="email-mn">
+								<div class="gui-icon"><i class="md md-email"></i></div>
+								<span class="title">Email</span>
+							</a>
+						</li><!--end /menu-li -->
+						<!-- Email -->
+
+						<!-- All Pass-->
+						<li class="gui-folder">
+							<a>
+								<div class="gui-icon"><i class="md md-verified-user"></i></div>
+								<span class="title">All Pass</span>
+							</a>
+							<!--start submenu -->
+							<ul>
+								<li><a href="#/pastexam" id="past-exam-mn"><span class="title">Past Exam</span></a></li>
+								<li><a href="#/uploadexam" id="uploadexam-mn"><span class="title">Upload</span></a></li>
+							</ul><!--end /submenu -->
+						</li><!--end /menu-li -->
+						<!-- All Pass -->
+
+						<!-- Account Setting -->
+						<li class="gui-folder">
+							<a>
+								<div class="gui-icon"><i class="md md-settings"></i></div>
+								<span class="title">Settings</span>
+							</a>
+							<!--start submenu -->
+							<ul>
+								<li><a href="#" id="language-mn"><span class="title">Language</span></a></li>
+								<li><a href="#/account" id="account-mn"><span class="title">Account</span></a></li>
+							</ul><!--end /submenu -->
+						</li><!--end /menu-li -->
+						<!-- Account Setting -->
+
+					</ul><!--end .main-menu -->
+					<!-- END MAIN MENU -->
+
+					<div class="menubar-foot-panel">
+						<small class="no-linebreak hidden-folded">
+							<span class="opacity-75">Copyright &copy; 2016</span> <strong>Lanyang What's Up</strong>
+						</small>
+					</div>
+				</div><!--end .menubar-scroll-panel-->
+			</div><!--end #menubar-->
+			<!-- END MENUBAR -->	
+
+		</div><!--end #base-->
+		<!-- END BASE -->
+
+		<!-- BEGIN JAVASCRIPT -->
+
+		<!-- Electron -->
+        <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/AlertifyJS/1.8.0/alertify.min.js"></script>
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-route.min.js"></script>
+
+
+		<script src="js/jquery.validate.min.js"></script>
+
+		<script src="js/MaterialApp.js"></script>
+		<script src="js/AppNavigation.js"></script>
+		
+		<!-- jQuery FallBack -->
+        <!-- <script>window.jQuery || document.write('<script src="js/vendor/jquery-2.2.1.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script> -->
+        <script src="js/app.js"></script>
+        <script src="js/jwt-decode.min.js"></script>
+
+		<!-- <script src="assets/js/libs/jquery/jquery-migrate-1.2.1.min.js"></script> -->
+
+		<!-- Electron -->
+		<script>if (window.module) module = window.module;</script>
+
+		<!-- END JAVASCRIPT -->
+
+	</body>
+</html>
