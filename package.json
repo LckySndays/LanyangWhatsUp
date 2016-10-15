@@ -7,7 +7,8 @@
     "start": "electron .",
     "pack": "build --dir",
     "dist": "build",
-    "dist-all": "build -wl"
+    "dist-all": "build -wl",
+    "dist-mac": "build -m"
   },
   "repository": {
     "type": "git",
