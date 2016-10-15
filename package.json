@@ -39,7 +39,8 @@
         "category": "Education"
       },
       "mac" : {
-        "category": "public.app-category.education"
+        "category": "public.app-category.education",
+        "identity": "mac.p12"
       },
       "mas": {
       
