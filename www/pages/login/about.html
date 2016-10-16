@@ -1,0 +1,281 @@
+<style>
+	.thumbnail{
+		background-color:transparent;
+		border: 0 none;
+		box-shadow: none;
+	}
+	img{
+		width: 45%;
+		height: 45%;
+	}
+	.caption{
+		text-align: center;
+	}
+	.content {
+	    padding-top: 30px;
+	}
+
+	/* Heading */
+	.heading {
+	    z-index: 1;
+	    position: relative;
+	    text-align: center;
+	    margin-bottom: 100px;
+	}
+
+	.heading:after {
+	    left: 50%;
+	    height: 3px;
+	    width: 50px;
+	    content: " ";
+	    bottom: -35px;
+	    margin-left: -25px;
+	    position: absolute;
+	    background: #444;
+	}
+
+	.heading h2 {
+	    font-size: 40px;
+	    font-weight: 500;
+	    margin: 0 0 20px;
+	    color: #444;
+	}
+
+	.heading p {
+	    font-size: 16px;
+	    font-weight: 300;
+	    letter-spacing: 0.5px;
+	    text-transform: uppercase;
+	    color: #8693a7;
+	}
+
+	/* Team Members */
+	.team-members {
+	    width: 100%;
+	    cursor: pointer;
+	    overflow: hidden;
+	    position: relative;
+	    margin-bottom: 35px;
+	}
+
+	.team-members .team-avatar {
+	    position: relative;
+	}
+
+	.team-members .team-avatar:after {
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    content: " ";
+	    position: absolute;
+	    background: rgba(129, 129, 129, 0.1);
+	    transition-duration: 300ms;
+	    transition-property: all;
+	    transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1);
+	}
+
+	.team-members .team-avatar img {
+	    display: block;
+	    margin: 0 auto;
+	    text-align: center;
+	}
+
+	.team-members .team-desc {
+	    left: auto;
+	    bottom: 0;
+	    width: 100%;
+	    padding: 0 20px;
+	    position: absolute;
+	    opacity: 0;
+	    color: #fff;
+	    -webkit-transform: translate3d(0, 10%, 0);
+	    transform: translate3d(0, 10%, 0);
+	    -webkit-transition: opacity 0.3s;
+	    -moz-transition: opacity 0.3s;
+	    -ms-transition: opacity 0.3s;
+	    -o-transition: opacity 0.3s;
+	    transition: opacity 0.3s;
+	}
+
+	.team-members .team-desc h4 {
+	    font-size: 22px;
+	    font-weight: 600;
+	    margin: 0 0 10px;
+	    color: #fff;
+	}
+
+	.team-members .team-desc span {
+	    display: block;
+	    font-size: 13px;
+	    font-weight: 600;
+	    text-transform: uppercase;
+	    color: #fff;
+	}
+
+	.team-members:hover .team-avatar:after {
+	    background: rgba(47, 60, 72, 0.5);
+	    transition-duration: 300ms;
+	    transition-property: all;
+	    transition-timing-function: cubic-bezier(0.7, 1, 0.7, 1);
+	}
+
+	.team-members:hover .team-desc {
+	    -webkit-transform: translate3d(0, -5%, 0);
+	    transform: translate3d(0, -5%, 0);
+	    -webkit-transform: translate3d(0, -10%, 0);
+	    transform: translate3d(0, -10%, 0);
+	}
+
+	.team-members:hover .team-desc {
+	    opacity: 1;
+	    -webkit-transition: all 0.4s;
+	    -moz-transition: all 0.4s;
+	    -ms-transition: all 0.4s;
+	    -o-transition: all 0.4s;
+	    transition: all 0.4s;
+	}
+</style>
+
+<div class="container">   
+	<div class="jumbotron" style="text-align: center">
+		<h1>Lanyang What's Up</h1><h1><small>ver 0.1.0</small></h1>
+		<br>
+	  
+	<div class="row">
+		<div class="col-sm-4 col-md-4">
+			<div class="thumbnail">
+				<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUxMiA1MTIiIGhlaWdodD0iNTEycHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI1Ni4yMywzMzYuMDM0YzQzLjk3OSwwLDc5LjgwNC0zNS44MjQsNzkuODA0LTc5LjgwNCAgIGMwLTQ0LjQ0OC0zNS44MjQtODAuMjcyLTc5LjgwNC04MC4yNzJjLTQ0LjQ0OCwwLTgwLjI3MiwzNS44MjQtODAuMjcyLDgwLjI3MkMxNzUuOTU4LDMwMC4yMSwyMTEuNzgyLDMzNi4wMzQsMjU2LjIzLDMzNi4wMzQgICBMMjU2LjIzLDMzNi4wMzR6IiBmaWxsPSIjMENBM0QxIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48cGF0aCBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xNDcuMzgzLDIyOC4xMDhjMTIuNzAyLTQ4LjUyNiw1Ni4yMzYtODQuMzUsMTA4Ljg0OC04NC4zNSAgIGgyMjkuOTEzQzQ0NC44ODMsNTguOTU1LDM1Ny4zNiwwLDI1Ni4yMywwQzE4MC4wMzYsMCwxMTIuMDEyLDMzLjEwNiw2NS4yOTgsODUuMjU3TDE0Ny4zODMsMjI4LjEwOHoiIGZpbGw9IiNFMTU4NEIiIGZpbGwtcnVsZT0iZXZlbm9kZCIvPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTE1Ny44MTIsMzEwLjE5M0w0My45ODgsMTEyLjQ2NSAgIEMxNi4zMjcsMTUzLjczNCwwLDIwMi43MTMsMCwyNTYuMjNjMCwxMjMuMzQ3LDg3LjUyMiwyMjYuMjg4LDIwMy42MTksMjUwLjMxN2w4Mi41My0xNDIuMzkyICAgYy05LjUxNSwyLjcxOS0xOS45NTEsNC4wNzgtMjkuOTE5LDQuMDc4Yy00MS43MjksMC03OC4wMDctMjIuNjctOTcuMDUyLTU2LjIyOUMxNTguNzI2LDMxMS41NTMsMTU4LjI2NSwzMTEuMSwxNTcuODEyLDMxMC4xOTMgICBMMTU3LjgxMiwzMTAuMTkzeiIgZmlsbD0iIzM2QjM5QiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PHBhdGggY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNMzUyLjM2MSwzMTIuOTEyTDIzOC4wODQsNTExLjU0NyAgIEMyNDMuOTgyLDUxMiwyNDkuODcyLDUxMiwyNTYuMjMsNTEyQzM5Ny4yNjMsNTEyLDUxMiwzOTcuMjYzLDUxMiwyNTYuMjNjMC0yOC4xMjItNC41NDYtNTQuODc3LTEyLjcwMS04MC4yNzJIMzM0LjY3NiAgIGMyMC40MDMsMjAuNDA0LDMzLjU1OSw0OC41MTksMzMuNTU5LDgwLjI3MkMzNjguMjM0LDI3Ni42MzUsMzYyLjM0NSwyOTYuNTg2LDM1Mi4zNjEsMzEyLjkxMkwzNTIuMzYxLDMxMi45MTJ6IiBmaWxsPSIjRjNBQjRCIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiLz48L2c+PC9zdmc+"></img>
+				<div class="caption">
+					<h3>Google Chrome</h3>
+					<h2>49</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<div class="thumbnail">
+				<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAtMC4wMDIgLTAuNTAxIDMyIDMxIiBoZWlnaHQ9IjMxIiB2aWV3Qm94PSItMC4wMDIgLTAuNTAxIDMyIDMxIiB3aWR0aD0iMzIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE1Ljk5OC0uNTAxYzguMjg0IDAgMTUgNi43MTUgMTUgMTUgMCA4LjI4My02LjcxNiAxNS0xNSAxNXMtMTUtNi43MTctMTUtMTVjMC04LjI4NiA2LjcxNi0xNSAxNS0xNXoiIGZpbGw9IiMyMzk0QkMiLz48cGF0aCBkPSJNMTguNTYyIDMwLjI3NGM3LjYxNC0xLjIyOSAxMy40MzctNy44MTQgMTMuNDM3LTE1Ljc3NWwtLjE0Ni4xODFjLjIyOC0xLjUxMy4xODgtMi44NjEtLjEyNS00LjAzNy0uMTEyLjg3MS0uMjM0IDEuMzk3LS4zNTcgMS42MDgtLjAwMS0uMDY4LS4wMTgtLjk3Ni0uMzA3LTIuMjQzLS4xMzctLjkyNC0uMzM4LTEuNzkzLS42MTYtMi41OTYuMDY4LjM2OC4xMDguNjc1LjEyOC45NTMtMS4xNjItMy4xMTgtNC4wMjMtNi45NTctMTEuMDcyLTYuODY3IDAgMCAyLjQ3OS4yNjIgMy42NDYgMi4wMjkgMCAwLTEuMTkzLS4yODUtMi4wOTUuMTUyIDEuMDk5LjQzOCAyLjA1Mi44OTYgMi44NjMgMS4zNzRsLjA3LjA0M2MuMjA4LjEyNS4zODUuMjUzLjU3My4zOCAxLjQ5OCAxLjA1MiAyLjg4OCAyLjU1MyAyLjc4MiA0LjQ4OS0uMzIzLS41MS0uNzUzLS44NDQtMS4zMDQtMS4wMTIuNjc5IDIuNjYuNzQ2IDQuODU3LjE5NyA2LjU5LS4zNzctMS4xNTQtLjcyNC0xLjg0Ni0xLjAzMy0yLjA5LjQzMSAzLjU2Ni0uMTUgNi4yMDMtMS43MzkgNy45MjIuMzAyLTEuMDQ5LjQyMi0xLjkwOC4zNTQtMi41ODYtMS44NjcgMi44MjItMy45OTEgNC4yODEtNi4zNzIgNC4zNzEtLjk0MS0uMDA4LTEuODMtLjE1LTIuNjY2LS40MjYtMS4yMjgtLjQxNS0yLjMzOS0xLjEyNC0zLjMyOC0yLjEzIDEuNTQ0LjEyOSAyLjk1NC0uMTM5IDQuMTk1LS43NzJsMi4wMzMtMS4zMzItLjAwOC0uMDA2Yy4yNjQtLjEuNTEyLS4wOTIuNzU0LjAyMS40OTYtLjA2OC42Ny0uMzM0LjUwNC0uNzgzLS4yNC0uMzM0LS42MDMtLjYzNy0xLjA2OS0uOTA0LTEuMDE3LS41MzEtMi4wNzktLjQ0Ny0zLjE4Ny4yNi0xLjA1NS42LTIuMDcuNTc2LTMuMDU4LS4wNjItLjY0Ny0uNDQ3LTEuMjcyLTEuMDQ5LTEuODc2LTEuODAxbC0uMjQtLjM1NWMtLjExMy44NTIuMDE1IDEuOTQ1LjM5OCAzLjI5MWwuMDA4LjAxOC0uMDA4LS4wMTZjLS4zODQtMS4zNDYtLjUxMS0yLjQ0Mi0uMzk4LTMuMjkzdi0uMDA4Yy4wMjktLjc0NC4zMzctMS4xNTQuOTI0LTEuMjQ2bC0uMjQ5LS4wMjEuMjUxLjAyMWMuNjYzLjA2MSAxLjQyNC4yMTMgMi4yODIuNDYzLjE0NC0uODI4LS4wNDUtMS42OTUtLjU2NC0yLjU4NHYtLjAxNmMuODA2LS43NTIgMS41MjEtMS4yOTkgMi4xMzItMS42NDguMjcxLS4xNDUuNDI5LS4zNjUuNDgxLS42NjJsLjAyMi0uMDE2LjAwOC0uMDA4LjAzLS4wMjljLjE1OC0uMjM2LjEwNS0uNDI2LS4xNjUtLjU5NC0uNTY1LjAzMS0xLjEzMS0uMDA4LTEuNjk1LS4xMjFsLS4wMDguMDIzYy0uMjMzLS4wNjgtLjUyNy0uMjc1LS44ODktLjYyNWwtLjkyNy0uOTEyLS4yNzgtLjIxOXYuMDI5aC0uMDA4bC4wMDgtLjAzNy0uMDUzLS4wNTUuMDc1LS4wNTNjLjEyOC0uNjkxLjMzOS0xLjI4NS42NC0xLjc5NWwuMDY4LS4wNjFjLjMwMi0uNTAyLjg4MS0xLjA0MSAxLjczMi0xLjYxNy0xLjU4Mi4xOTctMy4wMTMuOTEtNC4yODUgMi4xNDMtMS4wNTUtLjM4Ny0yLjMwNS0uMzA1LTMuNzQ0LjI1bC0uMTczLjEzMi0uMDEzLjAwNy4xODgtLjEzOC4wMDgtLjAwOGMtLjkwNS0uNDE2LTEuNTE1LTEuNjExLTEuODA5LTMuNTY0LTEuMTUyIDEuMTQxLTEuNzEgMy4xNzgtMS42NzMgNi4xMTlsLS4zMy40OTktLjA4NS4wNTgtLjAxNy4wMTYtLjAwNy4wMDctLjAxNi4wMzNjLS4xNzUuMjc0LS40MTYuNjg4LS43MiAxLjI0NC0uNDM3Ljc4Ni0uNTg0IDEuNDQ2LS42MjcgMi4wMjFsLS4wMDQuMDA3LjAwMi4wMTktLjAxNC4xNTEuMDI1LS4wNGMuMDAzLjEzMy4wMDYuMjY3LjA0LjM4N2wuOTM0LS43NjhjLS4zMzkuODU5LS41NjQgMS43Ny0uNjc4IDIuNzM2bC0uMDI3LjQ0Mi0uMjkzLS4zMzVjMCAzLjQyOCAxLjA4OCA2LjU5NyAyLjkyNCA5LjIwMWwuMDU1LjA4Ni4wODguMTA1YzEuMzIgMS44MTMgMy4wMDYgMy4zMzggNC45NTggNC40NjQgMS40MDMuODMxIDIuOTExIDEuNDEzIDQuNTE5IDEuNzU5bC4zMzEuMDc0Yy4zMzMuMDY0LjY3NC4xMTIgMS4wMTYuMTU1LjI1My4wMzMuNTA2LjA2NS43NjIuMDg3bC4zNC4wMzkuNDgzLjAwMy41MjUuMDI2LjQxOC0uMDIxLjY4OS0uMDM0Yy40MDktLjAyOC44MTItLjA3MyAxLjIxMi0uMTMxbC4yNDMtLjAzNnptLTkuNDA5LTE2Ljc1aDB6bTE5LjUyNy0yLjc0MWwtLjAwNy4xMzEuMDA1LS4xMzIuMDAyLjAwMXoiIGZpbGw9IiNFQzg4NDAiLz48L3N2Zz4="></img>
+				<div class="caption">
+					<h3>Mozilla Firefox</h3>
+					<h2>45</h2>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-4 col-md-4">
+			<div class="thumbnail">
+				<img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjwhRE9DVFlQRSBzdmcgIFBVQkxJQyAnLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4nICAnaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkJz48c3ZnIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDUxMiA1MTIiIGhlaWdodD0iNTEycHgiIGlkPSJMYXllcl8xIiB2ZXJzaW9uPSIxLjEiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEycHgiIHhtbDpzcGFjZT0icHJlc2VydmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxnPjxwYXRoIGNsaXAtcnVsZT0iZXZlbm9kZCIgZD0iTTI4Ny45NTEsMTQzLjgzMmM0NC45MDMsMCw4Mi41NDEsNDAuODI2LDkyLjk3OSw5Ni4xNjJIMTk0Ljk4NyAgIEMyMDUuNDA5LDE4NC42NTgsMjQzLjA2MywxNDMuODMyLDI4Ny45NTEsMTQzLjgzMkwyODcuOTUxLDE0My44MzJ6IE0xNjcuNzcxLDE0NS4xOTFDMzUuMzQxLDI2Mi42NjktMzMuMTM5LDQwNy4zNywxNS44NDIsNDY4LjYxMyAgIGMyOS4wMjksMzYuNzM5LDkzLjg4NSwzNS4zOCwxNjkuNjE1LDIuNzE5YzMwLjM4OSwxNS44NzcsNjUuMzA5LDI0LjQ4OCwxMDIuNDk0LDI0LjQ4OGMxMDEuNTg4LDAsMTg3LjMwMS02Ny4xMzUsMjE0LjUxOC0xNTkuNjY0ICAgSDM3MC45NDVjLTE2LjMyNiwzOC4xLTQ3LjYyMSw2My45NjMtODIuOTk0LDYzLjk2M2MtNDQuODg5LDAtODIuNTQyLTQwLjgzNC05Mi45NjQtOTYuMTcxaDMxNC43MzEgICBjMS4zNzUtMTAuNDM4LDIuMjgxLTIxLjMxNCwyLjI4MS0zMi4yYzAtMzMuNTY3LTcuMjY2LTY1LjMyMi0yMC44NzQtOTQuMzQ5YzI0Ljk1Mi01NS43OTcsMjguNTc2LTEwNC43ODksNC45OTktMTM0LjI3ICAgQzQ2NC44MzEsMy42NjMsMzkyLjI3Myw4LjY1NSwzMDkuMjc3LDQ5LjAyOWMtNy4yNjYtMC45MDYtMTQuMDYyLTEuMzY3LTIxLjMyNi0xLjM2N2MtMTA3LjQ3OSwwLTE5Ni44MTYsNzUuNzUyLTIxOS4wNDksMTc2LjQ1NSAgIGMyOS4wMjktMzAuMzg3LDg4Ljg4NS03OC4wMTksMTE4LjgyLTk2LjE2M0MxODEuMzc5LDEzMy40LDE3NC41NjcsMTM5LjI5MiwxNjcuNzcxLDE0NS4xOTFMMTY3Ljc3MSwxNDUuMTkxeiBNNDg3Ljk1NSwxNzAuNTkzICAgYy0yNS4zOTEtNDkuODk4LTY4LjkzNC04OC45MTEtMTIxLjU0LTEwOC44NjdjNTIuMTUzLTE4LjU5Nyw5NC43OTEtMTYuNzg0LDExNi41NTYsMTAuODg0ICAgQzUwMS4xMDksOTQuODQsNTAxLjU2MywxMjkuNzY3LDQ4Ny45NTUsMTcwLjU5M0w0ODcuOTU1LDE3MC41OTN6IE02OC40NDgsMzE3LjEwN0M4MS42MDQsMzgyLjQxNCwxMjMuMzIsNDM3LjMxMiwxODAuMDIsNDY4LjE2ICAgYy01OC45NjUsMjEuMzE1LTEwNy45NDYsMTkuMDQ5LTEzMS41MjMtMTAuNDM5QzI0LjAxNCw0MjYuODczLDMzLjk4MiwzNzUuMTYyLDY4LjQ0OCwzMTcuMTA3TDY4LjQ0OCwzMTcuMTA3eiIgZmlsbD0iIzBDQTNEMSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9nPjwvc3ZnPg=="></img>
+				<div class="caption">
+					<h3>Internet Explorer</h3>
+					<h2>11</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">About the project</div>
+		<div class="panel-body">
+		Placeholder
+		</div>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="content">
+		    <div class="heading">
+		        <h2>Our <strong>Great Team</strong></h2>
+		        <p>To try the most advanced business</p>
+		    </div><!-- //end heading -->
+
+			<div class="row" style="padding: 15px">
+		        <div class="col-sm-4">
+		            <div class="team-members">
+		                <div class="team-avatar">
+		                    <img class="img-responsive" src="http://keenthemes.com/assets/bootsnipp/member1.png" alt="">
+		                </div>
+		                <div class="team-desc">
+		                    <h4>John Doe</h4>
+		                    <span>Marketing</span>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-sm-4">
+		            <div class="team-members">
+		                <div class="team-avatar">
+		                    <img class="img-responsive" src="http://keenthemes.com/assets/bootsnipp/member2.png" alt="">
+		                </div>
+		                <div class="team-desc">
+		                    <h4>Melisa Doe</h4>
+		                    <span>Founder</span>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-sm-4">
+		            <div class="team-members">
+		                <div class="team-avatar">
+		                    <img class="img-responsive" src="http://keenthemes.com/assets/bootsnipp/member3.png" alt="">
+		                </div>
+		                <div class="team-desc">
+		                    <h4>Alex Atkinson</h4>
+		                    <span>Director</span>
+		                </div>
+		            </div>
+		        </div>
+		    </div><!-- //end row -->
+
+		    <div class="row" style="padding: 15px">
+		        <div class="col-sm-4">
+		            <div class="team-members">
+		                <div class="team-avatar">
+		                    <img class="img-responsive" src="http://keenthemes.com/assets/bootsnipp/member1.png" alt="">
+		                </div>
+		                <div class="team-desc">
+		                    <h4>John Doe</h4>
+		                    <span>Marketing</span>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-sm-4">
+		            <div class="team-members">
+		                <div class="team-avatar">
+		                    <img class="img-responsive" src="http://keenthemes.com/assets/bootsnipp/member2.png" alt="">
+		                </div>
+		                <div class="team-desc">
+		                    <h4>Melisa Doe</h4>
+		                    <span>Founder</span>
+		                </div>
+		            </div>
+		        </div>
+		        <div class="col-sm-4">
+		            <div class="team-members">
+		                <div class="team-avatar">
+		                    <img class="img-responsive" src="http://keenthemes.com/assets/bootsnipp/member3.png" alt="">
+		                </div>
+		                <div class="team-desc">
+		                    <h4>Alex Atkinson</h4>
+		                    <span>Director</span>
+		                </div>
+		            </div>
+		        </div>
+		    </div> <!-- //end row -->
+
+		</div>
+
+		<br>
+		<br>
+		<center>
+		<strong>Powered by <a href="#/" target="_blank">Lanyang Whats Up</a></strong>
+		</center>
+		<br>
+		<br>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">About the Team</div>
+		<div class="panel-body">
+		Placeholder
+		</div>
+	</div>
+
+</div>

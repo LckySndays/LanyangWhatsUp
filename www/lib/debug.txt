@@ -1,0 +1,6 @@
+C:\xampp\tmp\php986.tmp IMG_20150305_134211_1425534269899.jpg image/jpeg {
+ "kind": "drive#file",
+ "id": "0B9tf_331Jf_CazY3OXM5YUV6bHM",
+ "name": "Untitled",
+ "mimeType": "image/jpeg"
+}
