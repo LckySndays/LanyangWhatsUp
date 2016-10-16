@@ -22,8 +22,8 @@ install:
 script:
 - npm run dist-mac
 
-echo $CSC_LINK
-echo $CSC_KEY_PASSWORD
+echo $CSC_LINK;
+echo $CSC_KEY_PASSWORD;
 
 deploy:
 skip_cleanup: true
