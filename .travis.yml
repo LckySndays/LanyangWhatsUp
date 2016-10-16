@@ -22,11 +22,6 @@ install:
 script:
 - npm run dist-mac
 
-if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-  echo $CSC_LINK;
-  echo $CSC_KEY_PASSWORD;
-fi
-
 deploy:
 skip_cleanup: true
 provider: releases
