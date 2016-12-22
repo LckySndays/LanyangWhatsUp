@@ -1,7 +1,30 @@
-<iframe frameborder="0" srcdoc='
+<!-- <iframe frameborder="0" srcdoc='
     <form id="myform" action="https://wm.tku.edu.tw/login.php" method="post" id="login">
     <input type="hidden" name="horde_user" id="horde_user" size="15" value="" />
     <input type="hidden" name="horde_pass" id="horde_pass" size="15" value=""  />
+    <input type="hidden" name="login_post" id="login_post" size="1" value="1"  />
     </form>' 
 id="myframe" style="width: 100%; height: 98vh;">   
 </iframe>
+ -->
+
+<iframe frameborder="0" src="about:blank" id="myframe" style="width: 100%; height: 98vh;" ></iframe>
+
+<script>
+waitingDialog.show('Retreiving the data..');
+var frame = document.getElementById("myframe");
+var fdoc = frame.contentDocument;
+
+fdoc.write('<form id="myform" action="https://wm.tku.edu.tw/login.php" method="post" id="login"><input type="hidden" name="horde_user" id="horde_user" size="15" value="" /><input type="hidden" name="horde_pass" id="horde_pass" size="15" value=""  /><input type="hidden" name="login_post" id="login_post" size="1" value="1"  /></form>');
+
+var inter = window.setInterval(function() {
+    if (frame) {
+    	window.clearInterval(inter);
+	    document.getElementById("myframe").contentWindow.document.getElementById("horde_user").value = JWT.ID;
+		document.getElementById("myframe").contentWindow.document.getElementById("horde_pass").value = JWT.Email;
+		document.getElementById("myframe").contentWindow.document.getElementById("myform").submit();
+        waitingDialog.hide();
+    }
+}, 1000);
+
+</script>

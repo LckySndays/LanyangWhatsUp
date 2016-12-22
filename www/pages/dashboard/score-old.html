@@ -1,0 +1,218 @@
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Lanyang Grade Book</header>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table no-margin">
+					<thead>
+						<tr>
+							<th>School ID</th>
+							<th>Name</th>
+							<th>Department</th>
+							<th>Status</th>
+							<th>Score Avg</th>
+							<th>GPA</th>
+						</tr>
+					</thead>
+					<tbody id="tbody">
+						<!-- <tr>
+							<td>402850225</td>
+							<td>鄧羽辰</td>
+							<td>資創系軟工四</td>
+							<td>一般生(自行申請)</td>
+							<td>67.22</td>
+							<td>2.264</td>
+						</tr> -->
+					</tbody>
+				</table>
+			</div><!--end .table-responsive -->
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+</div>
+
+<div id="test">
+</div>
+
+<!-- <div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Semester X</header>
+	</div>
+	<div class="card card-body table-responsive">
+		<table class="table no-margin">
+			<thead>
+				<tr>
+					<th>系級</th>
+					<th>科目名稱</th>
+					<th>班別</th>
+					<th>選必修</th>
+					<th>學分</th>
+					<th>成績</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>全球視野一</td>
+					<td>國際規範與禮儀</td>
+					<td>A</td>
+					<td>必</td>
+					<td>2</td>
+					<td>67</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div> -->
+
+<script>
+
+if(!sessionStorage.Score){
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+			$response = JSON.parse(xhttp.responseText);
+			if($response.status == "ok"){
+
+				sessionStorage.setItem("Score", $response.response);
+				getScore();
+				//alert($response.response);
+
+			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+			
+			}
+		}
+	}
+
+	xhttp.open("GET", URLGetScore, true);
+	xhttp.send();
+
+}else{
+	getScore();
+}
+
+// function convertDate(inputFormat) {
+// 	function pad(s) { return (s < 10) ? '0' + s : s; }
+// 	var d = new Date(inputFormat);
+// 	return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+// }
+
+function test($semester){
+	$score 	= JSON.parse(sessionStorage.Score);
+	$doc 	= document.getElementById('test');
+	data = "data" + $semester;
+
+		var div  = document.createElement('div');
+		div.className = "col-lg-10 col-lg-offset-1";
+
+			var div2  = document.createElement('div');
+			div2.className = "card-head text-center";
+
+				var header = document.createElement('header');
+				header.innerHTML = "Semester " + ($semester + 1);
+
+			var div3  = document.createElement('div');
+			div3.className = "card card-body table-responsive";
+
+				var table = document.createElement('table');
+				table.className = "table no-margin";
+
+					var thead = document.createElement('thead');
+						var tr = document.createElement('tr');
+							var td1 = document.createElement('td');
+							td1.innerHTML = "系級";
+							var td2 = document.createElement('td');
+							td2.innerHTML = "科目名稱";
+							var td3 = document.createElement('td');
+							td3.innerHTML = "班別";
+							var td4 = document.createElement('td');
+							td4.innerHTML = "選必修";
+							var td5 = document.createElement('td');
+							td5.innerHTML = "學分";
+							var td6 = document.createElement('td');
+							td6.innerHTML = "成績";
+
+							tr.appendChild(td1);
+							tr.appendChild(td2);
+							tr.appendChild(td3);
+							tr.appendChild(td4);
+							tr.appendChild(td5);
+							tr.appendChild(td6);
+							thead.appendChild(tr);
+							table.appendChild(thead);
+
+					for(var i = 0; i < $score[data].courseTotal; i++){
+						
+						var tbody = document.createElement('tbody');
+							var tr2 = document.createElement('tr');
+								var td7 = document.createElement('td');
+								td7.innerHTML = $score[data].courseDept[i];
+								var td8 = document.createElement('td');
+								td8.innerHTML = $score[data].courseName[i];
+								var td9 = document.createElement('td');
+								td9.innerHTML = $score[data].courseClass[i];
+								var td10 = document.createElement('td');
+								td10.innerHTML = $score[data].courseElectOpt[i];
+								var td11 = document.createElement('td');
+								td11.innerHTML = $score[data].courseCredit[i];
+								var td12 = document.createElement('td');
+								td12.innerHTML = $score[data].courseScore[i];
+
+								tr2.appendChild(td7);
+								tr2.appendChild(td8);
+								tr2.appendChild(td9);
+								tr2.appendChild(td10);
+								tr2.appendChild(td11);
+								tr2.appendChild(td12);
+								tbody.appendChild(tr2);
+								table.appendChild(tbody);
+					}
+
+	div3.appendChild(table);
+	div2.appendChild(header);
+
+	div.appendChild(div2);
+	div.appendChild(div3);
+
+	$doc.appendChild(div);
+
+}
+
+function getScore(){
+	$score 	= JSON.parse(sessionStorage.Score);
+	$table 	= document.getElementById('tbody');
+
+	var tr = document.createElement('tr');
+	var td1 = document.createElement('td');
+	var td2 = document.createElement('td');
+	var td3 = document.createElement('td');
+	var td4 = document.createElement('td');
+	var td5 = document.createElement('td');
+	var td6 = document.createElement('td');
+
+	td1.innerHTML = $score.stu_ID;
+	td2.innerHTML = $score.stu_nameCH;
+	td3.innerHTML = $score.stu_dept;
+	td4.innerHTML = $score.stu_status_1 + "(" + $score.stu_status_2 + ")";
+	td5.innerHTML = $score.data.scoreAvgOverall;
+	td6.innerHTML = $score.data.gpa;
+
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	tr.appendChild(td3);
+	tr.appendChild(td4);
+	tr.appendChild(td5);
+	tr.appendChild(td6);
+
+	$table.appendChild(tr);
+
+	for(var i = 0; i < $score['data'].totalData; i++){
+		test(i);
+	}
+}
+
+
+
+</script>

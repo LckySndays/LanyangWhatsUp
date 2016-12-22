@@ -1,18 +1,223 @@
 <div class="row">
-	<!-- BEGIN ALERT - REVENUE -->
-	<div class="col-md-3 col-sm-6">
-		<div class="card">
-			<div class="card-body no-padding">
-				<div class="alert alert-callout alert-info no-margin">
-					<!-- <strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong> -->
-					<strong class="text-xl">$ 32,829</strong><br/>
-					<span class="opacity-50">Papercut Balance</span>
-					<!-- <div class="stick-bottom-left-right">
-						<div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
-					</div> -->
-				</div>
-			</div><!--end .card-body -->
-		</div><!--end .card -->
-	</div><!--end .col -->
-	<!-- END ALERT - REVENUE -->
+	<div class="card-head text-center">
+		<header>Lanyang Weather Forecast</header>
+	</div>
+	<div class="col-lg-10 col-lg-offset-1">
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body no-padding">
+					<div class="alert alert-callout alert-info no-margin">
+						<!-- <strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong> -->
+						<strong id="temp1" class="text-xl">No Data</strong>
+						<!-- <strong class="pull-right text-lg">Partly Cloudy</strong> -->
+						<canvas class="pull-right" id="icon1" width="64" height="64"></canvas><br/>
+						<span class="opacity-50">Right Now</span>
+						<!-- <div class="stick-bottom-left-right">
+							<div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+						</div> -->
+					</div>
+				</div><!--end .card-body -->
+			</div><!--end .card -->
+		</div><!--end .col -->
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body no-padding">
+					<div class="alert alert-callout alert-warning no-margin">
+						<!-- <strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong> -->
+						<strong id="temp2" class="text-xl">No Data</strong>
+						<!-- <strong class="pull-right text-lg">Partly Cloudy</strong><br/> -->
+						<canvas class="pull-right" id="icon2" width="64" height="64"></canvas><br/>
+						<span class="opacity-50">Tommorrow</span>
+						<!-- <div class="stick-bottom-left-right">
+							<div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+						</div> -->
+					</div>
+				</div><!--end .card-body -->
+			</div><!--end .card -->
+		</div><!--end .col -->
+		<div class="col-md-4">
+			<div class="card">
+				<div class="card-body no-padding">
+					<div class="alert alert-callout alert-success no-margin">
+						<!-- <strong class="pull-right text-success text-lg">0,38% <i class="md md-trending-up"></i></strong> -->
+						<strong id="temp3" class="text-xl">No Data</strong>
+						<!-- <strong class="pull-right text-lg">Partly Cloudy</strong><br/> -->
+						<canvas class="pull-right" id="icon3" width="64" height="64"></canvas><br/>
+						<span class="opacity-50">2 Days Later</span>
+						<!-- <div class="stick-bottom-left-right">
+							<div class="height-2 sparkline-revenue" data-line-color="#bdc1c1"></div>
+						</div> -->
+					</div>
+				</div><!--end .card-body -->
+			</div><!--end .card -->
+		</div><!--end .col -->
 </div>
+
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Lanyang Upcoming Event</header>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table no-margin">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Date</th>
+							<th>Event</th>
+						</tr>
+					</thead>
+					<tbody id="tbody">
+						
+					</tbody>
+				</table>
+			</div><!--end .table-responsive -->
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+</div>
+
+<script src="js/skycons.js"></script>
+
+<script>
+
+if(!sessionStorage.Agenda){
+
+	//waitingDialog.show('Retreiving the data..');
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+			$response = JSON.parse(xhttp.responseText);
+			if($response.status == "ok"){
+
+				sessionStorage.setItem("Agenda", $response.response);
+				getAgenda();
+				// waitingDialog.hide();
+    //         	setTimeout(function () {$('#myModal').modal('show');}, 500);
+
+				//alert($response.response);
+
+			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+			
+			}
+		}
+	}
+
+	xhttp.open("GET", URLGetAgenda, true);
+	xhttp.send();
+
+}else{
+	getAgenda();
+}
+
+if(!sessionStorage.Forecast){
+
+	waitingDialog.show('Retreiving the data..');
+	var xhttp2 = new XMLHttpRequest();
+
+	xhttp2.onreadystatechange = function() {
+		if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+
+			$response = JSON.parse(xhttp2.responseText);
+			if($response.status == "ok"){
+
+				sessionStorage.setItem("Forecast", $response.response);
+				getForecast();
+				waitingDialog.hide();
+
+			}else if(xhttp2.readyState == 4 && xhttp2.status == 502){
+			
+			}
+		}
+	}
+
+	xhttp2.open("GET", URLGetForecast, true);
+	xhttp2.send();
+
+}else{
+	getForecast();
+}
+
+function getAgenda(){
+	$agenda = JSON.parse(sessionStorage.Agenda);
+	$table 	= document.getElementById('tbody');
+
+	for (var i = 0; i < $agenda.events.length; i++){
+		var obj = $agenda.events[i];
+
+		var tr = document.createElement('tr');
+		var td1 = document.createElement('td');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+
+		td1.innerHTML = i+1;
+		td2.innerHTML = obj['start'].match(/^[A-z]{3}, [0-9]{1,2} [A-z]{3} [0-9]{4}/g);
+		td3.innerHTML = obj['title'];
+
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+
+		$table.appendChild(tr);
+
+		//alert(obj['title']);
+		// for (var key in obj){
+		// 	var value = obj[key];
+		// 	//document.write("<br> - " + key + ": " + value);
+		// 	alert(key + " " + value);
+		// }
+	}
+}
+
+function getForecast(){
+	$forecast = JSON.parse(sessionStorage.Forecast);
+	
+	document.getElementById("temp1").innerHTML = $forecast.currently.temperature + "&#8451;";
+	document.getElementById("temp2").innerHTML = (($forecast.daily.data[2].temperatureMin + $forecast.daily.data[2].temperatureMax)/2).toPrecision(4) + "&#8451;";
+	document.getElementById("temp3").innerHTML = (($forecast.daily.data[3].temperatureMin + $forecast.daily.data[3].temperatureMax)/2).toPrecision(4) + "&#8451;";
+
+	var skycons = new Skycons();
+	// on Android, a nasty hack is needed: {"resizeClear": true}
+
+	// you can add a canvas by it's ID...
+	skycons.add("icon1", $forecast.currently.icon);
+	skycons.add("icon2", $forecast.daily.data[2].icon);
+	skycons.add("icon3", $forecast.daily.data[3].icon);
+	//skycons.add(document.getElementById("icon2"), Skycons.RAIN);
+
+	// if you're using the Forecast API, you can also supply
+	// strings: "partly-cloudy-day" or "rain".
+
+	// start animation!
+	skycons.play();
+	
+}
+
+// function getAbsent(){
+	
+// 	var xhttp3 = new XMLHttpRequest();
+
+// 	xhttp3.onreadystatechange = function() {
+// 		if (xhttp3.readyState == 4 && xhttp3.status == 200) {
+
+// 			$response = xhttp3.responseText;
+// 			//if($response.status == "ok"){
+
+// 				sessionStorage.setItem("Absent", $response);
+// 				alert("YEY");
+// 				//alert($response.response);
+
+// 			//}else if(xhttp3.readyState == 4 && xhttp3.status == 502){
+			
+// 			//}
+// 		}
+// 	}
+
+// 	xhttp3.open("GET", "http://localhost/seniorproject/_Server/TAKEOFF-updating.PHP", true);
+// 	xhttp3.send();
+// }
+
+
+</script>

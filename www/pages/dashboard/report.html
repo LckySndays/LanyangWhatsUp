@@ -1,0 +1,31 @@
+<link href="css/summernote.css" rel="stylesheet">
+
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Lanyang Feedback/Report Bug</header>
+	</div>
+	<div id="summernote">Hello Summernote</div>
+	<button type="button" onclick="send()" class="btn btn-primary pull-right">Send</button>
+</div>
+
+<script src="js/summernote.min.js"></script>
+
+<script>
+
+$(document).ready(function() {
+	$('#summernote').summernote({
+		airMode: false,
+		height: 250,
+		placeholder: 'write here...'
+	});
+});
+
+// var markupStr = 'hello world';
+// $('#summernote').summernote('code', markupStr);
+
+function send(){
+	var html = $('#summernote').summernote('code');
+	alert(html);
+}
+
+</script>

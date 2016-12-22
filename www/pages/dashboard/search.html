@@ -1,0 +1,144 @@
+<div id="users">
+	<div class="col-md-10 col-md-offset-1">
+		<div class="card-head text-center">
+			<header>Lanyang Search Classmates</header>
+		</div>
+		<div class="card">
+			<div class="card-body">
+				<div class="form floating-label">
+					<div class="form-group">
+						<input type="text" class="search form-control" required="">
+						<label>Filter Result</label>
+					</div>
+				</div>
+				<ul class="list">
+					<li class="tile">
+						<!-- <a class="btn btn-flat btn-danger ink-reaction">
+							<i class="glyphicon glyphicon-heart"></i>
+						</a> -->
+						<a href="#/search" target="_self" class="tile-content ink-reaction" href="">
+							<div class="tile-text">
+								<p class="name">Testing</p>
+								<p class="id">123456</p>
+							</div>
+							<div class="tile-icon">
+								<img class="avatar" src="img/avatar1.jpg" alt="">
+							</div>
+						</a>
+					</li>
+				</ul>
+			</div><!--end .card-body -->
+		</div><!--end .card -->
+		<em class="text-caption">Search Classmates Feature</em>
+	</div><!--end .col -->
+</div>
+<!-- <div id="users">
+<input class="search" placeholder="Search" />
+<button class="sort" data-sort="name">
+Sort by name
+</button>
+
+<ul class="list">
+<li>
+<h3 class="name">Jonny Stromberg</h3>
+<p class="id">1986</p>
+</li>
+<li>
+<h3 class="name">Jonas Arnklint</h3>
+<p class="id">1985</p>
+</li>
+</ul>
+
+</div> -->
+
+<script>
+	if(!sessionStorage.Contacts){
+
+		waitingDialog.show('Retreiving the data..');
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				$response = JSON.parse(xhttp.responseText);
+				if($response.status == "ok"){
+
+					sessionStorage.setItem("Contacts", $response.response);
+					getContacts();
+					waitingDialog.hide();
+					//alert($response.response);
+
+				}else if(xhttp.readyState == 4 && xhttp.status == 502){
+				
+				}
+			}
+		}
+
+		xhttp.open("GET", URLGetContact, true);
+		xhttp.send();
+
+	}else{
+		getContacts();
+	}
+
+	function searchByID($id){
+		$contacts 	= JSON.parse(sessionStorage.Contacts);
+
+		var obj = $contacts.contacts;
+		for (var key in obj){
+			var value = obj[key].user_no;
+
+			if(value.indexOf($id) !== -1){
+				document.write("<br> - " + key + ": " + value);
+			}
+			// alert(key + " " + value);
+		}
+	}
+
+	function searchByName($name){
+		$contacts 	= JSON.parse(sessionStorage.Contacts);
+
+		var obj = $contacts.contacts;
+		for (var key in obj){
+			var value = obj[key].name;
+
+			if(value.indexOf($name) !== -1){
+				document.write("<br> - " + key + ": " + value);
+			}
+			// alert(key + " " + value);
+		}
+	}
+
+	function getContacts(){
+		var options = {
+			valueNames: [ 'name', 'id' , { name: 'avatar', attr: 'src' }],
+			page: 5
+		};
+
+		var values = [ {
+			name: "Testing Account",
+			id: 789456123,
+			avatar: "img/avatar1.jpg"
+		}];
+
+		var userList = new List('users', options, values);
+
+		$contacts 	= JSON.parse(sessionStorage.Contacts);
+
+		var obj = $contacts.contacts;
+		for (var key in obj){
+			userList.add({
+				name: obj[key].name,
+				id: obj[key].user_no,
+				avatar: (obj[key].avatar_big_url == "") ? "img/avatar1.jpg" : obj[key].avatar_big_url
+			});
+
+		}
+	}
+</script>
+
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/list.js/1.3.0/list.js"></script> -->
+<script src="js/AppForm.js"></script>
+<script src="js/jquery.bootstrap.wizard.min.js"></script>
+<script src="js/DemoFormWizard.js"></script>

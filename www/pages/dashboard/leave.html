@@ -1,0 +1,649 @@
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card">
+		<div class="card-head">
+			<ul class="nav nav-tabs nav-justified" data-toggle="tabs" id="experiment">
+
+				<div id="experiment">
+					
+				</div>
+
+				<li class="active"><a href="#tab1" target="_self" data-toggle="tab">Absent Record</a></li>
+				<li class=""><a href="#tab2" target="_self" onclick="tab2()" data-toggle="tab">Leave Form</a></li>
+				<li class=""><a href="#tab3" target="_self" onclick="tab3()" data-toggle="tab">Leave Record</a></li>
+
+			</ul>
+		</div><!--end .card-head -->
+		<div class="card-body tab-content" id="experiment2">
+			<!-- <table class="table no-margin">
+				<thead>
+					<tr>
+						<td>系級</td>
+						<td>科目名稱</td>
+						<td>班別</td>
+						<td>選必修</td>
+						<td>學分</td>
+						<td>成績</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>全球視野一</td>
+						<td>國際規範與禮儀</td>
+						<td>A </td>
+						<td>必</td>
+						<td>2</td>
+						<td>   67</td>
+					</tr>
+				</tbody>
+			</table> -->
+			<div class="tab-pane active" id="tab1">
+				<div class="col-lg-10 col-lg-offset-1">
+					<div class="card-head text-center">
+						<header>Lanyang Absent Record</header>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table no-margin">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Subject [CH]</th>
+											<th>Subject [EN]</th>
+											<th>Credit</th>
+											<th>Mandatory/Elective</th>
+											<!-- <th>Class Time</th> -->
+											<th>Professor</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody id="tbody3">
+										
+									</tbody>
+								</table>
+							</div><!--end .table-responsive -->
+						</div><!--end .card-body -->
+					</div><!--end .card -->
+				</div>
+			</div>
+
+			<div class="tab-pane" id="tab2">
+				<div class="col-lg-10 col-lg-offset-1">
+					<div class="card-head text-center">
+						<header>Lanyang Leave Form</header>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table no-margin">
+									<thead>
+										<tr>
+											<th>#</th>
+											<th>Leave No</th>
+											<th>Semester</th>
+											<th>Type</th>
+											<th>Category</th>
+											<th>Reason</th>
+											<th>Start Date</th>
+											<th>End Date</th>
+											<th>Days</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									<tbody id="tbody">
+										
+									</tbody>
+								</table>
+							</div><!--end .table-responsive -->
+						</div><!--end .card-body -->
+					</div><!--end .card -->
+				</div>
+			</div>
+
+			<div class="tab-pane" id="tab3">
+				<div class="col-lg-10 col-lg-offset-1">
+					<div class="card-head text-center">
+						<header>Lanyang Leave Record</header>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table no-margin">
+									<thead>
+										<tr>
+											<th>星期</th>
+											<th>節次</th>
+											<th>科目名稱</th>
+											<th>總計</th>
+											<th>公</th>
+											<th>事</th>
+											<th>病</th>
+											<th>喪</th>
+											<th>產</th>
+											<th>生理</th>
+											<th>任課老師</th>
+										</tr>
+									</thead>
+									<tbody id="tbody2">
+										
+									</tbody>
+								</table>
+							</div><!--end .table-responsive -->
+						</div><!--end .card-body -->
+					</div><!--end .card -->
+				</div>
+			</div>
+			
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+	<em class="text-caption">Justified tabs</em>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Rollcall Details</h4>
+      </div>
+      <div class="modal-body">
+            
+        <!-- <div class="col-lg-10 col-lg-offset-1"> -->
+            <!-- <div class="card-head text-center">
+                <header>Preview</header>
+            </div> -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Student ID</th>
+                                    <th>Name</th>
+                                    <th>Dept</th>
+                                    <th>Status</th>
+                                    <th>Absent Hour</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mymodal">
+                                <!-- <tr>
+                                    <td>402850225</td>
+                                    <td>鄧羽辰</td>
+                                    <td>資創系軟工四</td>
+                                    <td>一般生(自行申請)</td>
+                                    <td>67.22</td>
+                                    <td>2.264</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div><!--end .table-responsive -->
+                </div><!--end .card-body -->
+            </div><!--end .card -->
+        <!-- </div> -->
+
+      </div>
+      <div class="modal-footer" id="button">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- <button type="submit" href="#" onclick="Book()" class="btn btn-primary">Book</button> -->
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function tab2(){
+	if(!sessionStorage.Leave){
+
+		waitingDialog.show('Retreiving the data..');
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				try{
+					$response = JSON.parse(xhttp.responseText);
+
+					if($response.status == "ok"){
+
+						sessionStorage.setItem("Leave", $response.response);
+						getLeave();
+						waitingDialog.hide();
+						//alert($response.response);
+
+					}else{
+						waitingDialog.hide();
+						alertify.error("Error " + xhttp.status + ", Please Try Again");
+					}
+
+				}catch(e){
+					waitingDialog.hide();
+					alertify.error("Parsing Error, Please Try Again");
+				}
+
+			}else{
+
+				//waitingDialog.hide();
+				//alertify.error("Error " + xhttp.status + ", Please Try Again");
+
+			}
+
+		}
+
+		xhttp.open("GET", URLGetLeave, true);
+		xhttp.send();
+
+	}else{
+		getLeave();
+	}
+} 
+
+function tab3(){
+	if(!sessionStorage.Leave2){
+
+		waitingDialog.show('Retreiving the data..');
+		var xhttp2 = new XMLHttpRequest();
+
+		xhttp2.onreadystatechange = function() {
+			if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+
+				$response = JSON.parse(xhttp2.responseText);
+				if($response.status == "ok"){
+
+					sessionStorage.setItem("Leave2", $response.response);
+					getLeave2();
+					waitingDialog.hide();
+
+				}else if(xhttp2.readyState == 4 && xhttp2.status == 502){
+				
+				}
+			}
+		}
+
+		xhttp2.open("GET", URLGetLeave2, true);
+		xhttp2.send();
+
+	}else{
+		getLeave2();
+	}
+}
+
+if(!sessionStorage.RollCall){
+	
+	waitingDialog.show('Retreiving the data..');
+	var xhttp3 = new XMLHttpRequest();
+
+	xhttp3.onreadystatechange = function() {
+		if (xhttp3.readyState == 4 && xhttp3.status == 200) {
+
+			$response = JSON.parse(xhttp3.responseText);
+			if($response.status == "ok"){
+
+				sessionStorage.setItem("RollCall", $response.response);
+				getRollCall();
+				waitingDialog.hide();
+
+			}else if(xhttp3.readyState == 4 && xhttp3.status == 502){
+			
+			}
+		}
+	}
+
+	xhttp3.open("GET", URLGetRollCall1, true);
+	xhttp3.send();
+
+}else{
+	getRollCall();
+}
+
+function convertDate(inputFormat) {
+	function pad(s) { return (s < 10) ? '0' + s : s; }
+	var d = new Date(inputFormat);
+	return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+}
+
+function getRollCall(){
+	$rollcall 	= JSON.parse(sessionStorage.RollCall);
+	$table 		= document.getElementById('tbody3');
+
+	for (var i = 0; i < $rollcall.length; i++){
+		var tr = document.createElement('tr');
+
+		var td1 = document.createElement('td');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+		var td4 = document.createElement('td');
+		var td5 = document.createElement('td');
+		// var td6 = document.createElement('td');
+		var td7 = document.createElement('td');
+		var td8 = document.createElement('td');
+
+		td1.innerHTML = i+1;
+		td2.innerHTML = $rollcall[i].course_name_ch;
+		td3.innerHTML = $rollcall[i].course_name_en;
+		td4.innerHTML = $rollcall[i].course_credit;
+		td5.innerHTML = $rollcall[i].course_elective_required;
+		// td6.innerHTML = $rollcall[i].course_time;
+		td7.innerHTML = $rollcall[i].course_professor;
+		td8.innerHTML = '<a href="#/leave" target="_self" onclick="preview(' + i + ')" data-target="#myModal">Preview</a>';
+
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		tr.appendChild(td4);
+		tr.appendChild(td5);
+		// tr.appendChild(td6);
+		tr.appendChild(td7);
+		tr.appendChild(td8);
+
+		$table.appendChild(tr);
+
+	}
+}
+
+function preview($id){
+	$rollcall   = JSON.parse(sessionStorage.RollCall);
+    $table2 	= document.getElementById('mymodal');
+    $table2.innerHTML = "";
+
+    $modalLabel = document.getElementById('myModalLabel');
+    $modalLabel.innerHTML = $rollcall[$id].course_name_ch + " (" + $rollcall[$id].course_name_en + ")";
+
+    if($rollcall[$id].course_detail.length == 0){
+
+    	waitingDialog.show('Retreiving the data..');
+    	var xhttp2 = new XMLHttpRequest();
+
+        xhttp2.onreadystatechange = function() {
+            if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+
+                $response = JSON.parse(xhttp2.responseText);
+                if($response.status == "ok"){
+
+                    $rollcall[$id].course_detail =JSON.parse($response.response);
+                    sessionStorage.setItem("RollCall", JSON.stringify($rollcall));
+                    preview($id);
+
+                }else if(xhttp2.readyState == 4 && xhttp2.status == 502){
+                    
+                }
+            }
+        }
+
+        xhttp2.open("GET", URLGetRollCall2 + "?link=" + btoa($rollcall[$id].urlLink), true);
+        xhttp2.send();
+
+    }else{
+
+    	for (var i = 0; i < $rollcall[$id].course_detail.length; i++){
+    		$obj = $rollcall[$id].course_detail[i];
+	    	var tr  = document.createElement('tr');
+	        var td1 = document.createElement('td');
+	        var td2 = document.createElement('td');
+	        var td3 = document.createElement('td');
+	        var td4 = document.createElement('td');
+	        var td5 = document.createElement('td');
+	        var td6 = document.createElement('td');
+	        
+	        td1.innerHTML = $obj.absent_date;
+	        td2.innerHTML = $obj.stu_id;
+	        td3.innerHTML = $obj.stu_name;
+	        td4.innerHTML = $obj.stu_dept;
+	        td5.innerHTML = $obj.absent_status;
+	        td6.innerHTML = $obj.absent_hour;
+
+	        switch($obj.absent_status){
+	        	case "曠課":
+	        		tr.className = "danger";
+	        		break;
+	        	case "請假":
+	        		tr.className = "info";
+	        		break;
+	        	case "到課":
+	        		//tr.className = "success";
+	        		break;
+	        	default:
+	        }
+
+	        tr.appendChild(td1);
+	        tr.appendChild(td2);
+	        tr.appendChild(td3);
+	        tr.appendChild(td4);
+	        tr.appendChild(td5);
+	        tr.appendChild(td6);
+	        
+	        $table2.appendChild(tr);
+	    }
+	   		var tr  = document.createElement('tr');
+	        var td1 = document.createElement('td');
+	        var td2 = document.createElement('td');
+	        var td3 = document.createElement('td');
+	        var td4 = document.createElement('td');
+	        var td5 = document.createElement('td');
+	        var td6 = document.createElement('td');
+	        
+	        td1.innerHTML = "";
+	        td2.innerHTML = "";
+	        td3.innerHTML = "";
+	        td4.innerHTML = "";
+	        td5.innerHTML = "<b>Total</b>";
+	        td6.innerHTML = "<b>" + $rollcall[$id].course_detail[0].total_absent_hour + "</b>";
+
+	        tr.appendChild(td1);
+	        tr.appendChild(td2);
+	        tr.appendChild(td3);
+	        tr.appendChild(td4);
+	        tr.appendChild(td5);
+	        tr.appendChild(td6);
+	        
+	        $table2.appendChild(tr);
+
+    		waitingDialog.hide();
+            setTimeout(function () {$('#myModal').modal('show');}, 500);
+    }
+
+}
+
+function getLeave(){
+	$leave 	= JSON.parse(sessionStorage.Leave);
+	$table 	= document.getElementById('tbody');
+
+	for (var i = 0; i < $leave.Data.length; i++){
+		var obj = $leave.Data[i];
+
+		var tr = document.createElement('tr');
+		var td1 = document.createElement('td');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+		var td4 = document.createElement('td');
+		var td5 = document.createElement('td');
+		var td6 = document.createElement('td');
+		var td7 = document.createElement('td');
+		var td8 = document.createElement('td');
+		var td9 = document.createElement('td');
+		var td10 = document.createElement('td');
+
+		var category = obj['Category'];
+		switch(category){
+			case 1:
+				category = "一般假";
+				break;
+			case 2:
+				category = "考試假";
+				break;
+			case 3:
+				category = "特殊請假";
+				break;
+			case 7:
+				category = "手寫假單";
+				break;
+			case 8:
+				category = "智網通";
+				break;
+			case 9:
+				category = "KIOSK";
+				break;
+			default:
+				category = "Unknown";
+		}
+
+		var status = obj['Status'];
+		switch(status){
+			case 1:
+				status = "尚未准假";
+				break;
+			case 2:
+				status = "已准假";
+				break;
+			case 3:
+				status = "已印出核准聯";
+				break;
+			case 4:
+				status = "未印出已逾期";
+				break;
+			case 5:
+				status = "未核准已逾期";
+				break;
+			case 6:
+				status = "已收件";
+				break;
+			case 8:
+				status = "智網通";
+				break;
+			case 9:
+				status = "取消假單";
+				break;
+			default:
+				status = "Unknown";
+		}
+
+		td1.innerHTML = i+1;
+		td2.innerHTML = obj['LeaveNo'];
+		td3.innerHTML = obj['AcademicYear'] + '(' + obj['Semester'] + ')';
+		td4.innerHTML = category;
+		td5.innerHTML = obj['LeaveKindTitle'];
+		td6.innerHTML = obj['Reason'];
+		td7.innerHTML = convertDate(parseInt(obj['LeaveDateStart'].replace(/[^0-9]/g,'')));
+		td8.innerHTML = convertDate(parseInt(obj['LeaveDateEnd'].replace(/[^0-9]/g,'')));
+		td9.innerHTML = obj['LeaveDaysCount'];
+		td10.innerHTML = status;
+
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		tr.appendChild(td4);
+		tr.appendChild(td5);
+		tr.appendChild(td6);
+		tr.appendChild(td7);
+		tr.appendChild(td8);
+		tr.appendChild(td9);
+		tr.appendChild(td10);
+
+		$table.appendChild(tr);
+
+	}
+}
+
+function getLeave2(){
+	$leave 	= JSON.parse(sessionStorage.Leave2);
+	$table 	= document.getElementById('tbody2');
+
+	$totalCount 	= 0;
+	$officialCount 	= 0;
+	$busionessCount	= 0;
+	$sickCount 		= 0;
+	$funeralCount 	= 0;
+	$maternityCount = 0;
+	$periodCount 	= 0;
+
+	for (var i = 0; i < $leave.Data.length; i++){
+		var obj = $leave.Data[i];
+
+		var tr 	= document.createElement('tr');
+		var td1 = document.createElement('td');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+		var td4 = document.createElement('td');
+		var td5 = document.createElement('td');
+		var td6 = document.createElement('td');
+		var td7 = document.createElement('td');
+		var td8 = document.createElement('td');
+		var td9 = document.createElement('td');
+		var td10 = document.createElement('td');
+		var td11 = document.createElement('td');
+
+		td1.innerHTML = obj.Day_Chinese;
+		td2.innerHTML = obj.Section;
+		td3.innerHTML = obj.CourseName;
+		td4.innerHTML = "<b>" + obj.Total + "</b>";
+		td5.innerHTML = obj.OfficialLevel;
+		td6.innerHTML = obj.BusionessLevel;
+		td7.innerHTML = obj.SickLevel;
+		td8.innerHTML = obj.FuneralLevel;
+		td9.innerHTML = obj.MaternityLevel;
+		td10.innerHTML = obj.PeriodLevel;
+		td11.innerHTML = obj.TeacherName;
+
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		tr.appendChild(td4);
+		tr.appendChild(td5);
+		tr.appendChild(td6);
+		tr.appendChild(td7);
+		tr.appendChild(td8);
+		tr.appendChild(td9);
+		tr.appendChild(td10);
+		tr.appendChild(td11);
+
+		$table.appendChild(tr);
+
+		$totalCount 	+= obj.Total;
+		$officialCount 	+= obj.OfficialLevel;
+		$busionessCount	+= obj.BusionessLevel;
+		$sickCount 		+= obj.SickLevel;
+		$funeralCount 	+= obj.FuneralLevel;
+		$maternityCount += obj.MaternityLevel;
+		$periodCount 	+= obj.PeriodLevel;
+
+	}
+
+	var tr = document.createElement('tr');
+	var td1 = document.createElement('td');
+	var td2 = document.createElement('td');
+	var td3 = document.createElement('td');
+	var td4 = document.createElement('td');
+	var td5 = document.createElement('td');
+	var td6 = document.createElement('td');
+	var td7 = document.createElement('td');
+	var td8 = document.createElement('td');
+	var td9 = document.createElement('td');
+	var td10 = document.createElement('td');
+	var td11 = document.createElement('td');
+	td4.innerHTML = "<b>" + $totalCount + "</b>";
+	td5.innerHTML = "<b>" + $officialCount + "</b>";
+	td6.innerHTML = "<b>" + $busionessCount + "</b>";
+	td7.innerHTML = "<b>" + $sickCount + "</b>";
+	td8.innerHTML = "<b>" + $funeralCount + "</b>";
+	td9.innerHTML = "<b>" + $maternityCount + "</b>";
+	td10.innerHTML = "<b>" + $periodCount + "</b>";
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	tr.appendChild(td3);
+	tr.appendChild(td4);
+	tr.appendChild(td5);
+	tr.appendChild(td6);
+	tr.appendChild(td7);
+	tr.appendChild(td8);
+	tr.appendChild(td9);
+	tr.appendChild(td10);
+	tr.appendChild(td11);
+	$table.appendChild(tr);
+}
+
+
+
+</script>

@@ -111,3 +111,31 @@
 		</div><!--end .card-body -->
 	</div>
 </div>
+
+<script>
+	if(!sessionStorage.StuBasic){
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				$response = JSON.parse(xhttp.responseText);
+				if($response.status == "ok"){
+
+					sessionStorage.setItem("StuBasic", $response.response);
+					$('#view').scope().reloadRoute();
+					//alert($response.response);
+
+				}else if(xhttp.readyState == 4 && xhttp.status == 502){
+				
+				}
+			}
+		}
+
+		xhttp.open("GET", URLGetBasicInfo, true);
+		xhttp.send();
+
+	}else{
+		// getBasicInfo();
+	}
+</script>

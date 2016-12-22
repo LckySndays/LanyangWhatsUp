@@ -33,7 +33,7 @@
 					<div class="tab-content clearfix">
 						<div class="tab-pane active" id="step1">
 							<br/><br/>
-							<form action="/" method="post" id="my-awesome-dropzone" class="dropzone form floating-label form-validation" role="form">
+							<form method="post" enctype="multipart/form-data" id="my-awesome-dropzone" class="dropzone form floating-label form-validation" role="form">
 
 								<div class="row">
 									<div class="col-sm-5 col-sm-offset-1 vcenter">
@@ -446,10 +446,11 @@
 // 	submitButton.addEventListener("click", function () {
 //     myDropZone.processQueue();
 // });
-
+Dropzone.autoDiscover = false;
 Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
 
   // The configuration we've talked about above
+  url: URLWebPrinting,
   autoProcessQueue: false,
   uploadMultiple: true,
   addRemoveLinks: true,
@@ -474,17 +475,46 @@ Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the
     this.on("sendingmultiple", function() {
       // Gets triggered when the form is actually being sent.
       // Hide the success button or the complete form.
+      alertify.success("Sending the file...");
     });
     this.on("successmultiple", function(files, response) {
       // Gets triggered when the files have successfully been sent.
       // Redirect user or notify of success.
+      alertify.success("File was sent Successully");
+      this.removeAllFiles();
     });
     this.on("errormultiple", function(files, response) {
       // Gets triggered when there was an error sending the files.
       // Maybe show form again, and notify user of error
+      alertify.error("File not sent successfully");
     });
   }
 
 }
 var myAwesomeDropzone = new Dropzone("#my-awesome-dropzone");
+</script>
+
+<script>
+
+	waitingDialog.show('Retreiving the data..');
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+			$response = JSON.parse(xhttp.responseText);
+			if($response.status == "ok"){
+
+				sessionStorage.setItem("PapercutData", $response.response);
+				$('#view').scope().reloadRoute();
+				waitingDialog.hide();
+
+			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+			
+			}
+		}
+	}
+
+	xhttp.open("GET", URLGetPapercut + "?userID=" + JWT.ID, true);
+	xhttp.send();
 </script>

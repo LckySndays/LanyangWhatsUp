@@ -1,0 +1,49 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-code-push": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "phonegap-nfc": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "onesignal-cordova-plugin": {
+            "PACKAGE_NAME": "Whats Up"
+        },
+        "cordova-plugin-background-mode": {
+            "PACKAGE_NAME": "Whats Up"
+        }
+    },
+    "dependent_plugins": {
+        "code-push": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-zip": {
+            "PACKAGE_NAME": "HelloCordova"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "HelloCordova"
+        }
+    }
+}

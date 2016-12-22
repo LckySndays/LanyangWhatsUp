@@ -1,0 +1,530 @@
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Lanyang Grade Book</header>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table no-margin">
+					<thead>
+						<tr>
+							<th>School ID</th>
+							<th>Name</th>
+							<th>Department</th>
+							<th>Status</th>
+							<th>Score Avg</th>
+							<th>GPA</th>
+						</tr>
+					</thead>
+					<tbody id="tbody">
+						<!-- <tr>
+							<td>402850225</td>
+							<td>鄧羽辰</td>
+							<td>資創系軟工四</td>
+							<td>一般生(自行申請)</td>
+							<td>67.22</td>
+							<td>2.264</td>
+						</tr> -->
+					</tbody>
+				</table>
+			</div><!--end .table-responsive -->
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+</div>
+
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card">
+		<div class="card-head">
+			<ul class="nav nav-tabs nav-justified" data-toggle="tabs" id="experiment">
+
+				<div id="experiment">
+					
+				</div>
+
+				<!-- <li class="active"><a href="#first4" target="_self" data-toggle="tab">FIRST TAB</a></li> -->
+				<!-- <li class=""><a href="#second4" target="_self" data-toggle="tab">NO. TWO</a></li>
+				<li class=""><a href="#third4" target="_self" data-toggle="tab">THE THIRD</a></li> -->
+
+			</ul>
+		</div><!--end .card-head -->
+		<div class="card-body tab-content" id="experiment2">
+			<!-- <table class="table no-margin">
+				<thead>
+					<tr>
+						<td>系級</td>
+						<td>科目名稱</td>
+						<td>班別</td>
+						<td>選必修</td>
+						<td>學分</td>
+						<td>成績</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>全球視野一</td>
+						<td>國際規範與禮儀</td>
+						<td>A </td>
+						<td>必</td>
+						<td>2</td>
+						<td>   67</td>
+					</tr>
+				</tbody>
+			</table> -->
+			<!-- <div class="tab-pane active" id="tab1"><p>Per at postea mediocritatem, vim numquam aliquid eu, in nam sale gubergren. Fuisset delicatissimi duo, qui ut animal noluisse erroribus. Ea eum veniam audire. Dicant vituperata consequuntur.</p>
+			</div>
+			<div class="tab-pane" id="tab2"><p>Ad ius duis dissentiunt, an sit harum primis persecuti, adipisci tacimates mediocrem sit et. Id illud voluptaria omittantur qui, te affert nostro mel. Cu conceptam vituperata temporibus has.</p>
+			</div>
+			<div class="tab-pane" id="tab3"><p>Duo semper accumsan ea, quidam convenire cum cu, oportere maiestatis incorrupte est eu. Soluta audiam timeam ius te, idque gubergren forensibus ad mel, persius urbanitas usu id. Civibus nostrum fabellas mea te, ne pri lucilius iudicabit. Ut cibo semper vituperatoribus vix, cum in error elitr. Vix molestiae intellegat omittantur an, nam cu modo ullum scriptorem.</p>
+				<p>Quod option numquam vel in, et fuisset delicatissimi duo, qui ut animal noluisse erroribus. Ea eum veniam audire. Per at postea mediocritatem, vim numquam aliquid eu, in nam sale gubergren. Dicant vituperata consequuntur at sea, mazim commodo</p>
+			</div> -->
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+	<em class="text-caption">Justified tabs</em>
+</div>
+
+<div id="test">
+</div>
+
+<!-- <div class="col-lg-5 col-lg-offset-3">
+	<div class="card-head text-center">
+		<header>Lanyang Grade Chart</header>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<canvas id="myChart" width="500" height="500"></canvas>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+            
+        <!-- <div class="col-lg-10 col-lg-offset-1"> -->
+            <!-- <div class="card-head text-center">
+                <header>Preview</header>
+            </div> -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive" id="myCanvas">
+                        <canvas id="myChart" width="500" height="500" max-height="500"></canvas>
+                    </div><!--end .table-responsive -->
+                </div><!--end .card-body -->
+            </div><!--end .card -->
+        <!-- </div> -->
+
+      </div>
+      <div class="modal-footer" id="button">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <!-- <button type="submit" href="#" onclick="Book()" class="btn btn-primary">Book</button> -->
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+<script>
+
+// if(!sessionStorage.Score){
+// 	var xhttp = new XMLHttpRequest();
+
+// 	xhttp.onreadystatechange = function() {
+// 		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+// 			$response = JSON.parse(xhttp.responseText);
+// 			if($response.status == "ok"){
+
+// 				sessionStorage.setItem("Score", $response.response);
+// 				getScore();
+// 				//alert($response.response);
+
+// 			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+			
+// 			}
+// 		}
+// 	}
+
+// 	xhttp.open("GET", URLGetScore, true);
+// 	xhttp.send();
+
+// }else{
+// 	getScore();
+// }
+
+if(!sessionStorage.BasicInfo){
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+			$response = JSON.parse(xhttp.responseText);
+			if($response.status == "ok"){
+
+				sessionStorage.setItem("BasicInfo", $response.response);
+				getScore();
+				//alert($response.response);
+
+			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+			
+			}
+		}
+	}
+
+	xhttp.open("GET", URLGetBasicInfo, true);
+	xhttp.send();
+
+}else{
+	getScore();
+}
+
+// function convertDate(inputFormat) {
+// 	function pad(s) { return (s < 10) ? '0' + s : s; }
+// 	var d = new Date(inputFormat);
+// 	return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/');
+// }
+
+function tabs($id){
+	// alert("tabs" + $id +  "clicked");
+	test($id-1);
+}
+
+function test($semester){
+
+	if(!sessionStorage["semester" + ($semester+1)]){
+
+		waitingDialog.show('Retreiving the data..');
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				$response = JSON.parse(xhttp.responseText);
+				if($response.status == "ok"){
+
+					sessionStorage.setItem("semester" + ($semester+1) , $response.response);
+					test($semester);
+					waitingDialog.hide();
+
+				}else if(xhttp.readyState == 4 && xhttp.status == 502){
+				
+				}
+			}
+		}
+
+		$BasicInfo = JSON.parse(sessionStorage.BasicInfo);
+		$urlLink = $BasicInfo.data.urlLink[$semester];
+
+		// alert($urlLink);
+		xhttp.open("GET", URLGetScore + "?link=" + btoa($urlLink), true);
+		xhttp.send();
+
+	}else{
+		$score 	= JSON.parse(sessionStorage["semester" + ($semester+1)]);
+		$score2 = JSON.parse(sessionStorage.BasicInfo);
+		$tab	= "tab" + ($semester+1);
+
+		$doc 	= document.getElementById($tab);
+		$doc.innerHTML = "";
+		// data = "data" + $semester;
+
+			var div  = document.createElement('div');
+			div.className = "col-lg-10 col-lg-offset-1";
+
+				var div2  = document.createElement('div');
+				div2.className = "card-head text-center";
+
+					var header = document.createElement('header');
+					header.innerHTML = "Semester " + ($semester + 1);
+
+				var div3  = document.createElement('div');
+				div3.className = "card card-body table-responsive";
+
+					var table = document.createElement('table');
+					table.className = "table no-margin";
+
+						var thead = document.createElement('thead');
+							var tr = document.createElement('tr');
+								var td1 = document.createElement('td');
+								td1.innerHTML = "系級";
+								var td2 = document.createElement('td');
+								td2.innerHTML = "科目名稱";
+								var td3 = document.createElement('td');
+								td3.innerHTML = "班別";
+								var td4 = document.createElement('td');
+								td4.innerHTML = "選必修";
+								var td5 = document.createElement('td');
+								td5.innerHTML = "學分";
+								var td6 = document.createElement('td');
+								td6.innerHTML = "成績";
+
+								tr.appendChild(td1);
+								tr.appendChild(td2);
+								tr.appendChild(td3);
+								tr.appendChild(td4);
+								tr.appendChild(td5);
+								tr.appendChild(td6);
+								thead.appendChild(tr);
+								table.appendChild(thead);
+
+						for(var i = 0; i < $score.courseTotal; i++){
+							
+							var tbody = document.createElement('tbody');
+								var tr2 = document.createElement('tr');
+									var td7 = document.createElement('td');
+									td7.innerHTML = $score.courseDept[i];
+									var td8 = document.createElement('td');
+									td8.innerHTML = $score.courseName[i];
+									var td9 = document.createElement('td');
+									td9.innerHTML = $score.courseClass[i];
+									var td10 = document.createElement('td');
+									td10.innerHTML = $score.courseElectOpt[i];
+									var td11 = document.createElement('td');
+									td11.innerHTML = $score.courseCredit[i];
+									var td12 = document.createElement('td');
+									td12.innerHTML = $score.courseScore[i];
+
+									tr2.appendChild(td7);
+									tr2.appendChild(td8);
+									tr2.appendChild(td9);
+									tr2.appendChild(td10);
+									tr2.appendChild(td11);
+									tr2.appendChild(td12);
+									tbody.appendChild(tr2);
+									table.appendChild(tbody);
+						}
+
+						// var tbody = document.createElement('tbody');
+						// var tr2 = document.createElement('tr');
+						// var td13 = document.createElement('td');
+						// td13.innerHTML = "test";
+						// tr2.appendChild(td13);
+						// tbody.appendChild(tr2);
+						// table.appendChild(tbody);
+						var linebreak = document.createElement('br');
+						tbody.appendChild(linebreak);
+
+				var div4  = document.createElement('div');
+				div4.className = "card card-body table-responsive";
+
+					var table2 = document.createElement('table');
+					table2.className = "table no-margin";
+
+						var thead2 = document.createElement('thead');
+							var tr3 = document.createElement('tr');
+								var td13 = document.createElement('td');
+								td13.innerHTML = "Semester";
+								var td14 = document.createElement('td');
+								td14.innerHTML = "Department";
+								var td15 = document.createElement('td');
+								td15.innerHTML = "creditTotalSemester";
+								var td16 = document.createElement('td');
+								td16.innerHTML = "creditAcquiredSemester";
+								var td17 = document.createElement('td');
+								td17.innerHTML = "creditAcquiredTotal";
+								var td18 = document.createElement('td');
+								td18.innerHTML = "scoreAvgSemester";
+
+								tr3.appendChild(td13);
+								tr3.appendChild(td14);
+								tr3.appendChild(td15);
+								tr3.appendChild(td16);
+								tr3.appendChild(td17);
+								tr3.appendChild(td18);
+								thead2.appendChild(tr3);
+								table2.appendChild(thead2);
+
+						var tbody2 = document.createElement('tbody');
+						// tbody2.style.cssText = "text-align: center";
+								var tr4 = document.createElement('tr');
+									var td19 = document.createElement('td');
+									td19.innerHTML = $score2.data.academicYear[$semester] + ' (' + $score2.data.semester[$semester] + ')';
+									var td20 = document.createElement('td');
+									td20.innerHTML = $score2.data.department[$semester];
+									var td21 = document.createElement('td');
+									td21.innerHTML = $score2.data.creditTotalSemester[$semester];
+									var td22 = document.createElement('td');
+									td22.innerHTML = $score2.data.creditAcquiredSemester[$semester];
+									var td23 = document.createElement('td');
+									td23.innerHTML = $score2.data.creditAcquiredTotal[$semester];
+									var td24 = document.createElement('td');
+									td24.innerHTML = $score2.data.scoreAvgSemester[$semester];
+
+									tr4.appendChild(td19);
+									tr4.appendChild(td20);
+									tr4.appendChild(td21);
+									tr4.appendChild(td22);
+									tr4.appendChild(td23);
+									tr4.appendChild(td24);
+									tbody2.appendChild(tr4);
+									table2.appendChild(tbody2);
+
+					var button = document.createElement('div');
+					button.innerHTML = '<br><button href="#" target="_self" onclick="graph(' + $semester + ')" class="btn btn-primary center-block" id="loginbt" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-log-in"></i> Graph</button>';
+
+
+		div3.appendChild(table);
+		div3.appendChild(table2);
+		div2.appendChild(header);
+
+		div.appendChild(div2);
+		div.appendChild(div3);
+		div.appendChild(button);
+
+		$doc.appendChild(div);
+
+	}
+
+}
+
+function getScore(){
+	$score 	= JSON.parse(sessionStorage.BasicInfo);
+	$table 	= document.getElementById('tbody');
+
+	var tr = document.createElement('tr');
+	var td1 = document.createElement('td');
+	var td2 = document.createElement('td');
+	var td3 = document.createElement('td');
+	var td4 = document.createElement('td');
+	var td5 = document.createElement('td');
+	var td6 = document.createElement('td');
+
+	td1.innerHTML = $score.stu_ID;
+	td2.innerHTML = $score.stu_nameCH;
+	td3.innerHTML = $score.stu_dept;
+	td4.innerHTML = $score.stu_status_1 + "(" + $score.stu_status_2 + ")";
+	td5.innerHTML = $score.data.scoreAvgOverall;
+	td6.innerHTML = $score.data.gpa;
+
+	tr.appendChild(td1);
+	tr.appendChild(td2);
+	tr.appendChild(td3);
+	tr.appendChild(td4);
+	tr.appendChild(td5);
+	tr.appendChild(td6);
+
+	$table.appendChild(tr);
+
+	for(var i = 0; i < $score['data'].totalData; i++){
+		// test(i);
+		i==0 ? $class='active' : $class = '';
+		$experiment 	= document.getElementById('experiment');
+		var tab			= document.createElement('li');
+		tab.className	= $class;
+		tab.innerHTML 	= '<a href="#tab' + (i+1) +  '" onclick="tabs(' + (i+1) + ')" target="_self" data-toggle="tab">' + 'Semester ' + (i+1) + '</a>';
+		// tab.onclick 	= function(){tabs(i+1)};
+		$experiment.appendChild(tab);
+
+		$experiment2 	= document.getElementById('experiment2');
+		var tab2		= document.createElement('div');
+		tab2.className	= "tab-pane " + $class;
+		tab2.id 		= "tab" + (i+1);
+
+		// tab2.innerHTML 	= "<p>" + (i+1) + "</p>";
+
+		$experiment2.appendChild(tab2);
+
+		// test(i);
+	}
+	test(0);
+	// $('#view').scope().apply();
+}
+
+function graph($id){
+	
+	$score 	= JSON.parse(sessionStorage["semester" + ($id+1)]);
+	$canvas = document.getElementById('myCanvas');
+	$canvas.innerHTML = '<canvas id="myChart" width="700" height="300" min-height="500" max-height="300"></canvas>';
+
+	$modalLabel = document.getElementById('myModalLabel');
+    $modalLabel.innerHTML = "Semester " + ($id+1) + " Radar Graph";
+	
+	for(var i = 0; i < $score.courseTotal; i++){
+		if($score.courseScore[i] == "通過" || parseInt($score.courseScore[i]) == "NaN"){
+			//delete $score.courseScore[i];
+			//delete $score.courseName[i];
+			$score.courseScore.splice(i, 1);
+			$score.courseName.splice(i, 1);
+			$score.courseTotal -= 1;
+			i -= 1;
+		}else{
+			$score.courseScore[i] = $score.courseScore[i].replace ( /[^\d.]/g, '' );
+		}
+	}
+	
+	var ctx = document.getElementById("myChart");
+
+	var data = {
+	    // labels: ["國際規範與禮儀", "英文寫作", "程式設計", "英文閱讀", "資訊概論Ｉ", "Cycling", "多媒體概論", "微積分", "校園與社區服務學習（一）", "全民國防教育軍事訓練（一）", "男、女生體育（一）"],
+	    labels: $score.courseName,
+	    datasets: [
+	        {
+	            label: "Semester " + ($id+1),
+	            backgroundColor: "rgba(179,181,198,0.2)",
+	            borderColor: "rgba(179,181,198,1)",
+	            pointBackgroundColor: "rgba(179,181,198,1)",
+	            pointBorderColor: "#fff",
+	            pointHoverBackgroundColor: "#fff",
+	            pointHoverBorderColor: "rgba(179,181,198,1)",
+	            // pointLabelFontSize : 30,
+	            // data: [67, 66, 70, 73, 70, 65, 44, 75, 53, 69]
+	            data: $score.courseScore
+	        }
+	    ]
+	};
+
+	//$fontSize = 20;
+
+	//$responsive = window.cordova ? false:true;
+
+	var myRadarChart = new Chart(ctx, {
+	    type: 'radar',
+	    data: data,
+	    options: {
+            scale: {
+                ticks: {
+                    //beginAtZero: true,
+                    max: 100
+                },
+		        pointLabels : {
+		          	fontSize: 20
+		        },
+		        angleLines : {
+		        	lineWidth: 1
+		        }
+            },
+            tooltips: {
+            	titleFontSize: 20,
+            	bodyFontSize: 20
+            },
+            elements : {
+            	point : {
+            		radius: 5,
+            		hoverRadius : 10,
+            		hitRadius: 7
+            		//borderWidth : 10,
+            		//hoverBorderWidth: 10
+            	}
+            },
+         //    title: {
+	        //     display: true,
+	        //     text: 'Custom Chart Title'
+	        // },
+	        legend: {
+	            display: false
+	        },
+	        responsive : false,
+	        maintainAspectRatio: false
+    	}
+	});
+}
+</script>

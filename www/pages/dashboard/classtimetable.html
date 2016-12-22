@@ -1,0 +1,177 @@
+<div class="col-lg-10 col-lg-offset-1">
+	<div class="card-head text-center">
+		<header>Lanyang Class Timetable</header>
+	</div>
+	<div class="card">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table no-margin">
+					<thead>
+						<tr>
+							<th></th>
+							<th>星期一</th>
+							<th>星期二</th>
+							<th>星期三</th>
+							<th>星期四</th>
+							<th>星期五</th>
+							<!-- <th>星期六</th>
+							<th>星期日</th> -->
+						</tr>
+					</thead>
+					<tbody id="tbody">
+						<!-- <tr>
+							<td>08:10 - 09:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>09:10 - 10:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>10:10 - 11:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>11:10 - 12:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+
+						<tr>
+							<td>12:10 - 13:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>13:10 - 14:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>14:10 - 15:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>15:10 - 16:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+
+						<tr>
+							<td>16:10 - 17:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>17:10 - 18:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>18:10 - 19:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>19:10 - 20:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+
+						<tr>
+							<td>20:10 - 21:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr>
+						<tr>
+							<td>21:10 - 22:00</td>
+							<td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+						</tr> -->
+
+					</tbody>
+				</table>
+			</div><!--end .table-responsive -->
+		</div><!--end .card-body -->
+	</div><!--end .card -->
+</div>
+
+<script>
+	if(!sessionStorage.ClassTimeTable){
+
+		waitingDialog.show('Retreiving the data..');
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				$response = JSON.parse(xhttp.responseText);
+				if($response.status == "ok"){
+
+					sessionStorage.setItem("ClassTimeTable", $response.response);
+					ClassTimeTable();
+					waitingDialog.hide();
+					//alert($response.response);
+
+				}else if(xhttp.readyState == 4 && xhttp.status == 502){
+				
+				}
+			}
+		}
+
+		xhttp.open("GET", URLGetClassTable, true);
+		xhttp.send();
+
+	}else{
+		ClassTimeTable();
+	}
+
+	function ClassTimeTable(){
+		$timetable   = JSON.parse(sessionStorage.ClassTimeTable);
+    	$table  = document.getElementById('tbody');
+
+    	$timetable2 = {
+    		0:"07:10 - 08:00",
+            1:"08:10 - 09:00",
+            2:"09:10 - 10:00",
+            3:"10:10 - 11:00",
+            4:"11:10 - 12:00",
+            5:"12:10 - 13:00",
+            6:"13:10 - 14:00",
+            7:"14:10 - 15:00",
+            8:"15:10 - 16:00",
+            9:"16:10 - 17:00",
+            10:"17:10 - 18:00",
+            11:"18:10 - 19:00",
+            12:"19:10 - 20:00",
+            13:"20:10 - 21:00",
+            14:"21:10 - 22:00",
+        }
+
+        for(var a=0; a<14; a++){
+	    	for (var i=0; i<1; i++){
+	    		var tr = document.createElement('tr');
+
+	    		var td0 = document.createElement('td');
+		    	var td1 = document.createElement('td');
+		        var td2 = document.createElement('td');
+		        var td3 = document.createElement('td');
+		        var td4 = document.createElement('td');
+		        var td5 = document.createElement('td');
+
+		        td0.className = "col-md-2";
+		        td1.className = "col-md-2";
+		        td2.className = "col-md-2";
+		        td3.className = "col-md-2";
+		        td4.className = "col-md-2";
+		        td5.className = "col-md-2";
+		        
+		        td0.innerHTML = $timetable2[a];
+		        td1.innerHTML = $timetable[0][a] == "" ? "-" : $timetable[0][a];
+		        td2.innerHTML = $timetable[1][a] == "" ? "-" : $timetable[1][a];
+		        td3.innerHTML = $timetable[2][a] == "" ? "-" : $timetable[2][a];
+		        td4.innerHTML = $timetable[3][a] == "" ? "-" : $timetable[3][a];
+		        td5.innerHTML = $timetable[4][a] == "" ? "-" : $timetable[4][a];
+
+		        tr.appendChild(td0);
+		        tr.appendChild(td1);
+		        tr.appendChild(td2);
+		        tr.appendChild(td3);
+		        tr.appendChild(td4);
+		        tr.appendChild(td5);
+	     
+		        $table.appendChild(tr);
+	    	}
+	    }
+	}
+</script>

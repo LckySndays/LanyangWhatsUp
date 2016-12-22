@@ -7,7 +7,7 @@
 	</div>
 	<div class="card-body no-padding">
 		<!-- <form method="post" action="lib/drive.php" class="dropzone dz-clickable" id="my-awesome-dropzone" enctype="multipart/form-data"> -->
-		<form method="post" action="https://whatsupdev.herokuapp.com/dev/drive.php" class="dropzone dz-clickable" id="my-awesome-dropzone" enctype="multipart/form-data">
+		<form method="post" class="dropzone dz-clickable" id="my-awesome-dropzone" enctype="multipart/form-data">
 			<div class="dz-message">
 				<h3>Drop files here or click to upload.</h3>
 				<em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</em>
@@ -21,8 +21,35 @@
 <script>
 	Dropzone.options.myAwesomeDropzone = false;
 		$("#my-awesome-dropzone").dropzone({
+			url: URLUploadDrive,
 			addRemoveLinks : true,
-			maxFilesize: 5
+			maxFilesize: 5,
+
+			// The setting up of the dropzone
+			init: function() {
+
+				// Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+				// of the sending event because uploadMultiple is set to true.
+				this.on("sending", function(files, response) {
+					// Gets triggered when the files have successfully been sent.
+					// Redirect user or notify of success.
+					alertify.success("Sending the file...");
+					this.removeAllFiles();
+				});
+				this.on("success", function(files, response) {
+					// Gets triggered when the files have successfully been sent.
+					// Redirect user or notify of success.
+					alertify.success("File was sent Successully");
+					this.removeAllFiles();
+				});
+				this.on("error", function(files, response) {
+					// Gets triggered when there was an error sending the files.
+					// Maybe show form again, and notify user of error
+					alertify.error("File not sent successfully");
+				});
+			}
+
+
 		});
 </script>
 

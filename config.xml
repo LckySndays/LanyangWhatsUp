@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="tk.lanyang.whatsup" version="0.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Whats Up</name>
+    <description>
+        Testing Apps
+    </description>
+    <author email="lanyang.tk@gmail.com" href="https://lanyang.tk">
+        Lanyang WhatsUp Team
+    </author>
+    <content src="index-local.html" />
+    <plugin name="cordova-plugin-whitelist" spec="1" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="*" />
+    <!-- <preference name="CodePushDeploymentKey" value="01gPyWdYVhXUmgCKWFEeNoVgxQ2yNJASufEAZ" /> -->
+    <preference name="CodePushDeploymentKey" value="WurjF7Snf9-ceiYvC-XirMqGASu-NJASufEAZ" />
+    <preference name="windows-target-version" value="8.1" />
+    <allow-navigation href="*" />
+    <icon src="res/icon.png" />
+    <platform name="android">
+        <allow-intent href="market:*" />
+    </platform>
+    <platform name="ios">
+        <allow-intent href="itms:*" />
+        <allow-intent href="itms-apps:*" />
+    </platform>
+    <platform name="winphone">
+    </platform>
+    <platform name="blackberry10">
+    </platform>
+
+</widget>

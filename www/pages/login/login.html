@@ -111,7 +111,7 @@
 			
         <div class="panel panel-default" >
             <div class="panel-heading">
-                <div class="panel-title text-center"> Lanyang - Whats Up (A2)</div>
+                <div class="panel-title text-center"> Lanyang - Whats Up (A6)</div>
             </div>     
 
             <div class="panel-body" >
@@ -173,13 +173,16 @@ $(function(){
 
 <script>
 
-	function show_message(id, timer=3000){
+	function show_message(id, timer){
+		timer = typeof timer !== 'undefined' ? timer : 3000;
 		set_progress(100); clearTimeout(timeout)
-		document.getElementById(id).style.display = 'initial';
+		// document.getElementById(id).style.display = 'initial';
+		document.getElementById(id).style.cssText = 'initial';
 		document.getElementById("loginbt").disabled = false;
 		setTimeout(function(){ 
 			document.getElementById(id).style.display = 'none'; 
-			document.getElementById("main-progress").style = 'display: none'; 
+			// document.getElementById("main-progress").style = 'display: none'; 
+			document.getElementById("main-progress").style.cssText = 'display: none'; 
 			set_progress(0);
 		}, timer);
 	}
@@ -187,7 +190,8 @@ $(function(){
 	function set_progress(percent){
 		var style = "width: " + percent + "%";
 		var text = percent + "% Complete";
-		document.getElementById("progress").style = style;
+		// document.getElementById("progress").style = style;
+		document.getElementById("progress").style.cssText = style;
 		document.getElementById("progress").innerHTML = text;
 	}
 
@@ -199,7 +203,8 @@ $(function(){
 				set_progress(percent);
 				progress(percent);
 			}else{
-				document.getElementById("main-progress").style = 'display: none';
+				// document.getElementById("main-progress").style = 'display: none';
+				document.getElementById("main-progress").style.cssText = 'display: none';
 				document.getElementById("alert").innerHTML = 'Server response takes too long, please try again';
 				show_message("alert");
 			}
@@ -217,7 +222,8 @@ $(function(){
 			alertify.confirm("Login Confirmation","By using this service, you are agreeing our <a href='privacy-tos' target='_blank'>Term of Service</a> and <a href='privacy-tos' target='_blank'>Privacy Policy</a>. If you don't agree with the Agreements, then you may not use this Service. Please read them carefully.",
 				function(){
 					//alertify.success('Ok');
-					document.getElementById("main-progress").style = 'display: initial'; progress(0);
+					// document.getElementById("main-progress").style = 'display: initial'; progress(0);
+					document.getElementById("main-progress").style.cssText = 'display: initial'; progress(0);
 					document.getElementById("loginbt").disabled = true;
 
 					var xhttp = new XMLHttpRequest();
@@ -225,7 +231,14 @@ $(function(){
 					xhttp.onreadystatechange = function() {
 						if (xhttp.readyState == 4 && xhttp.status == 200) {
 
-							$response = JSON.parse(xhttp.responseText);
+							try{
+								$response = JSON.parse(xhttp.responseText);
+							}catch(e){
+								document.getElementById("alert").innerHTML = "Error happened";
+								show_message("alert");
+								console.log(xhttp.responseText);
+							}
+
 							if($response.status == "ok"){
 
 								set_progress(100); clearTimeout(timeout);
@@ -238,6 +251,13 @@ $(function(){
 
 								document.getElementById("success").innerHTML = "Confirmation E-mail has been sent to <a target='_blank' href='https://webmail.tku.edu.tw'>" + $response.response + "</a>";
 								show_message("success", 10000);
+
+							}else if($response.status == "activate"){
+
+								set_progress(100); clearTimeout(timeout);
+								verify();
+								// document.getElementById("main-progress").style = 'display: none';
+								document.getElementById("main-progress").style.cssText = 'display: none';
 
 							}else{
 
@@ -252,7 +272,7 @@ $(function(){
 						}
 					};
 					
-					xhttp.open("POST", "https://whatsupdev.herokuapp.com/dev/login.php", true);
+					xhttp.open("POST", URLlogin, true);
 					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 					xhttp.send(parameter);
 
@@ -265,6 +285,130 @@ $(function(){
 			progress(100);
 			document.getElementById("alert").innerHTML = 'Username or Password empty';
 			show_message("alert");
+		}
+
+	}
+
+	function loginNFC(uuid, tags){
+
+		// document.getElementById("main-progress").style = 'display: initial'; progress(0);
+		document.getElementById("main-progress").style.cssText = 'display: initial'; progress(0);
+		document.getElementById("loginbt").disabled = true;
+
+		var parameter = "UUID=" + uuid + "&Tags=" + tags;
+
+		// alert(parameter);
+
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				try{
+					$response = JSON.parse(xhttp.responseText);
+				}catch(e){
+					alertify.error("Parsing Error, Please Try Again");
+				}
+
+				if($response.status == "ok"){
+
+					set_progress(100); clearTimeout(timeout);
+					sessionStorage.setItem("JWT", $response.response);
+					setTimeout(function(){ 
+						window.location = "./dashboard.html";
+					}, 3000);
+
+				}else{
+
+					document.getElementById("alert").innerHTML = $response.response;
+					show_message("alert");
+
+				}
+
+			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+				document.getElementById("alert").innerHTML = 'Server returned 502, please try again';
+				show_message("alert");
+			}
+		};
+		
+		xhttp.open("POST", URLloginNFC, true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(parameter);
+	}
+
+	function verify(){
+		alertify.prompt("Account Verification","<center>Check out your school email mailbox for the Verification Code<br><a href='javascript:void(0);' onclick='resend()'>Resend</a></center>", "Verification Code",
+		function(evt, value ){
+			//alertify.success('Ok: ' + value);
+
+			var id = btoa(document.getElementById("userID").value);
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				$response = JSON.parse(xhttp.responseText);
+				if($response.status == "ok"){
+
+					document.getElementById("success").innerHTML = "Your Account has been Verified";
+					show_message("success", 10000);
+
+				}else{
+
+					document.getElementById("alert").innerHTML = $response.response;
+					show_message("alert");
+
+				}
+
+			}else if(xhttp.readyState == 4 && xhttp.status == 502){
+				document.getElementById("alert").innerHTML = 'Server returned 502, please try again';
+				show_message("alert");
+			}
+		};
+
+		xhttp.open("GET", URLVerifyAccount + "?code=" + value + "&id=" + id, true);
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send();
+
+
+		},
+		function(){
+			//alertify.error('Cancel');
+			document.getElementById("alert").innerHTML = "Account Not Activated";
+			show_message("alert");
+		})
+		;
+	}
+
+	function resend(){
+		var username = document.getElementById("userID").value;
+		var password = document.getElementById("userPass").value;
+		var parameter = "userID=" + username + "&userPass=" + password;
+
+		if(!sessionStorage.EmailResend){
+
+			var xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+					$response = JSON.parse(xhttp.responseText);
+					if($response.status == "ok"){
+						alertify.success($response.response);
+						sessionStorage.setItem("EmailResend", "ok");
+					}else{
+						alertify.error($response.response);
+					}
+
+				}else if(xhttp.readyState == 4 && xhttp.status == 502){
+					alertify.error('Email was not sent');
+				}
+			};
+			
+			xhttp.open("POST", URLResendEmail, true);
+			xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+			xhttp.send(parameter);
+
+		}else{
+			alertify.success('Email was sent earlier');
 		}
 
 	}

@@ -1,34 +1,386 @@
 
 <div class="row">
     <!-- BEGIN ALERT - REVENUE -->
-    <div class="col-lg-4 col-md-8 col-sm-8">        
+    <div class="col-lg-5 col-lg-offset-1">        
         <div class="form-group">
             <div class="alert alert-callout alert-info no-margin">
+                
+                <div class="form-group">
+                <div class="col-sm-6">
+                <strong class="text-xl">蘭陽校車 : </strong>
+                </div>
+                <div class="col-sm-6">
+                <strong class="text-xl" id="school-bus"> </strong><br/>
+                </div>
+                </div>
+
+                <span class="opacity-50" id="direction">Next Bus Countdown</span>
+                
+            </div>
+        </div>     
+    </div>
+    <div class="col-lg-5">        
+        <div class="form-group">
+            <div class="alert alert-callout alert-warning no-margin">
                 
                 <div class="form-group">
                 <div class="col-sm-6">
                 <strong class="text-xl">台灣好行 : </strong>
                 </div>
                 <div class="col-sm-6">
-                <strong class="text-xl" id="getting-started"> </strong><br/>
+                <strong class="text-xl" id="public-bus"> </strong><br/>
                 </div>
                 </div>
 
-                <span class="opacity-50">Next Bus Countdown</span>
+                <span class="opacity-50" id="direction2">Next Bus Countdown</span>
                 
             </div>
         </div>     
     </div>
 </div>
 
+<div class="col-lg-10 col-lg-offset-1">
+    <div class="card-head text-center">
+        <header>Lanyang School Bus Booking</header>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table no-margin">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Direction</th>
+                            <th>Note</th>
+                            <th>Capacity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <!-- <tr>
+                            <td>402850225</td>
+                            <td>鄧羽辰</td>
+                            <td>資創系軟工四</td>
+                            <td>一般生(自行申請)</td>
+                            <td>67.22</td>
+                            <td>2.264</td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div><!--end .table-responsive -->
+        </div><!--end .card-body -->
+    </div><!--end .card -->
+</div>
+
+<!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+            
+        <!-- <div class="col-lg-10 col-lg-offset-1"> -->
+            <!-- <div class="card-head text-center">
+                <header>Preview</header>
+            </div> -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table no-margin">
+                            <thead>
+                                <tr>
+                                    <th>Apply Date</th>
+                                    <th>Dept</th>
+                                    <th>Name</th>
+                                    <th>Room No</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mymodal">
+                                <!-- <tr>
+                                    <td>402850225</td>
+                                    <td>鄧羽辰</td>
+                                    <td>資創系軟工四</td>
+                                    <td>一般生(自行申請)</td>
+                                    <td>67.22</td>
+                                    <td>2.264</td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div><!--end .table-responsive -->
+                </div><!--end .card-body -->
+            </div><!--end .card -->
+        <!-- </div> -->
+
+      </div>
+      <div class="modal-footer" id="button">
+        <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+        <!-- <button type="submit" href="#" onclick="Book()" class="btn btn-primary">Book</button> -->
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="js/jquery.countdown.min.js"></script>
 
+<script>
+    function getBusSchedule($nextDay){
+        var date = new Date();
+        var day = typeof $nextDay !== 'undefined' ? date.getDay()+$nextDay : date.getDay();
+        var timetable = {
+            0:{0:"07:30", 1:"08:00"},
+            1:{0:"08:00", 1:"08:30"},
+            2:{0:"12:00", 1:"12:30"},
+            3:{0:"15:00", 1:"15:30"},
+            4:{0:"17:10", 1:"17:40"},
+            5:{0:"19:40", 1:"20:10"}
+        }
+        if(day>0 && day<6){
+            delete timetable[1];
+            delete timetable[3];
+            delete timetable[5];
+        }
+        if(day == 6){
+            delete timetable[5];
+        }
+        return timetable;
+    }
+
+</script>
+
+
 <script type="text/javascript">
-    $("#getting-started")
-    .countdown("2017/01/01", function(event) {
+
+    var date = new Date();
+    var timetable = getBusSchedule(1);
+    var today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + date.getDate();
+
+    a = 0;
+    b = 0;
+    var timeNow =  today + " " + timetable[a][b];
+    $("#public-bus").countdown(timeNow, function(event) {
         $(this).text(
         // event.strftime('%D days %H:%M:%S')
         event.strftime('%H:%M:%S')
         );
     });
+
+    while($("#public-bus")[0].innerHTML == "00:00:00"){
+        if(a < 6){
+            var isDefined = typeof timetable[a] !== 'undefined' ? true : false;
+            if(isDefined == true){
+                if(b==1){
+                    timeNow = today + " " + timetable[a][b];
+                    $("#public-bus").countdown(timeNow);
+                    a += 1;
+                    b = 0;
+                }else{
+                    timeNow = today + " " + timetable[a][b];
+                    $("#public-bus").countdown(timeNow);
+                    b += 1;
+                }
+            }else{
+                a += 1;
+                if(a < 6){
+                    timeNow = today + " " + timetable[a][b];
+                    $("#public-bus").countdown(timeNow);
+                }
+            }
+        }else{
+            timetable = getBusSchedule(1);
+            a = 0;
+            b = 0;
+            today = date.getFullYear() + "-" + (date.getMonth()+1) + "-" + (date.getDate()+1);
+            timeNow = today + " " + timetable[a][b];
+            $("#public-bus").countdown(timeNow);
+        }
+    }
+
+    if(b==0){
+        var direction = document.getElementById('direction2');
+        direction.innerHTML = "礁溪(Jiaoxi)→蘭陽校園(Lanyang)";
+    }else{
+        var direction = document.getElementById('direction');
+        direction.innerHTML = "蘭陽校園(Lanyang)→礁溪(Jiaoxi)";
+    }
+
+</script>
+
+<script>
+
+if(!sessionStorage.Bus){
+
+    waitingDialog.show('Retreiving the data..');
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+            $response = JSON.parse(xhttp.responseText);
+            if($response.status == "ok"){
+
+                sessionStorage.setItem("Bus", $response.response);
+                getBus();
+                waitingDialog.hide();
+                //alert($response.response);
+
+            }else if(xhttp.readyState == 4 && xhttp.status == 502){
+                
+            }
+        }
+    }
+
+    xhttp.open("GET", URLGetBus1, true);
+    xhttp.send();
+
+}else{
+    getBus();
+}
+
+function getBus(){
+    $bus    = JSON.parse(sessionStorage.Bus);
+    $table  = document.getElementById('tbody');
+
+    for (var i = 0; i < $bus.length; i++){
+
+        if(i == 0){
+            // alert("something");
+            $("#school-bus")
+            .countdown($bus[i].date, function(event) {
+                $(this).text(
+                // event.strftime('%D days %H:%M:%S')
+                event.strftime('%H:%M:%S')
+                );
+            });
+            var direction = document.getElementById('direction');
+            direction.innerHTML = $bus[i].direction;
+        }
+
+        var tr = document.createElement('tr');
+
+        $emptySlot = $bus[i].capacity.split('/')[0] - $bus[i].capacity.split('/')[1];
+        if($emptySlot == 0){tr.className = "danger";}else if ($emptySlot < 5){tr.className = "warning";}
+
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var td3 = document.createElement('td');
+        var td4 = document.createElement('td');
+        var td5 = document.createElement('td');
+        
+        td1.innerHTML = $bus[i].date;
+        td2.innerHTML = $bus[i].direction;
+        td3.innerHTML = $bus[i].note;
+        td4.innerHTML = $bus[i].capacity;
+        td5.innerHTML = '<a href="#/bus" target="_self" onclick="preview(' + i + ')" data-target="#myModal">Preview</a>';
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        
+        $table.appendChild(tr);
+    }
+}
+
+function preview($id){
+
+    $bus    = JSON.parse(sessionStorage.Bus);
+    $table2 = document.getElementById('mymodal');
+    $table2.innerHTML = "";
+
+    $modalLabel = document.getElementById('myModalLabel');
+    $modalLabel.innerHTML = "(" + $bus[$id].date + ") => " + $bus[$id].direction;
+
+    if($bus[$id].capacity.split('/')[1] != 0){
+
+        if($bus[$id].detail.length == 0){
+
+            waitingDialog.show('Retreiving the data..');
+
+            var xhttp2 = new XMLHttpRequest();
+
+            xhttp2.onreadystatechange = function() {
+                if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+
+                    $response = JSON.parse(xhttp2.responseText);
+                    if($response.status == "ok"){
+    
+                        $bus[$id].detail =JSON.parse($response.response);
+                        sessionStorage.setItem("Bus", JSON.stringify($bus));
+                        preview($id);
+
+                    }else if(xhttp2.readyState == 4 && xhttp2.status == 502){
+                        
+                    }
+                }
+            }
+
+            xhttp2.open("GET", URLGetBus2 + "?link=" + btoa($bus[$id].urlLink), true);
+            xhttp2.send();
+
+        }else{
+            $isReserved = "";
+
+            for (var i = 0; i < $bus[$id].detail.length; i++){
+
+                var obj = $bus[$id].detail[i];
+
+                if(obj.cancelLink != ""){
+                    $isReserved = '<a href="#/bus" target="_self" onclick="Cancel(\'' + obj.cancelLink + '\')">Cancel</a>';
+                }
+
+                var tr  = document.createElement('tr');
+                var td1 = document.createElement('td');
+                var td2 = document.createElement('td');
+                var td3 = document.createElement('td');
+                var td4 = document.createElement('td');
+                
+                td1.innerHTML = obj.apply_date + " " + $isReserved;
+                td2.innerHTML = obj.dept;
+                td3.innerHTML = obj.name;
+                td4.innerHTML = obj.room_num;
+
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                tr.appendChild(td3);
+                tr.appendChild(td4);
+                
+                $table2.appendChild(tr);
+
+            }
+
+            if( ($bus[$id].capacity.split('/')[0] - $bus[$id].capacity.split('/')[1]) > "0"){
+                $element = document.getElementById('button');
+                $element.innerHTML = '<button type="submit" href="#" onclick="Book(\'' + $bus[$id].urlLink + '\')" class="btn btn-primary">Book</button>';
+            }else{
+                $element = document.getElementById('button');
+                $element.innerHTML = '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
+            }
+
+            waitingDialog.hide();
+            setTimeout(function () {$('#myModal').modal('show');}, 500);
+        }
+
+    }else{
+        waitingDialog.hide();
+        setTimeout(function () {$('#myModal').modal('show');}, 500);
+    }
+}
+
+function Book($id){
+    alert($id);
+}
+
+function Cancel($id){
+    alert($id);
+}
 </script>
