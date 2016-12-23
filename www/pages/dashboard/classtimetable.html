@@ -87,33 +87,11 @@
 </div>
 
 <script>
+
 	if(!sessionStorage.ClassTimeTable){
-
-		waitingDialog.show('Retreiving the data..');
-		var xhttp = new XMLHttpRequest();
-
-		xhttp.onreadystatechange = function() {
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-				$response = JSON.parse(xhttp.responseText);
-				if($response.status == "ok"){
-
-					sessionStorage.setItem("ClassTimeTable", $response.response);
-					ClassTimeTable();
-					waitingDialog.hide();
-					//alert($response.response);
-
-				}else if(xhttp.readyState == 4 && xhttp.status == 502){
-				
-				}
-			}
-		}
-
-		xhttp.open("GET", URLGetClassTable, true);
-		xhttp.send();
-
+	    sendGetRequest(URLGetClassTable, "ClassTimeTable", ClassTimeTable);
 	}else{
-		ClassTimeTable();
+	    ClassTimeTable();
 	}
 
 	function ClassTimeTable(){

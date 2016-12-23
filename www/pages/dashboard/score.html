@@ -134,57 +134,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <script>
-
-// if(!sessionStorage.Score){
-// 	var xhttp = new XMLHttpRequest();
-
-// 	xhttp.onreadystatechange = function() {
-// 		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-// 			$response = JSON.parse(xhttp.responseText);
-// 			if($response.status == "ok"){
-
-// 				sessionStorage.setItem("Score", $response.response);
-// 				getScore();
-// 				//alert($response.response);
-
-// 			}else if(xhttp.readyState == 4 && xhttp.status == 502){
-			
-// 			}
-// 		}
-// 	}
-
-// 	xhttp.open("GET", URLGetScore, true);
-// 	xhttp.send();
-
-// }else{
-// 	getScore();
-// }
-
 if(!sessionStorage.BasicInfo){
-	var xhttp = new XMLHttpRequest();
-
-	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-			$response = JSON.parse(xhttp.responseText);
-			if($response.status == "ok"){
-
-				sessionStorage.setItem("BasicInfo", $response.response);
-				getScore();
-				//alert($response.response);
-
-			}else if(xhttp.readyState == 4 && xhttp.status == 502){
-			
-			}
-		}
-	}
-
-	xhttp.open("GET", URLGetBasicInfo, true);
-	xhttp.send();
-
+    sendGetRequest(URLGetBasicInfo, "BasicInfo", getScore);
 }else{
-	getScore();
+    getScore();
 }
 
 // function convertDate(inputFormat) {
@@ -202,31 +155,13 @@ function test($semester){
 
 	if(!sessionStorage["semester" + ($semester+1)]){
 
-		waitingDialog.show('Retreiving the data..');
-		var xhttp = new XMLHttpRequest();
-
-		xhttp.onreadystatechange = function() {
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-				$response = JSON.parse(xhttp.responseText);
-				if($response.status == "ok"){
-
-					sessionStorage.setItem("semester" + ($semester+1) , $response.response);
-					test($semester);
-					waitingDialog.hide();
-
-				}else if(xhttp.readyState == 4 && xhttp.status == 502){
-				
-				}
-			}
-		}
-
 		$BasicInfo = JSON.parse(sessionStorage.BasicInfo);
 		$urlLink = $BasicInfo.data.urlLink[$semester];
 
-		// alert($urlLink);
-		xhttp.open("GET", URLGetScore + "?link=" + btoa($urlLink), true);
-		xhttp.send();
+		$storage = "semester" + ($semester+1);
+		var func = function(){test($semester)};
+
+		sendGetRequest(URLGetScore  + "?link=" + btoa($urlLink), $storage , func);
 
 	}else{
 		$score 	= JSON.parse(sessionStorage["semester" + ($semester+1)]);

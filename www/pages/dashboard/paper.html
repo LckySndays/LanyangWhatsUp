@@ -495,6 +495,35 @@ var myAwesomeDropzone = new Dropzone("#my-awesome-dropzone");
 </script>
 
 <script>
+	// var reload = function(){$('#view').scope().reloadRoute();};
+	// if(!sessionStorage.PapercutData){
+	// 	sendGetRequest(URLGetPapercut + "?userID=" + JWT.ID, "PapercutData", reload());
+	// }else{
+	// 	reload();
+	// }
+
+	// waitingDialog.show('Retreiving the data..');
+	// var xhttp = new XMLHttpRequest();
+
+	// xhttp.onreadystatechange = function() {
+	// 	if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+	// 		$response = JSON.parse(xhttp.responseText);
+	// 		if($response.status == "ok"){
+
+	// 			sessionStorage.setItem("PapercutData", $response.response);
+	// 			$('#view').scope().reloadRoute();
+	// 			waitingDialog.hide();
+
+	// 		}else if(xhttp.readyState == 4 && xhttp.status == 502){
+			
+	// 		}
+	// 	}
+	// }
+
+	// xhttp.open("GET", URLGetPapercut + "?userID=" + JWT.ID, true);
+	// xhttp.send();
+
 
 	waitingDialog.show('Retreiving the data..');
 	var xhttp = new XMLHttpRequest();
@@ -502,19 +531,47 @@ var myAwesomeDropzone = new Dropzone("#my-awesome-dropzone");
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
 
-			$response = JSON.parse(xhttp.responseText);
-			if($response.status == "ok"){
+			try{
+				$response = JSON.parse(xhttp.responseText);
 
-				sessionStorage.setItem("PapercutData", $response.response);
-				$('#view').scope().reloadRoute();
-				waitingDialog.hide();
+				if($response.status == "ok"){
 
-			}else if(xhttp.readyState == 4 && xhttp.status == 502){
-			
+					sessionStorage.setItem("PapercutData", $response.response);
+					$('#view').scope().reloadRoute();
+					waitingDialog.hide();
+
+					//$responseHeader = xhttp.getAllResponseHeaders();
+				    $responseHeader = xhttp.getResponseHeader("Authorization");
+				    if($responseHeader != null){
+				    	sessionStorage.setItem("JWT", $responseHeader);
+				    }else{
+				    	console.log("No JWT");
+				    }
+
+				}else if($response.status == "error"){
+					alertify.error($response.response);
+				}else{
+					alertify.error("Error " + xhttp.status + ", Please Try Again");
+				}
+
+			}catch(e){
+				alertify.error("Parsing Error, Please Try Again");
 			}
+
+			waitingDialog.hide();
+
+		}else if(xhttp.readyState == 4){
+
+			waitingDialog.hide();
+			alertify.error("Error " + xhttp.status + ", Please Try Again");
+
 		}
+
 	}
 
 	xhttp.open("GET", URLGetPapercut + "?userID=" + JWT.ID, true);
+	xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
 	xhttp.send();
+
+
 </script>

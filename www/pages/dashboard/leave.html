@@ -195,108 +195,30 @@
 
 <script>
 
+if(!sessionStorage.RollCall){
+    sendGetRequest(URLGetRollCall1, "RollCall", getRollCall);
+}else{
+    getRollCall();
+}
+
 function tab2(){
+
 	if(!sessionStorage.Leave){
-
-		waitingDialog.show('Retreiving the data..');
-		var xhttp = new XMLHttpRequest();
-
-		xhttp.onreadystatechange = function() {
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-				try{
-					$response = JSON.parse(xhttp.responseText);
-
-					if($response.status == "ok"){
-
-						sessionStorage.setItem("Leave", $response.response);
-						getLeave();
-						waitingDialog.hide();
-						//alert($response.response);
-
-					}else{
-						waitingDialog.hide();
-						alertify.error("Error " + xhttp.status + ", Please Try Again");
-					}
-
-				}catch(e){
-					waitingDialog.hide();
-					alertify.error("Parsing Error, Please Try Again");
-				}
-
-			}else{
-
-				//waitingDialog.hide();
-				//alertify.error("Error " + xhttp.status + ", Please Try Again");
-
-			}
-
-		}
-
-		xhttp.open("GET", URLGetLeave, true);
-		xhttp.send();
-
+	    sendGetRequest(URLGetLeave, "Leave", getLeave);
 	}else{
-		getLeave();
+	    getLeave();
 	}
+
 } 
 
 function tab3(){
+
 	if(!sessionStorage.Leave2){
-
-		waitingDialog.show('Retreiving the data..');
-		var xhttp2 = new XMLHttpRequest();
-
-		xhttp2.onreadystatechange = function() {
-			if (xhttp2.readyState == 4 && xhttp2.status == 200) {
-
-				$response = JSON.parse(xhttp2.responseText);
-				if($response.status == "ok"){
-
-					sessionStorage.setItem("Leave2", $response.response);
-					getLeave2();
-					waitingDialog.hide();
-
-				}else if(xhttp2.readyState == 4 && xhttp2.status == 502){
-				
-				}
-			}
-		}
-
-		xhttp2.open("GET", URLGetLeave2, true);
-		xhttp2.send();
-
+	    sendGetRequest(URLGetLeave2, "Leave2", getLeave2);
 	}else{
-		getLeave2();
-	}
-}
-
-if(!sessionStorage.RollCall){
-	
-	waitingDialog.show('Retreiving the data..');
-	var xhttp3 = new XMLHttpRequest();
-
-	xhttp3.onreadystatechange = function() {
-		if (xhttp3.readyState == 4 && xhttp3.status == 200) {
-
-			$response = JSON.parse(xhttp3.responseText);
-			if($response.status == "ok"){
-
-				sessionStorage.setItem("RollCall", $response.response);
-				getRollCall();
-				waitingDialog.hide();
-
-			}else if(xhttp3.readyState == 4 && xhttp3.status == 502){
-			
-			}
-		}
+	    getLeave2();
 	}
 
-	xhttp3.open("GET", URLGetRollCall1, true);
-	xhttp3.send();
-
-}else{
-	getRollCall();
 }
 
 function convertDate(inputFormat) {
@@ -354,27 +276,76 @@ function preview($id){
 
     if($rollcall[$id].course_detail.length == 0){
 
-    	waitingDialog.show('Retreiving the data..');
-    	var xhttp2 = new XMLHttpRequest();
+    	// waitingDialog.show('Retreiving the data..');
+    	// var xhttp2 = new XMLHttpRequest();
 
-        xhttp2.onreadystatechange = function() {
-            if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+     //    xhttp2.onreadystatechange = function() {
+     //        if (xhttp2.readyState == 4 && xhttp2.status == 200) {
 
-                $response = JSON.parse(xhttp2.responseText);
-                if($response.status == "ok"){
+     //            $response = JSON.parse(xhttp2.responseText);
+     //            if($response.status == "ok"){
 
-                    $rollcall[$id].course_detail =JSON.parse($response.response);
-                    sessionStorage.setItem("RollCall", JSON.stringify($rollcall));
-                    preview($id);
+     //                $rollcall[$id].course_detail =JSON.parse($response.response);
+     //                sessionStorage.setItem("RollCall", JSON.stringify($rollcall));
+     //                preview($id);
 
-                }else if(xhttp2.readyState == 4 && xhttp2.status == 502){
+     //            }else if(xhttp2.readyState == 4 && xhttp2.status == 502){
                     
-                }
-            }
-        }
+     //            }
+     //        }
+     //    }
 
-        xhttp2.open("GET", URLGetRollCall2 + "?link=" + btoa($rollcall[$id].urlLink), true);
-        xhttp2.send();
+     //    xhttp2.open("GET", URLGetRollCall2 + "?link=" + btoa($rollcall[$id].urlLink), true);
+     //    xhttp2.send();
+
+
+        waitingDialog.show('Retreiving the data..');
+		var xhttp = new XMLHttpRequest();
+
+		xhttp.onreadystatechange = function() {
+			if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+				try{
+					$response = JSON.parse(xhttp.responseText);
+
+					if($response.status == "ok"){
+
+						$rollcall[$id].course_detail =JSON.parse($response.response);
+	                    sessionStorage.setItem("RollCall", JSON.stringify($rollcall));
+	                    preview($id);
+
+						//$responseHeader = xhttp.getAllResponseHeaders();
+					    $responseHeader = xhttp.getResponseHeader("Authorization");
+					    if($responseHeader != null){
+					    	sessionStorage.setItem("JWT", $responseHeader);
+					    }else{
+					    	console.log("No JWT");
+					    }
+
+					}else if($response.status == "error"){
+						alertify.error($response.response);
+					}else{
+						alertify.error("Error " + xhttp.status + ", Please Try Again");
+					}
+
+				}catch(e){
+					alertify.error("Parsing Error, Please Try Again");
+				}
+
+				waitingDialog.hide();
+
+			}else if(xhttp.readyState == 4){
+
+				waitingDialog.hide();
+				alertify.error("Error " + xhttp.status + ", Please Try Again");
+
+			}
+
+		}
+
+		xhttp.open("GET", URLGetRollCall2 + "?link=" + btoa($rollcall[$id].urlLink), true);
+		xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
+		xhttp.send();
 
     }else{
 

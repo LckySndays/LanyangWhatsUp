@@ -1,7 +1,7 @@
-serverHOST			= "https://whatsuptku.herokuapp.com/";
+// serverHOST			= "https://whatsuptku.herokuapp.com/";
 // serverHOST			= "https://whatsupdev.herokuapp.com/";
 // serverHOST			= "http://192.168.168.1/seniorproject/_Server/";
-//serverHOST			= "http://localhost/seniorproject/_Server/";
+serverHOST			= "http://localhost/seniorproject/_Server/";
 URLlogin 			= serverHOST + "login.php";
 URLloginNFC			= serverHOST + "loginNFC.php";
 URLVerifyAccount	= serverHOST + "verify.php";
@@ -703,6 +703,64 @@ function initAngular($app){
 			angular.bootstrap(document.body, [$app]);
 		}
 	});
+}
+
+function sendGetRequest($link, $storage, callback){
+
+	waitingDialog.show('Retreiving the data..');
+	var xhttp = new XMLHttpRequest();
+
+	xhttp.onreadystatechange = function() {
+		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+			try{
+				$response = JSON.parse(xhttp.responseText);
+
+				if($response.status == "ok"){
+
+					sessionStorage.setItem($storage, $response.response);
+
+					if (typeof callback === "function") {
+
+						//$responseHeader = xhttp.getAllResponseHeaders();
+					    $responseHeader = xhttp.getResponseHeader("Authorization");
+					    if($responseHeader != null){
+					    	sessionStorage.setItem("JWT", $responseHeader);
+					    }else{
+					    	console.log("No JWT");
+					    }
+
+				    	callback();
+
+				    }else{
+				    	alertify.error("Function error");
+				    }
+
+				}else if($response.status == "error"){
+					alertify.error($response.response);
+				}else{
+					alertify.error("Error " + xhttp.status + ", Please Try Again");
+				}
+
+			}catch(e){
+				alertify.error("Parsing Error, Please Try Again");
+			}
+
+			waitingDialog.hide();
+
+		}else if(xhttp.readyState == 4){
+
+			waitingDialog.hide();
+			alertify.error("Error " + xhttp.status + ", Please Try Again");
+
+		}
+
+	}
+
+	xhttp.open("GET", $link, true);
+	xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
+	xhttp.send();
+
 }
 
 /**

@@ -82,60 +82,13 @@
 <script>
 
 if(!sessionStorage.Agenda){
-
-	//waitingDialog.show('Retreiving the data..');
-	var xhttp = new XMLHttpRequest();
-
-	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-			$response = JSON.parse(xhttp.responseText);
-			if($response.status == "ok"){
-
-				sessionStorage.setItem("Agenda", $response.response);
-				getAgenda();
-				// waitingDialog.hide();
-    //         	setTimeout(function () {$('#myModal').modal('show');}, 500);
-
-				//alert($response.response);
-
-			}else if(xhttp.readyState == 4 && xhttp.status == 502){
-			
-			}
-		}
-	}
-
-	xhttp.open("GET", URLGetAgenda, true);
-	xhttp.send();
-
+	sendGetRequest(URLGetAgenda, "Agenda", getAgenda);
 }else{
 	getAgenda();
 }
 
 if(!sessionStorage.Forecast){
-
-	waitingDialog.show('Retreiving the data..');
-	var xhttp2 = new XMLHttpRequest();
-
-	xhttp2.onreadystatechange = function() {
-		if (xhttp2.readyState == 4 && xhttp2.status == 200) {
-
-			$response = JSON.parse(xhttp2.responseText);
-			if($response.status == "ok"){
-
-				sessionStorage.setItem("Forecast", $response.response);
-				getForecast();
-				waitingDialog.hide();
-
-			}else if(xhttp2.readyState == 4 && xhttp2.status == 502){
-			
-			}
-		}
-	}
-
-	xhttp2.open("GET", URLGetForecast, true);
-	xhttp2.send();
-
+	sendGetRequest(URLGetForecast, "Forecast", getForecast);
 }else{
 	getForecast();
 }
@@ -162,12 +115,6 @@ function getAgenda(){
 
 		$table.appendChild(tr);
 
-		//alert(obj['title']);
-		// for (var key in obj){
-		// 	var value = obj[key];
-		// 	//document.write("<br> - " + key + ": " + value);
-		// 	alert(key + " " + value);
-		// }
 	}
 }
 
@@ -194,30 +141,6 @@ function getForecast(){
 	skycons.play();
 	
 }
-
-// function getAbsent(){
-	
-// 	var xhttp3 = new XMLHttpRequest();
-
-// 	xhttp3.onreadystatechange = function() {
-// 		if (xhttp3.readyState == 4 && xhttp3.status == 200) {
-
-// 			$response = xhttp3.responseText;
-// 			//if($response.status == "ok"){
-
-// 				sessionStorage.setItem("Absent", $response);
-// 				alert("YEY");
-// 				//alert($response.response);
-
-// 			//}else if(xhttp3.readyState == 4 && xhttp3.status == 502){
-			
-// 			//}
-// 		}
-// 	}
-
-// 	xhttp3.open("GET", "http://localhost/seniorproject/_Server/TAKEOFF-updating.PHP", true);
-// 	xhttp3.send();
-// }
 
 
 </script>

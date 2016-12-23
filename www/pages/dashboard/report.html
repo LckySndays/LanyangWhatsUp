@@ -28,4 +28,41 @@ function send(){
 	alert(html);
 }
 
+function testing(){
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+        	alert(xhttp.responseText);
+
+            // $response = JSON.parse(xhttp.responseText);
+            // if($response.status == "ok"){
+
+
+            // }else if(xhttp.readyState == 4 && xhttp.status == 502){
+                
+            // }
+        }
+    }
+
+    xhttp.open("GET", "https://whatsuptku.herokuapp.com/test.php", false);
+    xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
+    xhttp.send();
+
+    //$responseHeader = xhttp.getAllResponseHeaders();
+    $responseHeader = xhttp.getResponseHeader("Authorization");
+    //console.log(xhttp.getAllResponseHeaders());
+    if($responseHeader){
+    	alert($responseHeader);
+    }else{
+    	alert("No JWT");
+    }
+    // if($responseHeader['Authorization']){
+    // 	alert("SET");
+    // }
+
+}
+
 </script>

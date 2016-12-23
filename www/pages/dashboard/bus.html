@@ -217,30 +217,7 @@
 <script>
 
 if(!sessionStorage.Bus){
-
-    waitingDialog.show('Retreiving the data..');
-    var xhttp = new XMLHttpRequest();
-
-    xhttp.onreadystatechange = function() {
-        if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-            $response = JSON.parse(xhttp.responseText);
-            if($response.status == "ok"){
-
-                sessionStorage.setItem("Bus", $response.response);
-                getBus();
-                waitingDialog.hide();
-                //alert($response.response);
-
-            }else if(xhttp.readyState == 4 && xhttp.status == 502){
-                
-            }
-        }
-    }
-
-    xhttp.open("GET", URLGetBus1, true);
-    xhttp.send();
-
+    sendGetRequest(URLGetBus1, "Bus", getBus);
 }else{
     getBus();
 }
@@ -305,27 +282,53 @@ function preview($id){
         if($bus[$id].detail.length == 0){
 
             waitingDialog.show('Retreiving the data..');
+            var xhttp = new XMLHttpRequest();
 
-            var xhttp2 = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (xhttp.readyState == 4 && xhttp.status == 200) {
 
-            xhttp2.onreadystatechange = function() {
-                if (xhttp2.readyState == 4 && xhttp2.status == 200) {
+                    try{
+                        $response = JSON.parse(xhttp.responseText);
 
-                    $response = JSON.parse(xhttp2.responseText);
-                    if($response.status == "ok"){
-    
-                        $bus[$id].detail =JSON.parse($response.response);
-                        sessionStorage.setItem("Bus", JSON.stringify($bus));
-                        preview($id);
+                        if($response.status == "ok"){
 
-                    }else if(xhttp2.readyState == 4 && xhttp2.status == 502){
-                        
+                            $bus[$id].detail =JSON.parse($response.response);
+                            sessionStorage.setItem("Bus", JSON.stringify($bus));
+                            preview($id);
+
+                            //$responseHeader = xhttp.getAllResponseHeaders();
+                            $responseHeader = xhttp.getResponseHeader("Authorization");
+                            if($responseHeader != null){
+                                sessionStorage.setItem("JWT", $responseHeader);
+                            }else{
+                                console.log("No JWT");
+                            }
+
+                        }else if($response.status == "error"){
+                            alertify.error($response.response);
+                        }else{
+                            alertify.error("Error " + xhttp.status + ", Please Try Again");
+                        }
+
+                    }catch(e){
+                        console.log(e);
+                        alertify.error("Parsing Error, Please Try Again");
                     }
+
+                    waitingDialog.hide();
+
+                }else if(xhttp.readyState == 4){
+
+                    waitingDialog.hide();
+                    alertify.error("Error " + xhttp.status + ", Please Try Again");
+
                 }
+
             }
 
-            xhttp2.open("GET", URLGetBus2 + "?link=" + btoa($bus[$id].urlLink), true);
-            xhttp2.send();
+            xhttp.open("GET", URLGetBus2 + "?link=" + btoa($bus[$id].urlLink), true);
+            xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
+            xhttp.send();
 
         }else{
             $isReserved = "";

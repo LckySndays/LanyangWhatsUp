@@ -52,33 +52,11 @@ Sort by name
 </div> -->
 
 <script>
+
 	if(!sessionStorage.Contacts){
-
-		waitingDialog.show('Retreiving the data..');
-		var xhttp = new XMLHttpRequest();
-
-		xhttp.onreadystatechange = function() {
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-				$response = JSON.parse(xhttp.responseText);
-				if($response.status == "ok"){
-
-					sessionStorage.setItem("Contacts", $response.response);
-					getContacts();
-					waitingDialog.hide();
-					//alert($response.response);
-
-				}else if(xhttp.readyState == 4 && xhttp.status == 502){
-				
-				}
-			}
-		}
-
-		xhttp.open("GET", URLGetContact, true);
-		xhttp.send();
-
+	    sendGetRequest(URLGetContact, "Contacts", getContacts);
 	}else{
-		getContacts();
+	    getContacts();
 	}
 
 	function searchByID($id){
