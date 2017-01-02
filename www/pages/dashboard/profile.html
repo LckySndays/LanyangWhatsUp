@@ -113,29 +113,15 @@
 </div>
 
 <script>
-	if(!sessionStorage.StuBasic){
-		var xhttp = new XMLHttpRequest();
+	if(!sessionStorage.BasicInfo){
 
-		xhttp.onreadystatechange = function() {
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
+		var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO;
+	    sendHttpRequest(URLGetBasicInfo, function($response){
 
-				$response = JSON.parse(xhttp.responseText);
-				if($response.status == "ok"){
+	        sessionStorage.setItem("BasicInfo", $response.response);
+	        $('#view').scope().reloadRoute();
 
-					sessionStorage.setItem("StuBasic", $response.response);
-					$('#view').scope().reloadRoute();
-					//alert($response.response);
+	    }, parameter);
 
-				}else if(xhttp.readyState == 4 && xhttp.status == 502){
-				
-				}
-			}
-		}
-
-		xhttp.open("GET", URLGetBasicInfo, true);
-		xhttp.send();
-
-	}else{
-		// getBasicInfo();
 	}
 </script>

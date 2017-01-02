@@ -62,7 +62,7 @@
 														<div id="dropzoner2"></div>	
 														<div class="dz-message">
 															<h3>Drop files here or click to upload.</h3>
-															<em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</em>
+															<em>(maximum file size : 5MB)</em>
 														</div>
 														
 												</div><!--end .card-body -->
@@ -241,75 +241,9 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="table-responsive">
-											<table class="table no-margin">
-												<thead>
-													<tr>
-														<th>#</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>1</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>4</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>5</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>6</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-												</tbody>
-											</table>
+											
+											<h1><center>Upcoming!!</center></h1>
+												
 										</div><!--end .table-responsive -->
 									</div><!--end .card-body -->
 								</div><!--end .card -->
@@ -342,75 +276,9 @@
 								<div class="card">
 									<div class="card-body">
 										<div class="table-responsive">
-											<table class="table no-margin">
-												<thead>
-													<tr>
-														<th>#</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-														<th>Table heading</th>
-													</tr>
-												</thead>
-												<tbody>
-													<tr>
-														<td>1</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>2</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>3</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>4</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>5</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-													<tr>
-														<td>6</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-														<td>Table cell</td>
-													</tr>
-												</tbody>
-											</table>
+
+											<h1><center>Upcoming!!</center></h1>
+											
 										</div><!--end .table-responsive -->
 									</div><!--end .card-body -->
 								</div><!--end .card -->
@@ -431,7 +299,7 @@
 				</div><!--end #rootwizard -->
 			</div><!--end .card-body -->
 		</div><!--end .card -->
-		<em class="text-caption">Form wizard with validation</em>
+		<!-- <em class="text-caption">Form wizard with validation</em> -->
 	</div><!--end .col -->
 </div><!--end .row -->
 <!-- END VALIDATION FORM WIZARD -->
@@ -451,11 +319,14 @@ Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the
 
   // The configuration we've talked about above
   url: URLWebPrinting,
+  params: { userID: JWT.ID, userPass: JWT.Papercut},
+  headers: {'Authorization': "Bearer " + sessionStorage.JWT},
   autoProcessQueue: false,
   uploadMultiple: true,
   addRemoveLinks: true,
-  parallelUploads: 100,
-  maxFiles: 100,
+  parallelUploads: 10,
+  maxFilesize: 5,
+  maxFiles: 10,
   previewsContainer: "#dropzoner2",
 
   // The setting up of the dropzone
@@ -495,83 +366,12 @@ var myAwesomeDropzone = new Dropzone("#my-awesome-dropzone");
 </script>
 
 <script>
-	// var reload = function(){$('#view').scope().reloadRoute();};
-	// if(!sessionStorage.PapercutData){
-	// 	sendGetRequest(URLGetPapercut + "?userID=" + JWT.ID, "PapercutData", reload());
-	// }else{
-	// 	reload();
-	// }
 
-	// waitingDialog.show('Retreiving the data..');
-	// var xhttp = new XMLHttpRequest();
+    sendHttpRequest(URLGetPapercut + "?userID=" + JWT.ID, function($response){
 
-	// xhttp.onreadystatechange = function() {
-	// 	if (xhttp.readyState == 4 && xhttp.status == 200) {
+        sessionStorage.setItem("PapercutData", $response.response);
+		$('#view').scope().reloadRoute();
 
-	// 		$response = JSON.parse(xhttp.responseText);
-	// 		if($response.status == "ok"){
-
-	// 			sessionStorage.setItem("PapercutData", $response.response);
-	// 			$('#view').scope().reloadRoute();
-	// 			waitingDialog.hide();
-
-	// 		}else if(xhttp.readyState == 4 && xhttp.status == 502){
-			
-	// 		}
-	// 	}
-	// }
-
-	// xhttp.open("GET", URLGetPapercut + "?userID=" + JWT.ID, true);
-	// xhttp.send();
-
-
-	waitingDialog.show('Retreiving the data..');
-	var xhttp = new XMLHttpRequest();
-
-	xhttp.onreadystatechange = function() {
-		if (xhttp.readyState == 4 && xhttp.status == 200) {
-
-			try{
-				$response = JSON.parse(xhttp.responseText);
-
-				if($response.status == "ok"){
-
-					sessionStorage.setItem("PapercutData", $response.response);
-					$('#view').scope().reloadRoute();
-					waitingDialog.hide();
-
-					//$responseHeader = xhttp.getAllResponseHeaders();
-				    $responseHeader = xhttp.getResponseHeader("Authorization");
-				    if($responseHeader != null){
-				    	sessionStorage.setItem("JWT", $responseHeader);
-				    }else{
-				    	console.log("No JWT");
-				    }
-
-				}else if($response.status == "error"){
-					alertify.error($response.response);
-				}else{
-					alertify.error("Error " + xhttp.status + ", Please Try Again");
-				}
-
-			}catch(e){
-				alertify.error("Parsing Error, Please Try Again");
-			}
-
-			waitingDialog.hide();
-
-		}else if(xhttp.readyState == 4){
-
-			waitingDialog.hide();
-			alertify.error("Error " + xhttp.status + ", Please Try Again");
-
-		}
-
-	}
-
-	xhttp.open("GET", URLGetPapercut + "?userID=" + JWT.ID, true);
-	xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
-	xhttp.send();
-
+    });
 
 </script>

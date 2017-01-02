@@ -34,6 +34,11 @@
 							<td>Papercut</td>
 							<td>{{Papercut}}</td>
 						</tr>
+						<tr>
+							<td>5</td>
+							<td>Bus</td>
+							<td>{{Bus}}</td>
+						</tr>
 					</tbody>
 				</table>
 			</div><!--end .table-responsive -->
@@ -44,7 +49,7 @@
 <div class="col-md-10 col-md-offset-1">
 	<form class="form form-validate floating-label" novalidate="novalidate">
 		<div class="card-head text-center">
-			<header>Lanyang WhatsUp Feature Registration</header>
+			<header>Lanyang WhatsUp Feature Activation</header>
 		</div>
 		<div class="card">
 			<div class="card-body">
@@ -54,6 +59,7 @@
 						<option value="email">Email</option>
 						<option value="moodle">Moodle</option>
 						<option value="papercut">Papercut</option>
+						<option value="bus">Bus</option>
 					</select>
 					<label for="Action">Feature</label>
 				</div>
@@ -73,7 +79,7 @@
 				</div>
 			</div><!--end .card-actionbar -->
 		</div><!--end .card -->
-		<em class="text-caption">Basic validation</em>
+		<!-- <em class="text-caption">Basic validation</em> -->
 	</form>
 </div>
 
@@ -103,64 +109,39 @@
 				</div>
 			</div><!--end .card-actionbar -->
 		</div><!--end .card -->
-		<em class="text-caption">Basic validation</em>
+		<!-- <em class="text-caption">Basic validation</em> -->
 	</form>
 </div>
 
 <script>
 	function Activate(){
 
-		var jwt 		= sessionStorage.JWT;
+		var userid 		= JWT.ID;
 		var action 		= document.getElementById("Action").value;
 		var data 		= document.getElementById("Data").value;
 		var password 	= document.getElementById("Password").value;
-		var parameter = "JWT=" + jwt + "&Action=" + action + "&Data=" + data + "&Password=" + password;
+		var parameter = "userID=" + userid + "&Action=" + action + "&Data=" + data + "&Password=" + password;
 
-		if(jwt != "" && action != "" && data !="" && password !=""){
+		if(userid != "" && action != "" && data !="" && password !=""){
 			
-			alertify.confirm("Login Confirmation","By using this service, you are agreeing our <a href='privacy-tos' target='_blank'>Term of Service</a> and <a href='privacy-tos' target='_blank'>Privacy Policy</a>. If you don't agree with the Agreements, then you may not use this Service. Please read them carefully.",
+			alertify.confirm("Feature Activation", "By activating the feature, you are agree to store your encrypted credential to our Database",
 				function(){
-					//alertify.success('Ok');
-					document.getElementById("loginbt").disabled = true;
 
-					var xhttp = new XMLHttpRequest();
-					var session = true;
-					xhttp.onreadystatechange = function() {
-						if (xhttp.readyState == 4 && xhttp.status == 200) {
+				    sendHttpRequest(URLActivateFeature, function($response){
+				        
+				        document.getElementById("loginbt").disabled = false;
+						alertify.set('notifier','position', 'bottom-right');
+						alertify.success("Feature has been Activated");
+						sessionStorage.setItem("Credential", $response.response);
+						JWT = jwt_decode(sessionStorage.Credential);
+						// setTimeout(function(){ 
+						// 	location.reload();
+						// }, 3000);
+						$('#view').scope().reloadRoute();
 
-							$response = JSON.parse(xhttp.responseText);
-							if($response.status == "ok"){
+				    }, parameter);
 
-								document.getElementById("loginbt").disabled = false;
-								alertify.set('notifier','position', 'bottom-right');
-								alertify.success("Feature has been Activated");
-								sessionStorage.setItem("JWT", $response.response);
-								JWT = jwt_decode(sessionStorage.JWT);
-								// setTimeout(function(){ 
-								// 	location.reload();
-								// }, 3000);
-								$('#view').scope().reloadRoute();
-
-							}else{
-
-								document.getElementById("loginbt").disabled = false;
-								alertify.set('notifier','position', 'bottom-right');
-								alertify.error($response.response);
-
-							}
-
-						}else if(xhttp.readyState == 4 && xhttp.status == 502){
-
-							document.getElementById("loginbt").disabled = false;
-							alertify.set('notifier','position', 'bottom-right');
-							alertify.error("Connection Error");
-
-						}
-					};
-					
-					xhttp.open("POST", URLActivateFeature, true);
-					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					xhttp.send(parameter);
+					waitingDialog.message('Processing the request.. (Please Wait)');
 
 				},
 				function(){
@@ -177,45 +158,23 @@
 
 	function registerNFC(tags){
 
-		var jwt 		= sessionStorage.JWT;
+		// var jwt 		= sessionStorage.JWT;
+		var userid 		= JWT.ID;
 		var action 		= device.uuid;
 		var data 		= tags;
 
-		if(jwt != "" && action != "" && data !=""){
+		if(userid != "" && action != "" && data !=""){
 			alertify.prompt("Register NFC Devices","<center>Please input your App Password if you are sure you want to <font color='green'>REGISTER</font> this device<hr>"+ device.manufacturer + " ("+ device.model + ")" + " - [" + device.serial + "]<br><b>UUID</b>: " + device.uuid + "<br><b>Tags:</b> " + tags + "<hr></center>", "",
 				function(evt, password){
-					//alertify.success('Ok');
-					var parameter 	= "JWT=" + jwt + "&Action=" + action + "&Data=" + data + "&Password=" + password;
 
-					var xhttp = new XMLHttpRequest();
-					var session = true;
-					xhttp.onreadystatechange = function() {
-						if (xhttp.readyState == 4 && xhttp.status == 200) {
+					var parameter 	= "userID=" + userid + "&Action=" + action + "&Data=" + data + "&Password=" + password;
 
-							$response = JSON.parse(xhttp.responseText);
-							if($response.status == "ok"){
+				    sendHttpRequest(URLActivateFeature, function($response){
+				        alertify.set('notifier','position', 'bottom-right');
+						alertify.success("NFC feature activated");
+				    }, parameter);
 
-								alertify.set('notifier','position', 'bottom-right');
-								alertify.success($response.response);
-
-							}else{
-
-								alertify.set('notifier','position', 'bottom-right');
-								alertify.error($response.response);
-
-							}
-
-						}else if(xhttp.readyState == 4 && xhttp.status == 502){
-
-							alertify.set('notifier','position', 'bottom-right');
-							alertify.error("Connection Error");
-
-						}
-					};
-					
-					xhttp.open("POST", URLActivateFeature, true);
-					xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-					xhttp.send(parameter);
+					waitingDialog.message('Processing the request.. (Please Wait)');
 
 				},
 				function(){
@@ -230,44 +189,18 @@
 
 		alertify.prompt("Account Deactivation","<center>Please input your App Password if you are sure you want to <font color='red'>DELETE</font> this account</center>", "",
 			function(evt, password){
-				//alertify.success('Ok');
-				document.getElementById("exitbt").disabled = true;
 
-				var parameter = "JWT=" + jwt + "&Password=" + password;
+				var parameter = "userID=" + JWT.ID + "&userPass=" + password;
 
-				var xhttp = new XMLHttpRequest();
-				var session = true;
-				xhttp.onreadystatechange = function() {
-					if (xhttp.readyState == 4 && xhttp.status == 200) {
+			    sendHttpRequest(URLDeactiveAccount, function($response){
 
-						$response = JSON.parse(xhttp.responseText);
-						if($response.status == "ok"){
+					alertify.set('notifier','position', 'bottom-right');
+					alertify.success($response.response);
+					logout();
 
-							document.getElementById("exitbt").disabled = false;
-							alertify.set('notifier','position', 'bottom-right');
-							alertify.success($response.response);
-							logout();
+			    }, parameter);
 
-						}else{
-
-							document.getElementById("exitbt").disabled = false;
-							alertify.set('notifier','position', 'bottom-right');
-							alertify.error($response.response);
-
-						}
-
-					}else if(xhttp.readyState == 4 && xhttp.status == 502){
-
-						document.getElementById("exitbt").disabled = false;
-						alertify.set('notifier','position', 'bottom-right');
-						alertify.error("Connection Error");
-
-					}
-				};
-				
-				xhttp.open("POST", URLDeactiveAccount, true);
-				xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-				xhttp.send(parameter);
+				waitingDialog.message('Processing the request.. (Please Wait)');
 
 			},
 			function(){
@@ -278,7 +211,8 @@
 
 	function change_pass(){
 
-		var jwt 			= sessionStorage.JWT;
+		// var jwt 			= sessionStorage.JWT;
+		var userID 			= JWT.ID;
 		var current_pass 	= document.getElementById("current_pass").value;
 		var new_pass 		= document.getElementById("new_pass").value;
 		var new_pass2		= document.getElementById("new_pass2").value;
@@ -288,38 +222,29 @@
 			alertify.error("Password not Match");
 		}
 
-		var parameter = "JWT=" + jwt + "&OldPassword=" + current_pass + "&NewPassword=" + new_pass;
+		if(userID != "" && current_pass != "" && new_pass !=""){
 
-		var xhttp = new XMLHttpRequest();
-		var session = true;
-		xhttp.onreadystatechange = function() {
-			if (xhttp.readyState == 4 && xhttp.status == 200) {
+			alertify.confirm("Change Password","This feature will reset your account password, please note that this feature is experimental and there is a chance that it will break your account",
+					function(){
 
-				$response = JSON.parse(xhttp.responseText);
-				if($response.status == "ok"){
+						var parameter = "userID=" + userID + "&OldPassword=" + current_pass + "&NewPassword=" + new_pass;
 
-					alertify.set('notifier','position', 'bottom-right');
-					alertify.success($response.response);
+					    sendHttpRequest(URLChangePassword, function($response){
 
-				}else{
+				        	alertify.set('notifier','position', 'bottom-right');
+							alertify.success($response.response);
+							$('#view').scope().reloadRoute();
 
-					alertify.set('notifier','position', 'bottom-right');
-					alertify.error($response.response);
+					    }, parameter);
 
-				}
+						waitingDialog.message('Processing the request.. (Please Wait)');
 
-			}else if(xhttp.readyState == 4 && xhttp.status == 502){
 
-				document.getElementById("exitbt").disabled = false;
-				alertify.set('notifier','position', 'bottom-right');
-				alertify.error("Connection Error");
-
-			}
-		};
-		
-		xhttp.open("POST", URLChangePassword, true);
-		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.send(parameter);
+					},
+					function(){
+						//alertify.error('Cancel');
+					});
+		}
 
 	}
 

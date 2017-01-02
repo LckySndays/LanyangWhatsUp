@@ -197,7 +197,7 @@ function createWindow () {
     }
    
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1024, height: 768, frame: false})
+  mainWindow = new BrowserWindow({width: 1280, height: 768, frame: false})
 
   // and load the index.html of the app.Lanyang-Chat
   //mainWindow.loadURL(`file://${__dirname}/index.html`)

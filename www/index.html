@@ -8,7 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="Lanyang,WhatsUp">
         
-        <meta http-equiv="Content-Security-Policy" content="default-src * data: 'unsafe-inline' 'unsafe-eval' gap://ready"/>
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src * data: 'unsafe-inline' 'unsafe-eval' gap://ready"/> -->
+        <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; connect-src *">
 		
 		<link rel="icon" type="img/ico" href="img/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
@@ -91,6 +92,7 @@
 						<li><a href="#/android">Android</a></li>
 						<li><a href="#/ios">iOS</a></li>
 						<li><a href="#/winphone">Windows Phone</a></li>
+						<li><a href="#/blackberry">Blackberry</a></li>
 						<!--
 						<li><a href="" onclick="redir('chat')">Chat Lounge</a></li>
 						<li><a href="" onclick="redir('online')">Online Users</a></li>
@@ -131,7 +133,7 @@
         <div ng-view id="view"></div>
         
         <!-- For Windows 8.1 App -->
-        <script src="js/winstore-jscompat.js"></script>
+        <!-- <script src="js/winstore-jscompat.js"></script> -->
         
         <!-- Electron -->
         <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>

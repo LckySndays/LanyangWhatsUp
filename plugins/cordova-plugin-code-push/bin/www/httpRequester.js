@@ -1,9 +1,8 @@
 
  /******************************************************************************************** 
  	 THIS FILE HAS BEEN COMPILED FROM TYPESCRIPT SOURCES. 
- 	 PLEASE DO NOT MODIFY THIS FILE AS YOU WILL LOSE YOUR CHANGES WHEN RECOMPILING. 
- 	 ALSO, PLEASE DO NOT SUBMIT PULL REQUESTS WITH CHANGES TO THIS FILE. 
- 	 INSTEAD, EDIT THE TYPESCRIPT SOURCES UNDER THE WWW FOLDER. 
+ 	 PLEASE DO NOT MODIFY THIS FILE DIRECTLY AS YOU WILL LOSE YOUR CHANGES WHEN RECOMPILING. 
+ 	 INSTEAD, EDIT THE TYPESCRIPT SOURCES UNDER THE WWW FOLDER, AND THEN RUN GULP. 
  	 FOR MORE INFORMATION, PLEASE SEE CONTRIBUTING.md. 
  *********************************************************************************************/ 
 
@@ -34,6 +33,8 @@ var HttpRequester = (function () {
         if (this.contentType) {
             xhr.setRequestHeader("Content-Type", this.contentType);
         }
+        xhr.setRequestHeader("X-CodePush-Plugin-Name", "cordova-plugin-code-push");
+        xhr.setRequestHeader("X-CodePush-Plugin-Version", cordova.require("cordova/plugin_list").metadata["cordova-plugin-code-push"]);
         xhr.setRequestHeader("X-CodePush-SDK-Version", cordova.require("cordova/plugin_list").metadata["code-push"]);
         xhr.send(requestBody);
     };

@@ -79,7 +79,7 @@
 			</div> -->
 		</div><!--end .card-body -->
 	</div><!--end .card -->
-	<em class="text-caption">Justified tabs</em>
+	<!-- <em class="text-caption">Justified tabs</em> -->
 </div>
 
 <div id="test">
@@ -135,7 +135,15 @@
 
 <script>
 if(!sessionStorage.BasicInfo){
-    sendGetRequest(URLGetBasicInfo, "BasicInfo", getScore);
+
+	var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO;
+    sendHttpRequest(URLGetBasicInfo, function($response){
+
+        sessionStorage.setItem("BasicInfo", $response.response);
+        getScore();
+
+    }, parameter);
+
 }else{
     getScore();
 }
@@ -158,10 +166,13 @@ function test($semester){
 		$BasicInfo = JSON.parse(sessionStorage.BasicInfo);
 		$urlLink = $BasicInfo.data.urlLink[$semester];
 
-		$storage = "semester" + ($semester+1);
-		var func = function(){test($semester)};
+		var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO + "&link=" + btoa($urlLink);
+		sendHttpRequest(URLGetScore, function($response){
 
-		sendGetRequest(URLGetScore  + "?link=" + btoa($urlLink), $storage , func);
+	        sessionStorage.setItem("semester" + ($semester+1), $response.response);
+	        test($semester);
+
+	    }, parameter);
 
 	}else{
 		$score 	= JSON.parse(sessionStorage["semester" + ($semester+1)]);
@@ -238,13 +249,6 @@ function test($semester){
 									table.appendChild(tbody);
 						}
 
-						// var tbody = document.createElement('tbody');
-						// var tr2 = document.createElement('tr');
-						// var td13 = document.createElement('td');
-						// td13.innerHTML = "test";
-						// tr2.appendChild(td13);
-						// tbody.appendChild(tr2);
-						// table.appendChild(tbody);
 						var linebreak = document.createElement('br');
 						tbody.appendChild(linebreak);
 
@@ -399,7 +403,6 @@ function graph($id){
 	var ctx = document.getElementById("myChart");
 
 	var data = {
-	    // labels: ["國際規範與禮儀", "英文寫作", "程式設計", "英文閱讀", "資訊概論Ｉ", "Cycling", "多媒體概論", "微積分", "校園與社區服務學習（一）", "全民國防教育軍事訓練（一）", "男、女生體育（一）"],
 	    labels: $score.courseName,
 	    datasets: [
 	        {
@@ -411,14 +414,12 @@ function graph($id){
 	            pointHoverBackgroundColor: "#fff",
 	            pointHoverBorderColor: "rgba(179,181,198,1)",
 	            // pointLabelFontSize : 30,
-	            // data: [67, 66, 70, 73, 70, 65, 44, 75, 53, 69]
 	            data: $score.courseScore
 	        }
 	    ]
 	};
 
 	//$fontSize = 20;
-
 	//$responsive = window.cordova ? false:true;
 
 	var myRadarChart = new Chart(ctx, {
@@ -427,7 +428,9 @@ function graph($id){
 	    options: {
             scale: {
                 ticks: {
-                    //beginAtZero: true,
+                    beginAtZero: true,
+                    fixedStepSize: 20,
+                    //min: 0,
                     max: 100
                 },
 		        pointLabels : {

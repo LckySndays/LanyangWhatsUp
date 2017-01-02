@@ -1,7 +1,7 @@
 {
   "name": "LanyangWhatsUp",
   "productName": "Lanyang-Whats-Up",
-  "version": "0.6.0",
+  "version": "0.9.0",
   "description": "Lanyang Whats Up",
   "main": "main.js",
   "scripts": {

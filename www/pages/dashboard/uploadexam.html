@@ -10,7 +10,7 @@
 		<form method="post" class="dropzone dz-clickable" id="my-awesome-dropzone" enctype="multipart/form-data">
 			<div class="dz-message">
 				<h3>Drop files here or click to upload.</h3>
-				<em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</em>
+				<em>(maximum file size : 5MB)</em>
 			</div>
 		</form>
 	</div><!--end .card-body -->
@@ -24,6 +24,7 @@
 			url: URLUploadDrive,
 			addRemoveLinks : true,
 			maxFilesize: 5,
+			headers: {'Authorization': "Bearer " + sessionStorage.JWT},
 
 			// The setting up of the dropzone
 			init: function() {
@@ -33,22 +34,30 @@
 				this.on("sending", function(files, response) {
 					// Gets triggered when the files have successfully been sent.
 					// Redirect user or notify of success.
+					waitingDialog.show('Sending the file...');
 					alertify.success("Sending the file...");
 					this.removeAllFiles();
 				});
 				this.on("success", function(files, response) {
 					// Gets triggered when the files have successfully been sent.
 					// Redirect user or notify of success.
-					alertify.success("File was sent Successully");
-					this.removeAllFiles();
+					if(response.status == "ok"){
+						alertify.success(response.response);
+						this.removeAllFiles();
+					}else{
+						//console.log(response);
+						alertify.error(response.response);
+					}
+					waitingDialog.hide();
+					
 				});
 				this.on("error", function(files, response) {
 					// Gets triggered when there was an error sending the files.
 					// Maybe show form again, and notify user of error
+					waitingDialog.hide();
 					alertify.error("File not sent successfully");
 				});
 			}
-
 
 		});
 </script>

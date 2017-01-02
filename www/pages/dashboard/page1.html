@@ -55,7 +55,7 @@
 
 <div class="col-lg-10 col-lg-offset-1">
 	<div class="card-head text-center">
-		<header>Lanyang Upcoming Event</header>
+		<header>Lanyang Upcoming Events</header>
 	</div>
 	<div class="card">
 		<div class="card-body">
@@ -82,13 +82,23 @@
 <script>
 
 if(!sessionStorage.Agenda){
-	sendGetRequest(URLGetAgenda, "Agenda", getAgenda);
+
+	sendHttpRequest(URLGetAgenda, function($response){
+		sessionStorage.setItem("Agenda", $response.response);
+		getAgenda();
+	});
+
 }else{
 	getAgenda();
 }
 
 if(!sessionStorage.Forecast){
-	sendGetRequest(URLGetForecast, "Forecast", getForecast);
+
+	sendHttpRequest(URLGetForecast, function($response){
+		sessionStorage.setItem("Forecast", $response.response);
+		getForecast();
+	});
+
 }else{
 	getForecast();
 }

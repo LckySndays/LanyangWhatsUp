@@ -18,8 +18,8 @@
 						</a> -->
 						<a href="#/search" target="_self" class="tile-content ink-reaction" href="">
 							<div class="tile-text">
-								<p class="name">Testing</p>
-								<p class="id">123456</p>
+								<p class="name">Developer Team</p>
+								<p class="id">Lanyang WhatsUp</p>
 							</div>
 							<div class="tile-icon">
 								<img class="avatar" src="img/avatar1.jpg" alt="">
@@ -54,7 +54,15 @@ Sort by name
 <script>
 
 	if(!sessionStorage.Contacts){
-	    sendGetRequest(URLGetContact, "Contacts", getContacts);
+
+		var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO;
+	    sendHttpRequest(URLGetContact, function($response){
+
+	        sessionStorage.setItem("Contacts", $response.response);
+	        getContacts();
+
+	    }, parameter);
+
 	}else{
 	    getContacts();
 	}
@@ -94,8 +102,8 @@ Sort by name
 		};
 
 		var values = [ {
-			name: "Testing Account",
-			id: 789456123,
+			name: "Me",
+			id: JWT.ID,
 			avatar: "img/avatar1.jpg"
 		}];
 

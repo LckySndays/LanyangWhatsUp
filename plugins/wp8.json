@@ -1,0 +1,49 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-device": {
+            "PACKAGE_NAME": "{04d29240-ce3b-11e6-9f7e-43a551d54a7f}"
+        },
+        "phonegap-nfc": {
+            "PACKAGE_NAME": "{04d29240-ce3b-11e6-9f7e-43a551d54a7f}"
+        },
+        "cordova-custom-config": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "onesignal-cordova-plugin": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "cordova-plugin-code-push": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "code-push": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        }
+    },
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "cordova-plugin-zip": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "{ea6ec730-cec0-11e6-b296-29307f38de3b}"
+        }
+    }
+}

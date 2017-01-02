@@ -1,9 +1,8 @@
 
  /******************************************************************************************** 
  	 THIS FILE HAS BEEN COMPILED FROM TYPESCRIPT SOURCES. 
- 	 PLEASE DO NOT MODIFY THIS FILE AS YOU WILL LOSE YOUR CHANGES WHEN RECOMPILING. 
- 	 ALSO, PLEASE DO NOT SUBMIT PULL REQUESTS WITH CHANGES TO THIS FILE. 
- 	 INSTEAD, EDIT THE TYPESCRIPT SOURCES UNDER THE WWW FOLDER. 
+ 	 PLEASE DO NOT MODIFY THIS FILE DIRECTLY AS YOU WILL LOSE YOUR CHANGES WHEN RECOMPILING. 
+ 	 INSTEAD, EDIT THE TYPESCRIPT SOURCES UNDER THE WWW FOLDER, AND THEN RUN GULP. 
  	 FOR MORE INFORMATION, PLEASE SEE CONTRIBUTING.md. 
  *********************************************************************************************/ 
 
@@ -42,7 +41,10 @@ var Sdk = (function () {
             NativeAppInfo.getServerURL(function (serverError, serverURL) {
                 NativeAppInfo.getDeploymentKey(function (depolymentKeyError, deploymentKey) {
                     NativeAppInfo.getApplicationVersion(function (appVersionError, appVersion) {
-                        if (!serverURL || !appVersion) {
+                        if (!appVersion) {
+                            callback(new Error("Could not get the app version. Please check your config.xml file."), null);
+                        }
+                        else if (!serverURL) {
                             callback(new Error("Could not get the CodePush configuration. Please check your config.xml file."), null);
                         }
                         else {

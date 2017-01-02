@@ -2,9 +2,9 @@
 
 <div class="col-lg-10 col-lg-offset-1">
 	<div class="card-head text-center">
-		<header>Lanyang Feedback/Report Bug</header>
+		<header>Lanyang Feedback/Bug Report</header>
 	</div>
-	<div id="summernote">Hello Summernote</div>
+	<textarea id="summernote" name="summernote">Hello Summernote</textarea>
 	<button type="button" onclick="send()" class="btn btn-primary pull-right">Send</button>
 </div>
 
@@ -16,19 +16,44 @@ $(document).ready(function() {
 	$('#summernote').summernote({
 		airMode: false,
 		height: 250,
-		placeholder: 'write here...'
+		placeholder: 'write here...',
+        // callbacks : {
+        //     onImageUpload: function(image) {
+        //         //uploadImage(image[0]);
+        //         console.log(image);
+        //     }
+        // }
 	});
 });
 
 // var markupStr = 'hello world';
 // $('#summernote').summernote('code', markupStr);
 
+
+
 function send(){
-	var html = $('#summernote').summernote('code');
-	alert(html);
+
+    // var html = $('#summernote').summernote('code');
+    var html = $('textarea[name="summernote"]').html($('#summernote').summernote('code'))[0].defaultValue;
+    var parameter = "message=" + html;
+
+    sendHttpRequest(URLReportBug, function($response){
+
+        alertify.success($response.response);
+
+    }, parameter);
+
+    // console.log(html);
+
 }
 
 function testing(){
+
+    // sendHttpRequest(URLReportBug, function($response){
+
+    //     alert("sent");
+
+    // });
 
     var xhttp = new XMLHttpRequest();
 

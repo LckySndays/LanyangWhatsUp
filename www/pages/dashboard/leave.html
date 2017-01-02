@@ -7,7 +7,7 @@
 					
 				</div>
 
-				<li class="active"><a href="#tab1" target="_self" data-toggle="tab">Absent Record</a></li>
+				<li class="active"><a href="#tab1" target="_self" data-toggle="tab">Absence Record</a></li>
 				<li class=""><a href="#tab2" target="_self" onclick="tab2()" data-toggle="tab">Leave Form</a></li>
 				<li class=""><a href="#tab3" target="_self" onclick="tab3()" data-toggle="tab">Leave Record</a></li>
 
@@ -39,7 +39,7 @@
 			<div class="tab-pane active" id="tab1">
 				<div class="col-lg-10 col-lg-offset-1">
 					<div class="card-head text-center">
-						<header>Lanyang Absent Record</header>
+						<header>Lanyang Absence Record</header>
 					</div>
 					<div class="card">
 						<div class="card-body">
@@ -136,7 +136,7 @@
 			
 		</div><!--end .card-body -->
 	</div><!--end .card -->
-	<em class="text-caption">Justified tabs</em>
+	<!-- <em class="text-caption">Justified tabs</em> -->
 </div>
 
 <!-- Modal -->
@@ -196,7 +196,15 @@
 <script>
 
 if(!sessionStorage.RollCall){
-    sendGetRequest(URLGetRollCall1, "RollCall", getRollCall);
+
+	var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO;
+    sendHttpRequest(URLGetRollCall1, function($response){
+
+        sessionStorage.setItem("RollCall", $response.response);
+        getRollCall();
+
+    }, parameter);
+
 }else{
     getRollCall();
 }
@@ -204,7 +212,15 @@ if(!sessionStorage.RollCall){
 function tab2(){
 
 	if(!sessionStorage.Leave){
-	    sendGetRequest(URLGetLeave, "Leave", getLeave);
+
+		var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO;
+	    sendHttpRequest(URLGetLeave, function($response){
+
+	        sessionStorage.setItem("Leave", $response.response);
+	        getLeave();
+
+	    }, parameter);
+
 	}else{
 	    getLeave();
 	}
@@ -214,7 +230,15 @@ function tab2(){
 function tab3(){
 
 	if(!sessionStorage.Leave2){
-	    sendGetRequest(URLGetLeave2, "Leave2", getLeave2);
+		
+		var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO;
+	    sendHttpRequest(URLGetLeave2, function($response){
+
+	        sessionStorage.setItem("Leave2", $response.response);
+	        getLeave2();
+
+	    }, parameter);
+
 	}else{
 	    getLeave2();
 	}
@@ -276,29 +300,6 @@ function preview($id){
 
     if($rollcall[$id].course_detail.length == 0){
 
-    	// waitingDialog.show('Retreiving the data..');
-    	// var xhttp2 = new XMLHttpRequest();
-
-     //    xhttp2.onreadystatechange = function() {
-     //        if (xhttp2.readyState == 4 && xhttp2.status == 200) {
-
-     //            $response = JSON.parse(xhttp2.responseText);
-     //            if($response.status == "ok"){
-
-     //                $rollcall[$id].course_detail =JSON.parse($response.response);
-     //                sessionStorage.setItem("RollCall", JSON.stringify($rollcall));
-     //                preview($id);
-
-     //            }else if(xhttp2.readyState == 4 && xhttp2.status == 502){
-                    
-     //            }
-     //        }
-     //    }
-
-     //    xhttp2.open("GET", URLGetRollCall2 + "?link=" + btoa($rollcall[$id].urlLink), true);
-     //    xhttp2.send();
-
-
         waitingDialog.show('Retreiving the data..');
 		var xhttp = new XMLHttpRequest();
 
@@ -343,9 +344,12 @@ function preview($id){
 
 		}
 
-		xhttp.open("GET", URLGetRollCall2 + "?link=" + btoa($rollcall[$id].urlLink), true);
+		var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.SSO + "&link=" + btoa($rollcall[$id].urlLink);
+		
+		xhttp.open("POST", URLGetRollCall2, true);
 		xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
-		xhttp.send();
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send(parameter);
 
     }else{
 
@@ -421,6 +425,7 @@ function preview($id){
 function getLeave(){
 	$leave 	= JSON.parse(sessionStorage.Leave);
 	$table 	= document.getElementById('tbody');
+	$table.innerHTML = "";	
 
 	for (var i = 0; i < $leave.Data.length; i++){
 		var obj = $leave.Data[i];
@@ -521,6 +526,7 @@ function getLeave(){
 function getLeave2(){
 	$leave 	= JSON.parse(sessionStorage.Leave2);
 	$table 	= document.getElementById('tbody2');
+	$table.innerHTML = "";
 
 	$totalCount 	= 0;
 	$officialCount 	= 0;

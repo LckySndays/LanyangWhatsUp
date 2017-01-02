@@ -10,7 +10,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="keywords" content="Lanyang,WhatsUp">
         
-        <meta http-equiv="Content-Security-Policy" content="default-src * data: 'unsafe-inline' 'unsafe-eval' gap://ready"/>
+        <!-- <meta http-equiv="Content-Security-Policy" content="default-src * data: 'unsafe-inline' 'unsafe-eval' gap://ready"/> -->
+        <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; connect-src *">
 		
 		<link rel="icon" type="img/ico" href="img/favicon.ico">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
@@ -182,7 +183,7 @@
 							</a>
 							<!--start submenu -->
 							<ul>
-								<li><a href="" onclick="redir('leave')" id="leave-mn"><span class="title">Leave/Absent</span></a></li>
+								<li><a href="" onclick="redir('leave')" id="leave-mn"><span class="title">Leave/Absence</span></a></li>
 								<li><a href="" onclick="redir('score')" id="score-mn"><span class="title">Academic Record</span></a></li>
 								<li><a href="" onclick="redir('search')" id="search-mn"><span class="title">Search Classmates</span></a></li>
 								<!-- <li><a href="" onclick="redir('basic')" id="basic-mn"><span class="title">Basic Info</span></a></li> -->
@@ -199,7 +200,7 @@
 							</a>
 							<!--start submenu -->
 							<ul>
-								<li><a href="#/pastexam" id="past-exam-mn"><span class="title">Past Exam</span></a></li>
+								<li><a href="#/pastexam" id="past-exam-mn"><span class="title">Past Exams</span></a></li>
 								<li><a href="#/uploadexam" id="uploadexam-mn"><span class="title">Upload</span></a></li>
 							</ul><!--end /submenu -->
 						</li><!--end /menu-li -->

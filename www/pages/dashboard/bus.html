@@ -1,3 +1,4 @@
+<link type="text/css" rel="stylesheet" href="css/wizard.css">
 
 <div class="row">
     <!-- BEGIN ALERT - REVENUE -->
@@ -41,7 +42,7 @@
 
 <div class="col-lg-10 col-lg-offset-1">
     <div class="card-head text-center">
-        <header>Lanyang School Bus Booking</header>
+        <header>Lanyang School Bus Reservation</header>
     </div>
     <div class="card">
         <div class="card-body">
@@ -78,7 +79,7 @@
 </button> -->
 
 <!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -127,6 +128,28 @@
       </div>
     </div>
   </div>
+</div>
+
+<div class="modal">
+    <form class="form form-validate floating-label" novalidate="novalidate" id="loginForm">
+        <div class="form-group">
+            <input type="email" class="form-control" id="book_email" name="book_email" required="" data-rule-minlength="1" aria-required="true">
+            <label for="Data">Email</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="book_name" name="book_name" required="" data-rule-minlength="1" aria-required="true">
+            <label for="Password">Name</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="book_dept" name="book_dept" required="" data-rule-minlength="1" aria-required="true">
+            <label for="Password">Department</label>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="book_room" name="book_room" required="" data-rule-minlength="1" aria-required="true">
+            <label for="Password">Room No</label>
+        </div>
+        <strong class="text-xl" id="book-bus-countdown"> </strong>
+    </form>
 </div>
 
 <script src="js/jquery.countdown.min.js"></script>
@@ -217,7 +240,13 @@
 <script>
 
 if(!sessionStorage.Bus){
-    sendGetRequest(URLGetBus1, "Bus", getBus);
+    var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.Bus;
+
+    sendHttpRequest(URLGetBus1, function($response){
+        sessionStorage.setItem("Bus", $response.response);
+        getBus();
+    }, parameter);
+
 }else{
     getBus();
 }
@@ -237,6 +266,22 @@ function getBus(){
                 event.strftime('%H:%M:%S')
                 );
             });
+
+            //Experimental
+            while($("#school-bus")[0].innerHTML == "00:00:00"){
+                $bus = $bus.splice(1, $bus.length);
+                sessionStorage.setItem("Bus", JSON.stringify($bus));
+
+                $("#school-bus")
+                .countdown($bus[i].date, function(event) {
+                    $(this).text(
+                    // event.strftime('%D days %H:%M:%S')
+                    event.strftime('%H:%M:%S')
+                    );
+                });
+
+            }
+
             var direction = document.getElementById('direction');
             direction.innerHTML = $bus[i].direction;
         }
@@ -281,54 +326,14 @@ function preview($id){
 
         if($bus[$id].detail.length == 0){
 
-            waitingDialog.show('Retreiving the data..');
-            var xhttp = new XMLHttpRequest();
+            var parameter = "userID=" + JWT.ID + "&userPass=" + JWT.Bus + "&link=" + btoa($bus[$id].urlLink);
+            sendHttpRequest(URLGetBus2, function($response){
 
-            xhttp.onreadystatechange = function() {
-                if (xhttp.readyState == 4 && xhttp.status == 200) {
+                $bus[$id].detail =JSON.parse($response.response);
+                sessionStorage.setItem("Bus", JSON.stringify($bus));
+                preview($id);
 
-                    try{
-                        $response = JSON.parse(xhttp.responseText);
-
-                        if($response.status == "ok"){
-
-                            $bus[$id].detail =JSON.parse($response.response);
-                            sessionStorage.setItem("Bus", JSON.stringify($bus));
-                            preview($id);
-
-                            //$responseHeader = xhttp.getAllResponseHeaders();
-                            $responseHeader = xhttp.getResponseHeader("Authorization");
-                            if($responseHeader != null){
-                                sessionStorage.setItem("JWT", $responseHeader);
-                            }else{
-                                console.log("No JWT");
-                            }
-
-                        }else if($response.status == "error"){
-                            alertify.error($response.response);
-                        }else{
-                            alertify.error("Error " + xhttp.status + ", Please Try Again");
-                        }
-
-                    }catch(e){
-                        console.log(e);
-                        alertify.error("Parsing Error, Please Try Again");
-                    }
-
-                    waitingDialog.hide();
-
-                }else if(xhttp.readyState == 4){
-
-                    waitingDialog.hide();
-                    alertify.error("Error " + xhttp.status + ", Please Try Again");
-
-                }
-
-            }
-
-            xhttp.open("GET", URLGetBus2 + "?link=" + btoa($bus[$id].urlLink), true);
-            xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
-            xhttp.send();
+            }, parameter);
 
         }else{
             $isReserved = "";
@@ -338,16 +343,19 @@ function preview($id){
                 var obj = $bus[$id].detail[i];
 
                 if(obj.cancelLink != ""){
-                    $isReserved = '<a href="#/bus" target="_self" onclick="Cancel(\'' + obj.cancelLink + '\')">Cancel</a>';
+                    $isReserved = '<a href="#/bus" target="_self" onclick="Cancel(\'' + obj.cancelLink + '\',\'' + $bus[$id].urlLink + '\')">Cancel</a>';
                 }
 
                 var tr  = document.createElement('tr');
+
+                if($isReserved != ""){tr.className = "info"};
+
                 var td1 = document.createElement('td');
                 var td2 = document.createElement('td');
                 var td3 = document.createElement('td');
                 var td4 = document.createElement('td');
                 
-                td1.innerHTML = obj.apply_date + " " + $isReserved;
+                td1.innerHTML = obj.apply_date;// + " " + $isReserved;
                 td2.innerHTML = obj.dept;
                 td3.innerHTML = obj.name;
                 td4.innerHTML = obj.room_num;
@@ -361,9 +369,14 @@ function preview($id){
 
             }
 
-            if( ($bus[$id].capacity.split('/')[0] - $bus[$id].capacity.split('/')[1]) > "0"){
+            if($isReserved != ""){
+
                 $element = document.getElementById('button');
-                $element.innerHTML = '<button type="submit" href="#" onclick="Book(\'' + $bus[$id].urlLink + '\')" class="btn btn-primary">Book</button>';
+                $element.innerHTML = '<button type="submit" href="#" onclick="Cancel(\'' + obj.cancelLink + '\',\'' + $bus[$id].urlLink + '\')" class="btn btn-danger">Cancel</button>';
+
+            }else if( ($bus[$id].capacity.split('/')[0] - $bus[$id].capacity.split('/')[1]) > "0"){
+                $element = document.getElementById('button');
+                $element.innerHTML = '<button type="submit" href="#" onclick="Book(\'' + $id + '\')" class="btn btn-primary">Book</button>';
             }else{
                 $element = document.getElementById('button');
                 $element.innerHTML = '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>';
@@ -374,16 +387,62 @@ function preview($id){
         }
 
     }else{
+
+        $element = document.getElementById('button');
+        $element.innerHTML = '<button type="submit" href="#" onclick="Book(\'' + $id + '\')" class="btn btn-primary">Book</button>';
+
         waitingDialog.hide();
         setTimeout(function () {$('#myModal').modal('show');}, 500);
     }
 }
 
 function Book($id){
-    alert($id);
+
+    $bus    = JSON.parse(sessionStorage.Bus);
+
+    $("#book-bus-countdown").countdown($bus[$id].date, function(event) {
+        $(this).html("<center> Arrival Time: " + event.strftime('%-DD %Hh:%Mm:%Ss') + "</center>");
+    });
+
+    alertify.confirm($('#loginForm')[0], function(){
+        $book_email = document.getElementById("book_email").value;
+        $book_name  = document.getElementById("book_name").value;
+        $book_dept  = document.getElementById("book_dept").value;
+        $book_room  = document.getElementById("book_room").value;
+
+        var parameter = "userID=" + JWT.ID + "&password=" + JWT.Bus + "&urlLink=" + $bus[$id].urlLink + "&email=" + $book_email + "&name=" + $book_name + "&dept=" + $book_dept + "&room=" + $book_room;  
+        sendHttpRequest(URLGetBus3, function($response){
+            alertify.success($response.response);
+            RefreshPage();
+        }, parameter);
+
+    })
+    .set('labels', {ok:'Book!', cancel:'Cancel!'})
+    .setHeader("<center>" + $bus[$id].date + "<br>" + $bus[$id].direction + "</center>");
+
 }
 
-function Cancel($id){
-    alert($id);
+function Cancel($cancelLink, $id){
+    // alert($cancelLink);
+    var parameter = "username=" + JWT.ID + "&password=" + JWT.Bus + "&id=" + btoa($id) + "&cancelLink=" + btoa($cancelLink);
+    sendHttpRequest(URLGetBus4, function($response){
+        alertify.success($response.response);
+        RefreshPage();
+    }, parameter);
 }
+
+function RefreshPage(){
+
+    $('#myModal').modal('hide');
+    setTimeout(function(){
+        sessionStorage.removeItem('Bus');
+        $('#view').scope().reloadRoute();
+    }, 2000);
+    
+}
+
 </script>
+
+<script src="js/AppForm.js"></script>
+<script src="js/jquery.bootstrap.wizard.min.js"></script>
+<script src="js/DemoFormWizard.js"></script>

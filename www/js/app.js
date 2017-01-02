@@ -1,7 +1,8 @@
+serverHOST			= "https://whatsupdesktop.herokuapp.com/";
 // serverHOST			= "https://whatsuptku.herokuapp.com/";
 // serverHOST			= "https://whatsupdev.herokuapp.com/";
 // serverHOST			= "http://192.168.168.1/seniorproject/_Server/";
-serverHOST			= "http://localhost/seniorproject/_Server/";
+// serverHOST			= "http://localhost/seniorproject/_Server/";
 URLlogin 			= serverHOST + "login.php";
 URLloginNFC			= serverHOST + "loginNFC.php";
 URLVerifyAccount	= serverHOST + "verify.php";
@@ -12,6 +13,8 @@ URLGetPapercut		= serverHOST + "paper.php";
 // URLGetBus			= serverHOST + "bus.php";
 URLGetBus1			= serverHOST + "bussystem_1.php";
 URLGetBus2			= serverHOST + "bussystem_2.php";
+URLGetBus3			= serverHOST + "bussystem_3.php";
+URLGetBus4			= serverHOST + "bussystem_4.php";
 URLGetLeave			= serverHOST + "leave.php";
 URLGetLeave2		= serverHOST + "leave2.php";
 URLGetRollCall1		= serverHOST + "rollcall_1.php";
@@ -26,6 +29,7 @@ URLUploadDrive		= serverHOST + "drive.php";
 URLActivateFeature	= serverHOST + "store.php";
 URLDeactiveAccount	= serverHOST + "deactivate.php";
 URLChangePassword	= serverHOST + "reset.php";
+URLReportBug		= serverHOST + "reportbug.php";
 
 
 var login = angular.module('WhatsUpLogin', ['ngRoute']);
@@ -47,6 +51,7 @@ login.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 	.when("/android",  		{templateUrl: "pages/login/download/android.html", 	controller: "PageCtrl"})
 	.when("/ios",  			{templateUrl: "pages/login/download/ios.html", 		controller: "PageCtrl"})
 	.when("/winphone",  	{templateUrl: "pages/login/download/winphone.html", controller: "PageCtrl"})
+	.when("/blackberry",  	{templateUrl: "pages/login/download/blackberry.html", controller: "PageCtrl"})
 	
 	.when("/404", 			{templateUrl: "pages/login/404.html",  				controller: "PageCtrl"})
     .otherwise({redirectTo: '/404'});
@@ -72,9 +77,47 @@ login.controller('PageCtrl', function ($location) {
 	
 });
 
-
-
 var dashboard = angular.module('Dashboard', ['ngRoute']);
+
+dashboard.run( function($rootScope, $location) {
+   $rootScope.$watch(function() { 
+      return $location.path(); 
+    },
+    function(a){  
+      //console.log('url has changed: ' + a);
+      // show loading div, etc...
+      $('.modal-backdrop').remove();
+    });
+});
+// var dashboard = angular.module('Dashboard', ['ngRoute'])
+//     .run(['$rootScope', '$uibModalStack', setupUibModal]);
+
+// function setupUibModal($rootScope, $modalStack) {
+//     $rootScope.$on('locationChangeStart', handleLocationChange);
+
+//     function handleLocationChange() {
+//         $modalStack.dismissAll();
+//     }
+// }
+
+
+// dashboard.run(['$rootScope', '$modalStack', function ($rootScope, $modalStack) {
+//    $rootScope.$on('$stateChangeStart', function (event) {
+//         var top = $modalStack.getTop();
+//         if (top) {
+//             $modalStack.dismiss(top.key);
+//         }
+//     })
+// }]);
+
+
+// dashboard.run(function($rootScope, $uibModalStack) {
+// 	$uibModalStack.dismissAll();
+// }); 
+
+// dashboard.$on('$routeChangeSuccess', function() {
+//     $modalInstance.dismiss('cancel');
+// });
 
 dashboard.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
 
@@ -106,7 +149,7 @@ dashboard.controller('DashboardHeaderCtrl', function ($location, $scope, $compil
 	highlightMenu("dashboard-mn");
 
 	if(sessionStorage.JWT){
-		JWT = jwt_decode(sessionStorage.JWT);
+		JWT = jwt_decode(sessionStorage.Credential);
 		$scope.StuID 	= JWT.ID;
 		$scope.StuRole 	= "Student";
 	}else{
@@ -121,8 +164,12 @@ dashboard.controller('DashboardCtrl', function ($location, $scope, $compile) {
 	
 });
 
-dashboard.controller('BusCtrl', function ($location) {
+dashboard.controller('BusCtrl', function ($location, $scope, $route) {
 	highlightMenu("school-bus-mn");
+
+	$scope.reloadRoute = function() {
+		$route.reload();
+	}
 	
 });
 
@@ -249,6 +296,7 @@ dashboard.controller('AccountCtrl', function ($location, $scope, $route) {
 	$scope.Moodle 	= (JWT.Moodle ? "[ON]" : "[OFF]");
 	$scope.Email	= (JWT.Email ? "[ON]" : "[OFF]");
 	$scope.Papercut	= (JWT.Papercut ? "[ON]" : "[OFF]");
+	$scope.Bus 		= (JWT.Bus ? "[ON]" : "[OFF]");
 
 	$scope.reloadRoute = function() {
 	    $route.reload();
@@ -284,8 +332,8 @@ dashboard.controller('ReportCtrl', function ($location, $sce, $scope) {
 
 dashboard.controller('ProfileCtrl', function ($location, $scope, $compile, $route, $sce) {
 
-	if(sessionStorage.StuBasic){
-		$StuProfile			= JSON.parse(sessionStorage.StuBasic);
+	if(sessionStorage.BasicInfo){
+		$StuProfile			= JSON.parse(sessionStorage.BasicInfo);
 		$scope.StuNameCH 	= $StuProfile.stu_nameCH;
 		$scope.StuNameEN	= $StuProfile.stu_nameEN;
 		$scope.StuGender	= $StuProfile.stu_gender;
@@ -309,7 +357,7 @@ dashboard.controller('ProfileCtrl', function ($location, $scope, $compile, $rout
 	$scope.reloadRoute = function() {
 	    //$route.reload();
 
-	    $StuProfile			= JSON.parse(sessionStorage.StuBasic);
+	    $StuProfile			= JSON.parse(sessionStorage.BasicInfo);
 		$scope.StuNameCH 	= $StuProfile.stu_nameCH;
 		$scope.StuNameEN	= $StuProfile.stu_nameEN;
 		$scope.StuGender	= $StuProfile.stu_gender;
@@ -385,6 +433,12 @@ dashboard.directive('head', ['$rootScope','$compile',
     }
 ]);
 
+function activationFeature(){
+	alertify.confirm('Feature Activation', '<center>You have not yet activated this feature. Activate the feature now?</center>', 
+		function(){ redir("account") }, 
+		function(){});
+}
+
 function redir(url){
 
 	if(url == "presentation"){
@@ -393,18 +447,9 @@ function redir(url){
 			$('#view').injector().get('$location').path('presentation');
 			$('#view').scope().$apply();
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('You don\'t have access to this page');
-		}
-		
-	}else if (url == "chat"){
-	
-		if(sessionStorage.length == 1){
-			$('#view').injector().get('$location').path('chat');
-			$('#view').scope().$apply();
-		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Login First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('You don\'t have access to this page');
+			activationFeature();
 		}
 		
 	}else if (url == "paper"){
@@ -415,9 +460,10 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
+			activationFeature();
 
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
 
 			// var xhttp = new XMLHttpRequest();
 
@@ -443,15 +489,16 @@ function redir(url){
 	
 	}else if (url == "bus"){
 	
-		// if(JWT.Bus){
+		if(JWT.Bus){
 
 			$('#view').injector().get('$location').path('bus');
 			$('#view').scope().$apply();
 
-		// }else{
-		// 	alertify.set('notifier','position', 'bottom-right');
-		// 	alertify.error('Please Activate the Feature First');
-		// }
+		}else{
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
+		}
 	
 	}else if (url == "email"){
 	
@@ -461,8 +508,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "moodle"){
@@ -473,8 +521,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "leave"){
@@ -485,8 +534,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "score"){
@@ -497,8 +547,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "search"){
@@ -509,8 +560,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "basic"){
@@ -521,8 +573,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "classtt"){
@@ -533,8 +586,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else if (url == "profile"){
@@ -545,8 +599,9 @@ function redir(url){
 			$('#view').scope().$apply();
 
 		}else{
-			alertify.set('notifier','position', 'bottom-right');
-			alertify.error('Please Activate the Feature First');
+			// alertify.set('notifier','position', 'bottom-right');
+			// alertify.error('Please Activate the Feature First');
+			activationFeature();
 		}
 
 	}else{
@@ -691,13 +746,14 @@ function initAngular($app){
 
 						}
 
+						angular.bootstrap(document.body, [$app]);
 				        break;
 				    case "Dashboard":
-				       	
+	
+				       	angular.bootstrap(document.body, [$app]);
 				        break;
 				    default:
 				}
-				angular.bootstrap(document.body, [$app]);
 			}, false);
 		} else {
 			angular.bootstrap(document.body, [$app]);
@@ -705,45 +761,45 @@ function initAngular($app){
 	});
 }
 
-function sendGetRequest($link, $storage, callback){
+function sendHttpRequest($link, callback, $parameter){
 
-	waitingDialog.show('Retreiving the data..');
+	var method = typeof $parameter == 'undefined' ? "GET" : "POST";
+
+	waitingDialog.show('Retreiving Data...');
 	var xhttp = new XMLHttpRequest();
+	xhttp.timeout = 30000;
 
 	xhttp.onreadystatechange = function() {
 		if (xhttp.readyState == 4 && xhttp.status == 200) {
 
 			try{
 				$response = JSON.parse(xhttp.responseText);
-
-				if($response.status == "ok"){
-
-					sessionStorage.setItem($storage, $response.response);
-
-					if (typeof callback === "function") {
-
-						//$responseHeader = xhttp.getAllResponseHeaders();
-					    $responseHeader = xhttp.getResponseHeader("Authorization");
-					    if($responseHeader != null){
-					    	sessionStorage.setItem("JWT", $responseHeader);
-					    }else{
-					    	console.log("No JWT");
-					    }
-
-				    	callback();
-
-				    }else{
-				    	alertify.error("Function error");
-				    }
-
-				}else if($response.status == "error"){
-					alertify.error($response.response);
-				}else{
-					alertify.error("Error " + xhttp.status + ", Please Try Again");
-				}
-
 			}catch(e){
+				waitingDialog.hide();
 				alertify.error("Parsing Error, Please Try Again");
+				return false;
+			}
+
+			if($response.status == "ok"){
+
+			    //$responseHeader = xhttp.getAllResponseHeaders();
+			    $responseHeader = xhttp.getResponseHeader("Authorization");
+			    if($responseHeader != null){
+			    	sessionStorage.setItem("JWT", $responseHeader);
+			    }else{
+			    	console.log("No JWT");
+			    }
+
+			    if (typeof callback === "function") {
+			    	callback($response);
+			    }else{
+			    	alertify.error("Function error");
+			    }
+
+			}else if($response.status == "error"){
+				alertify.error($response.response);
+			}else{
+				alertify.error("Error " + xhttp.status + ", Please Try Again");
 			}
 
 			waitingDialog.hide();
@@ -757,11 +813,94 @@ function sendGetRequest($link, $storage, callback){
 
 	}
 
-	xhttp.open("GET", $link, true);
+	xhttp.ontimeout = function (e) {
+		waitingDialog.hide();
+		alertify.error("Error, Connection Timeout");
+	};
+
+	xhttp.open(method, $link, true);
 	xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
-	xhttp.send();
+	
+	if(method == "GET"){
+		xhttp.send();
+	}else{
+		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhttp.send($parameter);
+	}
 
 }
+
+// function sendHttpRequest($link, $storage, callback, $parameter){
+
+// 	var method = typeof $parameter == 'undefined' ? "GET" : "POST";
+
+// 	waitingDialog.show('Retreiving the data..');
+// 	var xhttp = new XMLHttpRequest();
+// 	xhttp.timeout = 30000;
+
+// 	xhttp.onreadystatechange = function() {
+// 		if (xhttp.readyState == 4 && xhttp.status == 200) {
+
+// 			try{
+// 				$response = JSON.parse(xhttp.responseText);
+
+// 				if($response.status == "ok"){
+
+// 					sessionStorage.setItem($storage, $response.response);
+
+// 					if (typeof callback === "function") {
+
+// 						//$responseHeader = xhttp.getAllResponseHeaders();
+// 					    $responseHeader = xhttp.getResponseHeader("Authorization");
+// 					    if($responseHeader != null){
+// 					    	sessionStorage.setItem("JWT", $responseHeader);
+// 					    }else{
+// 					    	console.log("No JWT");
+// 					    }
+
+// 				    	callback();
+
+// 				    }else{
+// 				    	alertify.error("Function error");
+// 				    }
+
+// 				}else if($response.status == "error"){
+// 					alertify.error($response.response);
+// 				}else{
+// 					alertify.error("Error " + xhttp.status + ", Please Try Again");
+// 				}
+
+// 			}catch(e){
+// 				alertify.error("Parsing Error, Please Try Again");
+// 			}
+
+// 			waitingDialog.hide();
+
+// 		}else if(xhttp.readyState == 4){
+
+// 			waitingDialog.hide();
+// 			alertify.error("Error " + xhttp.status + ", Please Try Again");
+
+// 		}
+
+// 	}
+
+// 	xhttp.ontimeout = function (e) {
+// 		waitingDialog.hide();
+// 		alertify.error("Error, Connection Timeout");
+// 	};
+
+// 	xhttp.open(method, $link, true);
+// 	xhttp.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.JWT);
+	
+// 	if(method == "GET"){
+// 		xhttp.send();
+// 	}else{
+// 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+// 		xhttp.send($parameter);
+// 	}
+
+// }
 
 /**
  * Module for displaying "Waiting for..." dialog using Bootstrap
@@ -777,7 +916,7 @@ var waitingDialog = waitingDialog || (function ($) {
 		'<div class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-hidden="true" style="padding-top:15%; overflow-y:visible;">' +
 		'<div class="modal-dialog modal-m">' +
 		'<div class="modal-content">' +
-			'<div class="modal-header"><h3 style="margin:0;"></h3></div>' +
+			'<div class="modal-header"><h3 style="margin:0;" id="modaltitle"></h3></div>' +
 			'<div class="modal-body">' +
 				'<div class="progress progress-striped active" style="margin-bottom:0;"><div class="progress-bar" style="width: 100%"></div></div>' +
 			'</div>' +
@@ -826,6 +965,12 @@ var waitingDialog = waitingDialog || (function ($) {
 		 */
 		hide: function () {
 			$dialog.modal('hide');
+		},
+		message: function(message){
+			document.getElementById('modaltitle').innerHTML = message;
+			//console.log(document.getElementById());
+			//$dialog.find('h3').innerHTML(message);
+			// $dialog.find('h3').text(message);
 		}
 	};
 

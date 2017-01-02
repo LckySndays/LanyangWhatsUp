@@ -111,7 +111,7 @@
 			
         <div class="panel panel-default" >
             <div class="panel-heading">
-                <div class="panel-title text-center"> Lanyang - Whats Up (A6.5)</div>
+                <div class="panel-title text-center"> Lanyang - Whats Up (A9)</div>
             </div>     
 
             <div class="panel-body" >
@@ -172,6 +172,12 @@ $(function(){
 </script>
 
 <script>
+	if(sessionStorage.Credential && sessionStorage.JWT){
+		window.location = "./dashboard.html";
+	}
+</script>
+
+<script>
 
 	function show_message(id, timer){
 		timer = typeof timer !== 'undefined' ? timer : 3000;
@@ -204,9 +210,9 @@ $(function(){
 				progress(percent);
 			}else{
 				// document.getElementById("main-progress").style = 'display: none';
-				document.getElementById("main-progress").style.cssText = 'display: none';
-				document.getElementById("alert").innerHTML = 'Server response takes too long, please try again';
-				show_message("alert");
+				// document.getElementById("main-progress").style.cssText = 'display: none';
+				// document.getElementById("alert").innerHTML = 'Server response takes too long, please try again';
+				// show_message("alert");
 			}
 		}, interval);
 	}
@@ -227,6 +233,7 @@ $(function(){
 					document.getElementById("loginbt").disabled = true;
 
 					var xhttp = new XMLHttpRequest();
+					xhttp.timeout = 30000;
 					var session = true;
 					xhttp.onreadystatechange = function() {
 						if (xhttp.readyState == 4 && xhttp.status == 200) {
@@ -241,8 +248,16 @@ $(function(){
 
 							if($response.status == "ok"){
 
+								//$responseHeader = xhttp.getAllResponseHeaders();
+							    $responseHeader = xhttp.getResponseHeader("Authorization");
+							    if($responseHeader != null){
+							    	sessionStorage.setItem("JWT", $responseHeader);
+							    }else{
+							    	console.log("No JWT");
+							    }
+
 								set_progress(100); clearTimeout(timeout);
-								sessionStorage.setItem("JWT", $response.response);
+								sessionStorage.setItem("Credential", $response.response);
 								setTimeout(function(){ 
 									window.location = "./dashboard.html";
 								}, 3000);
@@ -270,6 +285,12 @@ $(function(){
 							document.getElementById("alert").innerHTML = 'Server returned 502, please try again';
 							show_message("alert");
 						}
+					};
+
+					xhttp.ontimeout = function (e) {
+						document.getElementById("main-progress").style.cssText = 'display: none';
+						document.getElementById("alert").innerHTML = 'Server response takes too long, please try again';
+						show_message("alert");
 					};
 					
 					xhttp.open("POST", URLlogin, true);
@@ -300,6 +321,7 @@ $(function(){
 		// alert(parameter);
 
 		var xhttp = new XMLHttpRequest();
+		xhttp.timeout = 30000;
 		xhttp.onreadystatechange = function() {
 			if (xhttp.readyState == 4 && xhttp.status == 200) {
 
@@ -311,8 +333,17 @@ $(function(){
 
 				if($response.status == "ok"){
 
+					//$responseHeader = xhttp.getAllResponseHeaders();
+				    $responseHeader = xhttp.getResponseHeader("Authorization");
+				    if($responseHeader != null){
+				    	sessionStorage.setItem("JWT", $responseHeader);
+				    }else{
+				    	console.log("No JWT");
+				    }
+
 					set_progress(100); clearTimeout(timeout);
-					sessionStorage.setItem("JWT", $response.response);
+					sessionStorage.setItem("Credential", $response.response);
+
 					setTimeout(function(){ 
 						window.location = "./dashboard.html";
 					}, 3000);
@@ -328,6 +359,12 @@ $(function(){
 				document.getElementById("alert").innerHTML = 'Server returned 502, please try again';
 				show_message("alert");
 			}
+		};
+
+		xhttp.ontimeout = function (e) {
+			document.getElementById("main-progress").style.cssText = 'display: none';
+			document.getElementById("alert").innerHTML = 'Server response takes too long, please try again';
+			show_message("alert");
 		};
 		
 		xhttp.open("POST", URLloginNFC, true);

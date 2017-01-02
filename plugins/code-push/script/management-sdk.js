@@ -1,20 +1,15 @@
+var fs = require("fs");
 var os = require("os");
+var path = require("path");
 var Q = require("q");
+var slash = require("slash");
 var superagent = require("superagent");
+var recursiveFs = require("recursive-fs");
+var yazl = require("yazl");
 var Promise = Q.Promise;
 var superproxy = require("superagent-proxy");
 superproxy(superagent);
 var packageJson = require("../package.json");
-if (typeof window === "undefined") {
-    fs = require("fs");
-}
-else {
-    fs = {
-        createReadStream: function (fileOrPath) {
-            throw new Error("Tried to call a node fs function from the browser.");
-        }
-    };
-}
 // A template string tag function that URL encodes the substituted values
 function urlEncode(strings) {
     var values = [];
@@ -257,7 +252,7 @@ var AccountManager = (function () {
             .then(function (res) { return res.body.history; });
         var _a;
     };
-    AccountManager.prototype.release = function (appName, deploymentName, fileOrPath, targetBinaryVersion, updateMetadata, uploadProgressCallback) {
+    AccountManager.prototype.release = function (appName, deploymentName, filePath, targetBinaryVersion, updateMetadata, uploadProgressCallback) {
         var _this = this;
         return Promise(function (resolve, reject, notify) {
             updateMetadata.appVersion = targetBinaryVersion;
@@ -265,42 +260,42 @@ var AccountManager = (function () {
             if (_this._proxy)
                 request.proxy(_this._proxy);
             _this.attachCredentials(request);
-            var file;
-            if (typeof fileOrPath === "string") {
-                file = fs.createReadStream(fileOrPath);
-            }
-            else {
-                file = fileOrPath;
-            }
-            request.attach("package", file)
-                .field("packageInfo", JSON.stringify(updateMetadata))
-                .on("progress", function (event) {
-                if (uploadProgressCallback && event && event.total > 0) {
-                    var currentProgress = event.loaded / event.total * 100;
-                    uploadProgressCallback(currentProgress);
-                }
-            })
-                .end(function (err, res) {
-                if (err) {
-                    reject(_this.getCodePushError(err, res));
-                    return;
-                }
-                if (res.ok) {
-                    resolve(null);
-                }
-                else {
-                    try {
-                        var body = JSON.parse(res.text);
+            var getPackageFilePromise = _this.packageFileFromPath(filePath);
+            getPackageFilePromise.then(function (packageFile) {
+                var file = fs.createReadStream(packageFile.path);
+                request.attach("package", file)
+                    .field("packageInfo", JSON.stringify(updateMetadata))
+                    .on("progress", function (event) {
+                    if (uploadProgressCallback && event && event.total > 0) {
+                        var currentProgress = event.loaded / event.total * 100;
+                        uploadProgressCallback(currentProgress);
                     }
-                    catch (err) {
+                })
+                    .end(function (err, res) {
+                    if (packageFile.isTemporary) {
+                        fs.unlinkSync(packageFile.path);
                     }
-                    if (body) {
-                        reject({ message: body.message, statusCode: res && res.status });
+                    if (err) {
+                        reject(_this.getCodePushError(err, res));
+                        return;
+                    }
+                    if (res.ok) {
+                        resolve(null);
                     }
                     else {
-                        reject({ message: res.text, statusCode: res && res.status });
+                        try {
+                            var body = JSON.parse(res.text);
+                        }
+                        catch (err) {
+                        }
+                        if (body) {
+                            reject({ message: body.message, statusCode: res && res.status });
+                        }
+                        else {
+                            reject({ message: res.text, statusCode: res && res.status });
+                        }
                     }
-                }
+                });
             });
             var _a;
         });
@@ -322,6 +317,53 @@ var AccountManager = (function () {
         return this.post((_a = ["/apps/", "/deployments/", "/rollback/", ""], _a.raw = ["/apps/", "/deployments/", "/rollback/", ""], urlEncode(_a, appName, deploymentName, targetRelease || "")), null, false)
             .then(function () { return null; });
         var _a;
+    };
+    AccountManager.prototype.packageFileFromPath = function (filePath) {
+        var _this = this;
+        var getPackageFilePromise;
+        if (fs.lstatSync(filePath).isDirectory()) {
+            getPackageFilePromise = Promise(function (resolve, reject) {
+                var directoryPath = filePath;
+                recursiveFs.readdirr(directoryPath, function (error, directories, files) {
+                    if (error) {
+                        reject(error);
+                        return;
+                    }
+                    var baseDirectoryPath = path.dirname(directoryPath);
+                    var fileName = _this.generateRandomFilename(15) + ".zip";
+                    var zipFile = new yazl.ZipFile();
+                    var writeStream = fs.createWriteStream(fileName);
+                    zipFile.outputStream.pipe(writeStream)
+                        .on("error", function (error) {
+                        reject(error);
+                    })
+                        .on("close", function () {
+                        filePath = path.join(process.cwd(), fileName);
+                        resolve({ isTemporary: true, path: filePath });
+                    });
+                    for (var i = 0; i < files.length; ++i) {
+                        var file = files[i];
+                        var relativePath = path.relative(baseDirectoryPath, file);
+                        // yazl does not like backslash (\) in the metadata path.
+                        relativePath = slash(relativePath);
+                        zipFile.addFile(file, relativePath);
+                    }
+                    zipFile.end();
+                });
+            });
+        }
+        else {
+            getPackageFilePromise = Q({ isTemporary: false, path: filePath });
+        }
+        return getPackageFilePromise;
+    };
+    AccountManager.prototype.generateRandomFilename = function (length) {
+        var filename = "";
+        var validChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < length; i++) {
+            filename += validChar.charAt(Math.floor(Math.random() * validChar.length));
+        }
+        return filename;
     };
     AccountManager.prototype.get = function (endpoint, expectResponseBody) {
         if (expectResponseBody === void 0) { expectResponseBody = true; }
